@@ -21,18 +21,6 @@ logo.onclick = () => {
   }
 };
 
-function addProduct(){
-  const name = pname.value;
-  const price = pprice.value;
-  const mrp = pmrp.value;
-  const file = pimg.files[0];
-  if(!file) return alert("Image select karo");
-
-  const img = URL.createObjectURL(file);
-  products.push({name, price, mrp, img});
-  render();
-}
-
 function render(){
   list.innerHTML = "";
   products.forEach((p,i)=>{
