@@ -69,3 +69,49 @@ function addCart(i){
 function orderNow(){
   alert("Next step: WhatsApp order");
 }
+
+let editIndex = null;
+
+function editProduct(i){
+  const p = products[i];
+  pname.value = p.name;
+  pprice.value = p.price;
+  pmrp.value = p.mrp;
+  editIndex = i;
+  admin.scrollIntoView({behavior:"smooth"});
+}
+
+function deleteProduct(i){
+  if(confirm("Delete this product?")){
+    products.splice(i,1);
+    render();
+  }
+}
+
+function addProduct(){
+  const name = pname.value;
+  const price = pprice.value;
+  const mrp = pmrp.value;
+  const file = pimg.files[0];
+
+  let img = "";
+  if(file){
+    img = URL.createObjectURL(file);
+  }else if(editIndex !== null){
+    img = products[editIndex].img;
+  }
+
+  if(editIndex !== null){
+    products[editIndex] = {name,price,mrp,img};
+    editIndex = null;
+  }else{
+    products.push({name,price,mrp,img});
+  }
+
+  pname.value = "";
+  pprice.value = "";
+  pmrp.value = "";
+  pimg.value = "";
+
+  render();
+}
