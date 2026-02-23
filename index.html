@@ -1,216 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sasta Siliguri</title>
-
-<style>
-body{
-  margin:0;
-  font-family:system-ui;
-  background:#f3f0e8;
-}
-.top{
-  background:#ffd84d;
-  padding:12px;
-  font-weight:700;
-  text-align:center;
-}
-.header{
-  display:flex;
-  gap:12px;
-  padding:14px;
-  background:#fff;
-  margin:12px;
-  border-radius:16px;
-}
-.header img{
-  width:60px;
-  border-radius:14px;
-}
-.card{
-  background:#fff;
-  margin:12px;
-  padding:14px;
-  border-radius:16px;
-}
-input,textarea{
-  width:100%;
-  padding:12px;
-  margin-top:8px;
-  border-radius:10px;
-  border:1px solid #ddd;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  padding:12px;
-}
-.product{
-  background:#fff;
-  border-radius:18px;
-  padding:12px;
-  box-shadow:0 6px 14px rgba(0,0,0,.1);
-}
-.product img{
-  width:100%;
-  border-radius:14px;
-}
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  margin:10px 0;
-}
-.qty button{
-  width:34px;height:34px;
-  border-radius:50%;
-  border:2px solid orange;
-  background:#fff;
-  font-size:18px;
-}
-.add{
-  width:100%;
-  padding:10px;
-  background:#0b7d19;
-  color:#fff;
-  border:none;
-  border-radius:22px;
-  font-weight:700;
-}
-#cartBar{
-  position:fixed;
-  bottom:0;left:0;right:0;
-  background:#111;
-  color:#fff;
-  padding:12px;
-  display:none;
-  justify-content:space-between;
-}
-#admin{display:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sasta Siliguri</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="top">DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY</div>
-
-<div class="header" id="logo">
-<img src="https://i.imgur.com/6XGQK9G.png">
-<div>
-<h2>SASTA SILIGURI</h2>
-<p>Same Day Free Delivery • COD</p>
+<div class="top">
+  DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY
 </div>
+
+<div class="card header" id="logo">
+  <img src="logo.png" alt="logo">
+  <div>
+    <h2>SASTA SILIGURI</h2>
+    <p>Same Day Free Delivery • COD</p>
+  </div>
 </div>
 
 <div class="card">
-<h3>Your details</h3>
-<input placeholder="Full name">
-<input placeholder="Phone number">
-<textarea placeholder="Full address"></textarea>
+  <h3>Your details</h3>
+  <input id="name" placeholder="Full name">
+  <input id="phone" placeholder="Phone number">
+  <textarea id="address" placeholder="Full address"></textarea>
 </div>
 
-<div class="card" id="admin">
-<h3>Admin Panel (Owner Only)</h3>
-<input id="pname" placeholder="Product name">
-<input id="pprice" placeholder="Offer price">
-<input id="pmrp" placeholder="Market price">
-<input type="file" id="pimg">
-<button onclick="addProduct()">Save Product</button>
+<div class="card admin" id="admin">
+  <h3>Admin Panel</h3>
+  <input id="pname" placeholder="Product name">
+  <input id="pprice" placeholder="Offer price">
+  <input id="pmrp" placeholder="MRP">
+  <input type="file" id="pimg">
+  <button onclick="addProduct()">Save Product</button>
 </div>
 
-<h3 style="padding-left:12px">Fruits</h3>
-<div class="grid" id="list"></div>
+<h3 class="section">Fruits</h3>
+<div class="grid" id="productList"></div>
 
-<div id="cartBar">
-<span>🛒 Items: <b id="count">0</b></span>
-<button onclick="order()">Order</button>
+<div class="cart-bar" id="cartBar">
+  🛒 Items: <b id="cartCount">0</b>
+  <button onclick="orderNow()">Order</button>
 </div>
 
-<script>
-const ADMIN_PASS="1513";
-const logo=document.getElementById("logo");
-const admin=document.getElementById("admin");
-const list=document.getElementById("list");
-const cartBar=document.getElementById("cartBar");
-const count=document.getElementById("count");
-
-let tap=0;
-let products=JSON.parse(localStorage.products||"[]");
-let cart=JSON.parse(localStorage.cart||"{}");
-
-logo.onclick=()=>{
- tap++;
- setTimeout(()=>tap=0,600);
- if(tap==3){
-  if(prompt("Admin password")==ADMIN_PASS)
-   admin.style.display="block";
- }
-};
-
-function addProduct(){
- const img=URL.createObjectURL(pimg.files[0]);
- products.push({
-  name:pname.value,
-  price:pprice.value,
-  mrp:pmrp.value,
-  img
- });
- save();
- render();
-}
-
-function render(){
- list.innerHTML="";
- products.forEach((p,i)=>{
-  list.innerHTML+=`
-  <div class="product">
-   <img src="${p.img}">
-   <h4>${p.name}</h4>
-   <del>₹${p.mrp}</del>
-   <b style="color:green"> ₹${p.price}</b>
-   <div class="qty">
-    <button onclick="qty(${i},-1)">−</button>
-    <span id="q${i}">1</span>
-    <button onclick="qty(${i},1)">+</button>
-   </div>
-   <button class="add" onclick="addCart(${i})">Add to Cart</button>
-  </div>`;
- });
-}
-
-function qty(i,d){
- let q=document.getElementById("q"+i);
- q.innerText=Math.max(1,+q.innerText+d);
-}
-
-function addCart(i){
- let q=+document.getElementById("q"+i).innerText;
- cart[i]=(cart[i]||0)+q;
- updateCart();
-}
-
-function updateCart(){
- localStorage.cart=JSON.stringify(cart);
- let total=Object.values(cart).reduce((a,b)=>a+b,0);
- count.innerText=total;
- cartBar.style.display= total? "flex":"none";
-}
-
-function save(){
- localStorage.products=JSON.stringify(products);
-}
-
-function order(){
- alert("Next step: WhatsApp Order");
-}
-
-render();
-updateCart();
-</script>
-
+<script src="script.js" defer></script>
 </body>
 </html>
