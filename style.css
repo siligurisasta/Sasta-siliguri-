@@ -1,124 +1,117 @@
+/* ====== BASIC ====== */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family: system-ui, sans-serif;
+  font-family:system-ui, sans-serif;
   background:#f6f1e7;
+  color:#222;
 }
-
-/* TOP BAR */
 .top{
   background:#ffd84d;
   padding:12px;
-  font-weight:700;
   text-align:center;
+  font-weight:700;
 }
 
-/* HEADER CARD */
+/* ====== HEADER ====== */
 .header{
   display:flex;
   gap:12px;
   align-items:center;
+  background:#fff;
+  margin:12px;
+  padding:14px;
+  border-radius:16px;
 }
 .header img{
-  width:55px;
-  height:55px;
-  border-radius:14px;
+  width:56px;
+  height:56px;
+  border-radius:12px;
   object-fit:cover;
 }
+.header h2{margin:0}
+.header p{margin:4px 0 0;color:#555}
 
-/* COMMON CARD */
+/* ====== CARD ====== */
 .card{
   background:#fff;
   margin:12px;
   padding:14px;
-  border-radius:18px;
+  border-radius:16px;
+}
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:1px solid #ddd;
 }
 
-/* PRODUCT GRID */
+/* ====== GRID / PRODUCT CARD (CHHOTA) ====== */
+.section{padding-left:12px}
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:12px;
+  gap:10px;
   padding:12px;
 }
-
-/* PRODUCT CARD (CHHOTA) */
 .product{
   background:#fff;
+  border-radius:16px;
   padding:10px;
-  border-radius:18px;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
-
-/* PRODUCT IMAGE */
 .product img{
   width:100%;
-  height:120px;
+  height:120px;          /* 👈 chhota card */
   object-fit:cover;
-  border-radius:14px;
+  border-radius:12px;
 }
-
-/* PRICE TEXT */
 .product h4{
-  margin:6px 0 2px;
-  font-size:15px;
+  margin:8px 0 2px;
+  font-size:14px;
 }
-.product del{
-  color:#888;
-  font-size:13px;
-}
-.product b{
-  color:#1b8f2e;
-  font-size:16px;
-}
+.product del{color:#999;font-size:12px}
+.product b{font-size:14px}
 
-/* QTY */
+/* ====== QTY ====== */
 .qty{
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:8px;
+  justify-content:center;
+  gap:10px;
   margin:6px 0;
 }
 .qty button{
-  width:30px;
-  height:30px;
+  width:28px;height:28px;
   border-radius:50%;
-  border:2px solid #ff8c2b;
+  border:2px solid #ff8a00;
   background:#fff;
-  font-size:18px;
+  font-weight:700;
 }
-.qty span{
-  min-width:20px;
-  text-align:center;
-  font-weight:600;
-}
+.qty span{min-width:18px;text-align:center}
 
-/* ADD TO CART */
+/* ====== ADD TO CART BUTTON ====== */
 .add-btn{
-  background:#0f8a1c;
-  color:#fff;
-  border:none;
-  padding:8px;
   width:100%;
+  padding:10px;
+  border:none;
   border-radius:22px;
-  font-size:14px;
+  background:#1f8f2e;     /* green */
+  color:#fff;
   font-weight:700;
 }
 
-/* CART BAR */
+/* ====== CART BAR ====== */
 .cart-bar{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  left:0; right:0; bottom:0;
   background:#111;
   color:#fff;
   display:none;
   justify-content:space-between;
+  align-items:center;
   padding:12px;
 }
 
-/* ADMIN */
-.admin{
-  display:none;
-}
+/* ====== ADMIN ====== */
+#admin{display:none}
