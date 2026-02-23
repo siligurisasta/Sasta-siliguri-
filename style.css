@@ -1,6 +1,6 @@
 body{
   margin:0;
-  font-family:system-ui;
+  font-family:system-ui,sans-serif;
   background:#f6f1e7;
 }
 
@@ -11,33 +11,34 @@ body{
   text-align:center;
 }
 
+.card{
+  background:#fff;
+  margin:12px;
+  padding:15px;
+  border-radius:16px;
+}
+
 .header{
   display:flex;
   gap:12px;
-  padding:14px;
-  background:#fff;
-  margin:12px;
-  border-radius:16px;
+  align-items:center;
 }
 
 .header img{
   width:60px;
-  border-radius:14px;
+  border-radius:12px;
 }
 
-.card{
-  background:#fff;
-  margin:12px;
-  padding:14px;
-  border-radius:16px;
-}
-
-input,textarea{
+input, textarea{
   width:100%;
   padding:12px;
   margin-top:8px;
   border-radius:10px;
   border:1px solid #ddd;
+}
+
+.section{
+  padding-left:12px;
 }
 
 .grid{
@@ -49,60 +50,49 @@ input,textarea{
 
 .product{
   background:#fff;
-  border-radius:18px;
   padding:12px;
-  box-shadow:0 6px 14px rgba(0,0,0,.1);
+  border-radius:16px;
 }
 
 .product img{
   width:100%;
-  border-radius:14px;
-}
-
-.price{
-  color:green;
-  font-weight:700;
+  border-radius:12px;
 }
 
 .qty{
   display:flex;
   justify-content:center;
-  align-items:center;
   gap:10px;
-  margin:10px 0;
+  margin:8px 0;
 }
 
 .qty button{
-  width:34px;
-  height:34px;
+  width:32px;
+  height:32px;
   border-radius:50%;
-  border:2px solid orange;
-  background:#fff;
-  font-size:18px;
 }
 
-.add{
-  width:100%;
-  padding:10px;
-  background:#0b7d19;
+.add-btn{
+  background:green;
   color:#fff;
+  padding:10px;
+  width:100%;
   border:none;
-  border-radius:22px;
-  font-weight:700;
+  border-radius:20px;
 }
 
-#cartBar{
+.cart-bar{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
   background:#111;
   color:#fff;
-  padding:12px;
   display:none;
   justify-content:space-between;
+  padding:12px;
 }
 
-#admin{
+.admin{
   display:none;
 }
