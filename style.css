@@ -6,12 +6,7 @@ body{
   background:#f6f1e7;
   color:#222;
 }
-.top{
-  background:#ffd84d;
-  padding:12px;
-  text-align:center;
-  font-weight:700;
-}
+
 
 /* ====== HEADER ====== */
 .header{
@@ -19,9 +14,10 @@ body{
   gap:12px;
   align-items:center;
   background:#fff;
-  margin:12px;
-  padding:14px;
-  border-radius:16px;
+  margin:8px 12px;     /* 👈 top bar se gap
+  padding:16px;        /* 👈 thoda spacious */
+  border-radius:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.06);
 }
 .header img{
   width:56px;
@@ -29,8 +25,8 @@ body{
   border-radius:12px;
   object-fit:cover;
 }
-.header h2{margin:0}
-.header p{margin:4px 0 0;color:#555}
+.header h2{margin:0;font-size:18px}
+.header p{margin:2px 0 0;color:#666;font-size:13px}
 
 /* ====== CARD ====== */
 .card{
@@ -38,6 +34,7 @@ body{
   margin:12px;
   padding:14px;
   border-radius:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 input, textarea{
   width:100%;
