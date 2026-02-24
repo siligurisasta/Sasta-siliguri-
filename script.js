@@ -1,34 +1,27 @@
 const ADMIN_PASS = "1513";
 
+let tap = 0;
+let timer = null;
+let products = [];
+let cart = {};
+let editIndex = null;
+
 const logo = document.getElementById("logo");
 const admin = document.getElementById("admin");
 const list = document.getElementById("productList");
+const cartBar = document.getElementById("cartBar");
+const cartCount = document.getElementById("cartCount");
 
-const pname = document.getElementById("pname");
-const price = document.getElementById("price");
-const mrp = document.getElementById("mrp");
-const min = document.getElementById("min");
-const unit = document.getElementById("unit");
-const img = document.getElementById("img");
-const stock = document.getElementById("stock");
-
-let products = [];
-let currentIndex = null;
-
-/* 🔐 LOGO 3-TAP PASSWORD */
-let tap = 0;
-let timer = null;
-
-logo.addEventListener("click", () => {
+logo.addEventListener("click",()=>{
   tap++;
   clearTimeout(timer);
-  timer = setTimeout(()=>tap=0,700);
+  timer = setTimeout(()=>tap=0,800);
 
-  if(tap === 3){
-    tap = 0;
-    const p = prompt("Enter admin password");
-    if(p === ADMIN_PASS){
-      admin.style.display = "block";
+  if(tap===3){
+    tap=0;
+    const p = prompt("Admin password");
+    if(p===ADMIN_PASS){
+      admin.style.display="block";
       admin.scrollIntoView({behavior:"smooth"});
     }else{
       alert("Wrong password");
@@ -36,96 +29,59 @@ logo.addEventListener("click", () => {
   }
 });
 
-/* ➕ ADD PRODUCT */
-function addProduct(){
-  if(pname.value === "" || price.value === ""){
-    alert("Name & Price required");
-    return;
-  }
+function render(){
+  list.innerHTML="";
+  products.forEach((p,i)=>{
+    list.innerHTML+=`
+      <div class="product">
+        <img src="${p.img}">
+        <h4>${p.name}</h4>
+        <div class="price">
+          <del>₹${p.mrp}</del> <b>₹${p.price}</b>
+        </div>
+        <div>Min: ${p.min} ${p.unit}</div>
+        <div>In stock ✅</div>
+        <div class="qty">
+          <button onclick="addCart(${i})">Add</button>
+        </div>
+      </div>`;
+  });
+}
 
+function addProduct(){
   products.push({
     name:pname.value,
-    price:price.value,
-    mrp:mrp.value,
-    min:min.value,
-    unit:unit.value,
-    img:img.value,
-    stock:stock.checked
+    price:pprice.value,
+    mrp:pmrp.value,
+    min:pmin.value,
+    unit:punit.value,
+    img:pimg.value || "https://via.placeholder.com/300"
   });
-
-  clearForm();
   render();
-  alert("Product added");
 }
 
-/* ✏️ UPDATE */
 function updateProduct(){
-  if(currentIndex === null){
-    alert("Select product first");
-    return;
-  }
-
-  products[currentIndex] = {
+  if(editIndex===null)return;
+  products[editIndex]={
     name:pname.value,
-    price:price.value,
-    mrp:mrp.value,
-    min:min.value,
-    unit:unit.value,
-    img:img.value,
-    stock:stock.checked
+    price:pprice.value,
+    mrp:pmrp.value,
+    min:pmin.value,
+    unit:punit.value,
+    img:pimg.value
   };
-
-  clearForm();
   render();
-  alert("Updated");
 }
 
-/* ❌ DELETE */
 function deleteProduct(){
-  if(currentIndex === null) return;
-
-  products.splice(currentIndex,1);
-  currentIndex = null;
-  clearForm();
+  if(editIndex===null)return;
+  products.splice(editIndex,1);
+  editIndex=null;
   render();
 }
 
-/* 📋 RENDER */
-function render(){
-  list.innerHTML = "";
-  products.forEach((p,i)=>{
-    list.innerHTML += `
-      <div class="card" onclick="selectProduct(${i})">
-        <b>${p.name}</b><br>
-        ₹${p.price} <del>${p.mrp||""}</del><br>
-        Min: ${p.min||1} ${p.unit||""}
-      </div>
-    `;
-  });
-}
-
-/* 👆 SELECT */
-function selectProduct(i){
-  const p = products[i];
-  currentIndex = i;
-
-  pname.value=p.name;
-  price.value=p.price;
-  mrp.value=p.mrp;
-  min.value=p.min;
-  unit.value=p.unit;
-  img.value=p.img;
-  stock.checked=p.stock;
-}
-
-/* 🧹 CLEAR */
-function clearForm(){
-  pname.value="";
-  price.value="";
-  mrp.value="";
-  min.value="";
-  unit.value="";
-  img.value="";
-  stock.checked=true;
-  currentIndex=null;
+function addCart(i){
+  cart[i]=(cart[i]||0)+1;
+  cartCount.innerText=Object.values(cart).reduce((a,b)=>a+b,0);
+  cartBar.style.display="flex";
 }
