@@ -1,20 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Test</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sasta Siliguri</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1 id="logo">SASTA SILIGURI (TAP 3 TIMES)</h1>
+<div class="top">DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY</div>
 
-<div id="admin" class="admin">
-  <h2>Admin Panel</h2>
-  <input placeholder="Product name">
-  <input placeholder="Price">
-  <button>Add Product</button>
+<div class="card header" id="logo">
+  <img src="https://via.placeholder.com/60" />
+  <div>
+    <h2>SASTA SILIGURI</h2>
+    <p>Same Day Free Delivery • COD</p>
+  </div>
+</div>
+
+<div class="card admin" id="admin">
+  <h2>Admin Panel (Owner Only)</h2>
+
+  <input id="pname" placeholder="Product name">
+  <input id="pprice" placeholder="Price ₹">
+  <input id="pmrp" placeholder="MRP ₹">
+  <input id="pmin" placeholder="Minimum order">
+  <input id="punit" placeholder="Unit (kg / pcs)">
+  <input id="pimg" placeholder="Image URL">
+
+  <div class="btns">
+    <button onclick="addProduct()">Add</button>
+    <button onclick="clearForm()">Clear</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
