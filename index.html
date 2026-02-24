@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sasta Siliguri</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sasta Siliguri</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* 👇 logo ko force clickable */
+#logo{
+  cursor:pointer;
+  user-select:none;
+}
+#logo img{
+  pointer-events:none;
+}
+</style>
 </head>
 <body>
 
@@ -22,43 +33,67 @@
 
 <div class="card">
   <h3>Your details</h3>
-  <input id="name" placeholder="Full name">
-  <input id="phone" placeholder="Phone number">
-  <textarea id="address" placeholder="Full address"></textarea>
+  <input placeholder="Full name">
+  <input placeholder="Phone number">
+  <textarea placeholder="Full address"></textarea>
 </div>
 
 <div class="card admin" id="admin" style="display:none">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Price ₹" type="number">
-  <input id="pmrp" placeholder="MRP ₹" type="number">
-  <input id="pmin" placeholder="Minimum order quantity" type="number">
-  <input id="punit" placeholder="Unit (kg, pcs, box, gram etc)">
-  <input id="pimgurl" placeholder="Image URL (optional)">
+  <input id="pprice" placeholder="Price ₹">
+  <input id="pmrp" placeholder="MRP ₹">
+  <input id="pmin" placeholder="Minimum order quantity">
+  <input id="punit" placeholder="Unit">
+  <input id="pimgurl" placeholder="Image URL">
 
-  <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
-    <input type="file" id="pimg">
-    <label>
-      <input type="checkbox" id="pstock" checked> In stock
-    </label>
-  </div>
-
-  <div style="display:flex;gap:10px;margin-top:12px">
-    <button onclick="saveUpdate()">Save / Update</button>
-    <button onclick="addNew()">Add new product</button>
-    <button onclick="deleteCurrent()">Delete product</button>
-  </div>
+  <button>Add Product</button>
 </div>
 
 <h3 class="section">Fruits</h3>
-<div class="grid" id="productList"></div>
+<div class="grid"></div>
 
-<div class="cart-bar" id="cartBar">
-  🛒 Items: <b id="cartCount">0</b>
-  <button onclick="orderNow()">Order</button>
+<div class="cart-bar" style="display:none">
+  🛒 Items: <b>0</b>
+  <button>Order</button>
 </div>
 
-<script src="script.js" defer></script>
+<script>
+const ADMIN_PASS = "1513";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const logo = document.getElementById("logo");
+  const admin = document.getElementById("admin");
+
+  let tap = 0;
+  let timer = null;
+
+  function handleTap(){
+    tap++;
+    clearTimeout(timer);
+    timer = setTimeout(()=>tap=0,800);
+
+    if(tap === 3){
+      tap = 0;
+      const p = prompt("Admin password");
+      if(p === ADMIN_PASS){
+        admin.style.display = "block";
+        admin.scrollIntoView({behavior:"smooth"});
+        alert("Admin panel unlocked");
+      }else{
+        alert("Wrong password");
+      }
+    }
+  }
+
+  // 👇 mobile + desktop dono
+  logo.addEventListener("click", handleTap);
+  logo.addEventListener("touchstart", handleTap);
+
+});
+</script>
+
 </body>
 </html>
