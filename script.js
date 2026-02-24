@@ -1,50 +1,24 @@
-const ADMIN_PASSWORD = "1513";
+const ADMIN_PASS = "1513";
 
-let currentProduct = null;
+let tap = 0;
+let timer = null;
 
-function login(){
-  const pass = document.getElementById("adminPass").value;
+const logo = document.getElementById("logo");
+const admin = document.getElementById("admin");
 
-  if(pass === ADMIN_PASSWORD){
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-    alert("Admin panel unlocked");
-  }else{
-    alert("Wrong password");
+logo.addEventListener("click", () => {
+  tap++;
+  clearTimeout(timer);
+  timer = setTimeout(() => tap = 0, 1000);
+
+  if(tap === 3){
+    tap = 0;
+    const p = prompt("Enter admin password");
+    if(p === ADMIN_PASS){
+      admin.style.display = "block";
+      alert("Admin panel opened");
+    }else{
+      alert("Wrong password");
+    }
   }
-}
-
-function getProductData(){
-  return {
-    name: pname.value,
-    price: pprice.value,
-    mrp: pmrp.value,
-    min: pmin.value,
-    unit: punit.value,
-    img: pimg.value,
-    stock: pstock.checked
-  };
-}
-
-function saveProduct(){
-  if(!currentProduct){
-    alert("No product selected");
-    return;
-  }
-  currentProduct = getProductData();
-  alert("Product updated");
-}
-
-function addProduct(){
-  currentProduct = getProductData();
-  alert("New product added (demo)");
-}
-
-function deleteProduct(){
-  if(!currentProduct){
-    alert("No product selected");
-    return;
-  }
-  currentProduct = null;
-  alert("Product deleted");
-}
+});
