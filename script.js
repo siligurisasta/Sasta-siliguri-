@@ -22,21 +22,39 @@ logo.onclick = () => {
 };
 
 function render(){
-  list.innerHTML = "";
-  products.forEach((p,i)=>{
-    list.innerHTML += `
-      <div class="product" onclick="selectProduct(${i})">
-        <img src="${p.img}">
-        <h4>${p.name}</h4>
-        <del>₹${p.mrp}</del> <b>₹${p.price}</b>
-        <div class="qty">
-          <button onclick="event.stopPropagation(); qty(${i},-1)">-</button>
-          <span id="q${i}">1</span>
-          <button onclick="event.stopPropagation(); qty(${i},1)">+</button>
-        </div>
-        <button class="add-btn" onclick="event.stopPropagation(); addCart(${i})">Add to Cart</button>
-      </div>
-    `;
+  list.innerHTML += `
+<div class="product-card">
+
+  <img class="p-img" src="${p.img}">
+
+  <h3 class="p-title">${p.name}</h3>
+
+  <div class="price-line">
+    <span class="market">₹${p.mrp}</span>
+    <span class="offer">₹${p.price}</span>
+  </div>
+
+  <div class="min-order">
+    Minimum order: ${p.min || 1} ${p.unit || ""}
+  </div>
+
+  <div class="stock">
+    In stock ✅
+  </div>
+
+  <div class="qty-box">
+    <button onclick="event.stopPropagation(); qty(${i},-1)">−</button>
+    <span id="q${i}">1</span>
+    <button onclick="event.stopPropagation(); qty(${i},1)">+</button>
+  </div>
+
+  <button class="add-cart-btn"
+    onclick="event.stopPropagation(); addCart(${i})">
+    Add to Cart
+  </button>
+
+</div>
+`;
   });
 }
 
