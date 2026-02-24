@@ -7,6 +7,13 @@ body{
   color:#222;
 }
 
+.top{
+  background:#ffd84d;
+  padding:12px;
+  text-align:center;
+  font-weight:700;
+  margin-bottom:8px;   /* 👈 yahi space dega */
+}
 
 /* ====== HEADER ====== */
 .header{
@@ -14,7 +21,7 @@ body{
   gap:12px;
   align-items:center;
   background:#fff;
-  margin:8px 12px;     /* 👈 top bar se gap
+  margin:12px 12px;     /* 👈 top bar se gap
   padding:16px;        /* 👈 thoda spacious */
   border-radius:18px;
   box-shadow:0 4px 12px rgba(0,0,0,0.06);
