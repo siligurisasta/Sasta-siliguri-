@@ -25,18 +25,16 @@ function render(){
   list.innerHTML = "";
   products.forEach((p,i)=>{
     list.innerHTML += `
-      <div class="product">
+      <div class="product" onclick="selectProduct(${i})">
         <img src="${p.img}">
         <h4>${p.name}</h4>
         <del>₹${p.mrp}</del> <b>₹${p.price}</b>
         <div class="qty">
-          <button onclick="qty(${i},-1)">-</button>
+          <button onclick="event.stopPropagation(); qty(${i},-1)">-</button>
           <span id="q${i}">1</span>
-          <button onclick="qty(${i},1)">+</button>
+          <button onclick="event.stopPropagation(); qty(${i},1)">+</button>
         </div>
-        <button class="add-btn" onclick="addCart(${i})">Add to Cart</button>
-        <button onclick="editProduct(${i})">Edit</button>
-<button onclick="deleteProduct(${i})">Delete</button>
+        <button class="add-btn" onclick="event.stopPropagation(); addCart(${i})">Add to Cart</button>
       </div>
     `;
   });
@@ -105,3 +103,62 @@ function addProduct(){
 
   render();
 }
+
+let currentIndex = null;
+
+function selectProduct(i){
+  const p = products[i];
+  currentIndex = i;
+
+  pname.value = p.name;
+  pprice.value = p.price;
+  pmrp.value = p.mrp || "";
+  pmin.value = p.min || "";
+  punit.value = p.unit || "";
+  pimgurl.value = p.img || "";
+
+  admin.style.display = "block";
+  admin.scrollIntoView({behavior:"smooth"});
+}
+
+  function saveUpdate(){
+  if(currentIndex === null) return alert("Select product first");
+
+  products[currentIndex] = {
+    name: pname.value,
+    price: pprice.value,
+    mrp: pmrp.value,
+    min: pmin.value,
+    unit: punit.value,
+    img: pimgurl.value || products[currentIndex].img
+  };
+
+  render();
+  alert("Product updated");
+}
+
+function addNew(){
+  products.push({
+    name: pname.value,
+    price: pprice.value,
+    mrp: pmrp.value,
+    min: pmin.value,
+    unit: punit.value,
+    img: pimgurl.value
+  });
+
+  render();
+  alert("New product added");
+}
+
+function deleteCurrent(){
+  if(currentIndex === null) return alert("Select product first");
+
+  if(confirm("Delete this product?")){
+    products.splice(currentIndex,1);
+    currentIndex = null;
+    render();
+    alert("Product deleted");
+  }
+}
+
