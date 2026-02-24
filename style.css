@@ -1,55 +1,92 @@
-body{
+*{
+  box-sizing:border-box;
   font-family: Arial, sans-serif;
-  background:#f6f0e6;
-  margin:0;
-  padding:16px;
 }
 
+body{
+  margin:0;
+  background:#f7f1e6;
+}
+
+/* HEADER */
 .header{
+  padding:16px;
+  text-align:left;
+  cursor:pointer;
+}
+
+.header h1{
+  margin:0;
+  font-size:28px;
+}
+
+.header p{
+  margin:4px 0 0;
+  font-size:14px;
+}
+
+/* ADMIN PANEL (SMALL CARD STYLE) */
+.admin{
+  display:none;
+  max-width:360px;          /* 👈 chhota size */
+  margin:20px auto;
   background:#fff;
   padding:16px;
-  border-radius:14px;
-  cursor:pointer;
-  user-select:none;
-  margin-bottom:16px;
-}
-
-.admin{
-  background:#f7efe1;
-  padding:20px;
-  border-radius:14px;
-  max-width:520px;
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 .admin h2{
-  margin-top:0;
-  font-size:32px;
+  margin:0 0 12px;
+  font-size:20px;
+  text-align:center;
 }
 
+/* INPUTS */
+.admin input[type="text"],
+.admin input[type="number"],
+.admin input[type="file"],
+.admin input[type="url"],
 .admin input{
   width:100%;
-  padding:12px;
-  margin:8px 0;
-  font-size:18px;
-  border:2px solid #999;
+  padding:10px;
+  margin-bottom:10px;
+  border:2px solid #bbb;
   border-radius:6px;
+  font-size:14px;
 }
 
+/* ROW */
 .row{
   display:flex;
-  gap:10px;
   align-items:center;
-  margin-top:10px;
+  gap:10px;
+  margin-bottom:12px;
 }
 
 .stock{
-  font-size:20px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:14px;
+}
+
+/* BUTTONS */
+.buttons{
+  display:flex;
+  gap:8px;
 }
 
 button{
-  padding:10px 16px;
-  font-size:18px;
+  flex:1;
+  padding:10px;
   border:2px solid #333;
-  background:#eee;
+  background:#fff;
+  font-weight:bold;
+  border-radius:6px;
   cursor:pointer;
+}
+
+button:hover{
+  background:#eee;
 }
