@@ -3,34 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sasta Siliguri</title>
+<title>Sasta Siliguri – Admin</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="top">DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY</div>
-
-<div class="card header" id="logo">
-  <img src="https://via.placeholder.com/60" />
-  <div>
-    <h2>SASTA SILIGURI</h2>
-    <p>Same Day Free Delivery • COD</p>
-  </div>
+<!-- HEADER (logo tap se password aayega) -->
+<div id="logo" class="header">
+  <h1>SASTA SILIGURI</h1>
+  <p>Same Day Free Delivery • COD</p>
 </div>
 
-<div class="card admin" id="admin">
+<!-- ADMIN PANEL -->
+<div id="admin" class="admin" style="display:none">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Price ₹">
-  <input id="pmrp" placeholder="MRP ₹">
-  <input id="pmin" placeholder="Minimum order">
-  <input id="punit" placeholder="Unit (kg / pcs)">
-  <input id="pimg" placeholder="Image URL">
+  <input id="price" placeholder="Price ₹" type="number">
+  <input id="mrp" placeholder="MRP ₹" type="number">
+  <input id="min" placeholder="Minimum order quantity" type="number">
+  <input id="unit" placeholder="Unit (kg, pcs, box, gram etc)">
+  <input id="img" placeholder="Image URL (optional)">
 
-  <div class="btns">
-    <button onclick="addProduct()">Add</button>
-    <button onclick="clearForm()">Clear</button>
+  <div class="row">
+    <input type="file" id="file">
+    <label class="stock">
+      <input type="checkbox" id="stock" checked>
+      In stock
+    </label>
+  </div>
+
+  <div class="row">
+    <button onclick="saveProduct()">Save / Update</button>
+    <button onclick="addProduct()">Add new product</button>
+    <button onclick="deleteProduct()">Delete product</button>
   </div>
 </div>
 
