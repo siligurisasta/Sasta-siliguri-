@@ -8,41 +8,65 @@
 </head>
 <body>
 
-<div class="top">
-  DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY
+<div class="topbar">
+  DELIVERY TIMING 10am–8pm • SAME DAY • FREE DELIVERY
 </div>
 
-<!-- LOGO / HEADER -->
+<!-- HEADER -->
 <div id="logo" class="header">
   <h1>SASTA SILIGURI</h1>
   <p>Same Day Free Delivery • COD</p>
 </div>
 
+<!-- USER DETAILS -->
+<div class="card">
+  <h3>Your details</h3>
+  <input placeholder="Full name">
+  <input placeholder="Phone number">
+  <textarea placeholder="Full address"></textarea>
+</div>
+
 <!-- ADMIN PANEL -->
-<div id="admin" class="admin">
+<div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
-  <input id="price" type="number" placeholder="Price ₹">
-  <input id="mrp" type="number" placeholder="MRP ₹">
-  <input id="min" type="number" placeholder="Minimum order quantity">
-  <input id="unit" placeholder="Unit (kg, pcs, box, gram etc)">
-  <input id="img" placeholder="Image URL (optional)">
+  <input id="pprice" placeholder="Offer price ₹" type="number">
+  <input id="pmrp" placeholder="Market price ₹" type="number">
+  <input id="pmin" placeholder="Minimum order quantity" type="number">
+  <input id="punit" placeholder="Unit (kg / pcs)">
+  <input id="pimg" placeholder="Image URL">
 
-  <div class="row">
-    <input type="checkbox" id="stock" checked>
-    <label for="stock">In stock</label>
-  </div>
+  <label class="stock">
+    <input type="checkbox" id="pstock" checked> In stock
+  </label>
 
-  <div class="row buttons">
-    <button type="button" onclick="addProduct()">Add new product</button>
-    <button type="button" onclick="updateProduct()">Save / Update</button>
-    <button type="button" onclick="deleteProduct()">Delete product</button>
+  <div class="admin-btns">
+    <button onclick="addProduct()">Add new product</button>
+    <button onclick="updateProduct()">Save / Update</button>
+    <button onclick="deleteProduct()">Delete product</button>
   </div>
 </div>
 
-<h3 class="section">Products</h3>
+<!-- PRODUCTS -->
+<h3 class="section">Fruits</h3>
 <div id="productList" class="grid"></div>
+
+<!-- CART -->
+<div id="cartBar" class="cart-bar">
+  🛒 Items: <b id="cartCount">0</b>
+  <button>Order on WhatsApp</button>
+</div>
+
+<!-- ABOUT -->
+<div class="about">
+  <h3>About Sasta Siliguri</h3>
+  <p>
+    We deliver fresh local products in Siliguri with same-day delivery.
+    Cash on Delivery available. Trusted local service.
+  </p>
+  <p><b>WhatsApp:</b> 7602884208</p>
+</div>
 
 <script src="script.js"></script>
 </body>
