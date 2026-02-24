@@ -35,6 +35,8 @@ function render(){
           <button onclick="qty(${i},1)">+</button>
         </div>
         <button class="add-btn" onclick="addCart(${i})">Add to Cart</button>
+        <button onclick="editProduct(${i})">Edit</button>
+<button onclick="deleteProduct(${i})">Delete</button>
       </div>
     `;
   });
