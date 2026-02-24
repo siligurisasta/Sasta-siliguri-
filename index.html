@@ -8,7 +8,11 @@
 </head>
 <body>
 
-<!-- HEADER -->
+<div class="top">
+  DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY
+</div>
+
+<!-- LOGO / HEADER -->
 <div id="logo" class="header">
   <h1>SASTA SILIGURI</h1>
   <p>Same Day Free Delivery • COD</p>
@@ -19,28 +23,26 @@
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
-  <input id="price" placeholder="Price ₹" type="number">
-  <input id="mrp" placeholder="MRP ₹" type="number">
-  <input id="min" placeholder="Minimum order quantity" type="number">
-  <input id="unit" placeholder="Unit (kg, pcs, box etc)">
+  <input id="price" type="number" placeholder="Price ₹">
+  <input id="mrp" type="number" placeholder="MRP ₹">
+  <input id="min" type="number" placeholder="Minimum order quantity">
+  <input id="unit" placeholder="Unit (kg, pcs, box, gram etc)">
   <input id="img" placeholder="Image URL (optional)">
 
   <div class="row">
-    <label>
-      <input type="checkbox" id="stock" checked>
-      In stock
-    </label>
+    <input type="checkbox" id="stock" checked>
+    <label for="stock">In stock</label>
   </div>
 
-  <div class="row">
-    <button onclick="addProduct()">Add new product</button>
-    <button onclick="updateProduct()">Save / Update</button>
-    <button onclick="deleteProduct()">Delete product</button>
+  <div class="row buttons">
+    <button type="button" onclick="addProduct()">Add new product</button>
+    <button type="button" onclick="updateProduct()">Save / Update</button>
+    <button type="button" onclick="deleteProduct()">Delete product</button>
   </div>
 </div>
 
-<!-- PRODUCT LIST -->
-<div id="list" class="list"></div>
+<h3 class="section">Products</h3>
+<div id="productList" class="grid"></div>
 
 <script src="script.js"></script>
 </body>
