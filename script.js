@@ -1,45 +1,43 @@
 const ADMIN_PASS = "1513";
 
-document.addEventListener("DOMContentLoaded", () => {
+const logo = document.getElementById("logo");
+const admin = document.getElementById("admin");
+const list = document.getElementById("productList");
+const cartBar = document.getElementById("cartBar");
+const cartCount = document.getElementById("cartCount");
 
-  const logo = document.getElementById("logo");
-  const admin = document.getElementById("admin");
-  const list = document.getElementById("productList");
-  const cartBar = document.getElementById("cartBar");
-  const cartCount = document.getElementById("cartCount");
+let tap = 0;
+let products = [];
+let cart = {};
+let currentIndex = null;
 
-  let tap = 0;
-  let products = [];
-  let cart = {};
+/* ===== ADMIN PANEL UNLOCK ===== */
+logo.addEventListener("click", () => {
+  tap++;
+  clearTimeout(window.tapTimer);
+  window.tapTimer = setTimeout(() => tap = 0, 800);
 
-  logo.addEventListener("click", () => {
-    tap++;
-    clearTimeout(window.tapTimer);
-    window.tapTimer = setTimeout(() => tap = 0, 800);
-
-    if (tap === 3) {
-      tap = 0;
-      const p = prompt("Admin password");
-      if (p === ADMIN_PASS) {
-        admin.style.display = "block";
-        admin.scrollIntoView({ behavior: "smooth" });
-        alert("Admin panel unlocked");
-      } else {
-        alert("Wrong password");
-      }
+  if (tap === 3) {
+    tap = 0;
+    const p = prompt("Admin password");
+    if (p === ADMIN_PASS) {
+      admin.style.display = "block";
+      admin.scrollIntoView({ behavior: "smooth" });
+      alert("Admin panel unlocked");
+    } else {
+      alert("Wrong password");
     }
-  });
+  }
+});
 
-
-function render(){
+/* ===== RENDER PRODUCTS ===== */
+function render() {
   list.innerHTML = "";
 
   products.forEach((p, i) => {
     list.innerHTML += `
       <div class="product-card" onclick="selectProduct(${i})">
-
         <img class="p-img" src="${p.img || 'https://via.placeholder.com/300'}">
-
         <h3 class="p-title">${p.name}</h3>
 
         <div class="price-line">
@@ -63,34 +61,32 @@ function render(){
           onclick="event.stopPropagation(); addCart(${i})">
           Add to Cart
         </button>
-
       </div>
     `;
   });
 }
 
-
-function qty(i,d){
-  let q = document.getElementById("q"+i);
+/* ===== CART ===== */
+function qty(i, d) {
+  const q = document.getElementById("q" + i);
   let v = +q.innerText + d;
-  if(v < 1) v = 1;
+  if (v < 1) v = 1;
   q.innerText = v;
 }
 
-function addCart(i){
-  let q = +document.getElementById("q"+i).innerText;
+function addCart(i) {
+  const q = +document.getElementById("q" + i).innerText;
   cart[i] = (cart[i] || 0) + q;
-  cartCount.innerText = Object.values(cart).reduce((a,b)=>a+b,0);
+  cartCount.innerText = Object.values(cart).reduce((a, b) => a + b, 0);
   cartBar.style.display = "flex";
 }
 
-function orderNow(){
+function orderNow() {
   alert("Next step: WhatsApp order");
 }
 
-let currentIndex = null;
-
-function selectProduct(i){
+/* ===== ADMIN ACTIONS ===== */
+function selectProduct(i) {
   const p = products[i];
   currentIndex = i;
 
@@ -102,11 +98,11 @@ function selectProduct(i){
   pimgurl.value = p.img || "";
 
   admin.style.display = "block";
-  admin.scrollIntoView({behavior:"smooth"});
+  admin.scrollIntoView({ behavior: "smooth" });
 }
 
-  function saveUpdate(){
-  if(currentIndex === null) return alert("Select product first");
+function saveUpdate() {
+  if (currentIndex === null) return alert("Select product first");
 
   products[currentIndex] = {
     name: pname.value,
@@ -114,14 +110,14 @@ function selectProduct(i){
     mrp: pmrp.value,
     min: pmin.value,
     unit: punit.value,
-    img: pimgurl.value || products[currentIndex].img
+    img: pimgurl.value
   };
 
   render();
   alert("Product updated");
 }
 
-function addNew(){
+function addNew() {
   products.push({
     name: pname.value,
     price: pprice.value,
@@ -135,17 +131,16 @@ function addNew(){
   alert("New product added");
 }
 
-function deleteCurrent(){
-  if(currentIndex === null) return alert("Select product first");
+function deleteCurrent() {
+  if (currentIndex === null) return alert("Select product first");
 
-  if(confirm("Delete this product?")){
-    products.splice(currentIndex,1);
+  if (confirm("Delete this product?")) {
+    products.splice(currentIndex, 1);
     currentIndex = null;
     render();
     alert("Product deleted");
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  render();
-});
+/* ===== INIT ===== */
+render();
