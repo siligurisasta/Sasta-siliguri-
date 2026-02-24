@@ -8,64 +8,66 @@
 </head>
 <body>
 
-<div class="topbar">
+<!-- TOP BAR -->
+<div class="top">
   DELIVERY TIMING 10am–8pm • SAME DAY • FREE DELIVERY
 </div>
 
-<!-- HEADER -->
-<div id="logo" class="header">
-  <h1>SASTA SILIGURI</h1>
-  <p>Same Day Free Delivery • COD</p>
+<!-- HEADER / LOGO (3 tap unlock) -->
+<div id="logo" class="header-card">
+  <div class="logo-box">SASTA<br>SILIGURI</div>
+  <div>
+    <h1>SASTA SILIGURI</h1>
+    <p>SAME DAY FREE DELIVERY<br>CASH ON DELIVERY AVAILABLE</p>
+  </div>
 </div>
 
 <!-- USER DETAILS -->
 <div class="card">
-  <h3>Your details</h3>
+  <h2>Your details</h2>
   <input placeholder="Full name">
   <input placeholder="Phone number">
   <textarea placeholder="Full address"></textarea>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
 <div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Offer price ₹" type="number">
-  <input id="pmrp" placeholder="Market price ₹" type="number">
-  <input id="pmin" placeholder="Minimum order quantity" type="number">
-  <input id="punit" placeholder="Unit (kg / pcs)">
-  <input id="pimg" placeholder="Image URL">
+  <input id="price" type="number" placeholder="Offer price ₹">
+  <input id="mrp" type="number" placeholder="Market price ₹">
+  <input id="min" type="number" placeholder="Minimum order quantity">
+  <input id="unit" placeholder="Unit (kg / pcs)">
+  <input id="img" placeholder="Image URL">
 
   <label class="stock">
-    <input type="checkbox" id="pstock" checked> In stock
+    <input type="checkbox" id="stock" checked> In stock
   </label>
 
-  <div class="admin-btns">
+  <div class="btn-row">
     <button onclick="addProduct()">Add new product</button>
-    <button onclick="updateProduct()">Save / Update</button>
-    <button onclick="deleteProduct()">Delete product</button>
+    <button onclick="clearForm()">Clear</button>
   </div>
 </div>
 
 <!-- PRODUCTS -->
-<h3 class="section">Fruits</h3>
-<div id="productList" class="grid"></div>
-
-<!-- CART -->
-<div id="cartBar" class="cart-bar">
-  🛒 Items: <b id="cartCount">0</b>
-  <button>Order on WhatsApp</button>
-</div>
+<h2 class="section">Fruits</h2>
+<div id="products" class="grid"></div>
 
 <!-- ABOUT -->
-<div class="about">
-  <h3>About Sasta Siliguri</h3>
+<div class="card">
+  <h2>About Sasta Siliguri</h2>
   <p>
     We deliver fresh local products in Siliguri with same-day delivery.
-    Cash on Delivery available. Trusted local service.
+    Cash on Delivery available.
   </p>
-  <p><b>WhatsApp:</b> 7602884208</p>
+</div>
+
+<!-- CART BAR -->
+<div class="cart-bar">
+  🛒 Items: <span id="cartCount">0</span>
+  <button onclick="orderWhatsApp()">Order on WhatsApp</button>
 </div>
 
 <script src="script.js"></script>
