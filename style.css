@@ -5,88 +5,82 @@
 
 body{
   margin:0;
-  background:#f7f1e6;
+  background:#f6efe4;
+  padding:15px;
 }
 
 /* HEADER */
 .header{
+  background:#fff;
   padding:16px;
-  text-align:left;
+  border-radius:12px;
+  text-align:center;
   cursor:pointer;
+  user-select:none;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 .header h1{
   margin:0;
-  font-size:28px;
+  font-size:26px;
 }
 
 .header p{
-  margin:4px 0 0;
-  font-size:14px;
+  margin:6px 0 0;
+  color:#555;
 }
 
-/* ADMIN PANEL (SMALL CARD STYLE) */
+/* ADMIN PANEL */
 .admin{
   display:none;
-  max-width:360px;          /* 👈 chhota size */
-  margin:20px auto;
   background:#fff;
+  margin:20px auto;
   padding:16px;
-  border-radius:10px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  border-radius:12px;
+  max-width:420px;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
 
 .admin h2{
-  margin:0 0 12px;
-  font-size:20px;
+  margin-top:0;
   text-align:center;
 }
 
-/* INPUTS */
-.admin input[type="text"],
-.admin input[type="number"],
-.admin input[type="file"],
-.admin input[type="url"],
 .admin input{
   width:100%;
   padding:10px;
-  margin-bottom:10px;
-  border:2px solid #bbb;
-  border-radius:6px;
-  font-size:14px;
+  margin:6px 0;
+  border:2px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
 }
 
-/* ROW */
 .row{
   display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
-}
-
-.stock{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:14px;
-}
-
-/* BUTTONS */
-.buttons{
-  display:flex;
   gap:8px;
+  margin-top:10px;
+  align-items:center;
 }
 
 button{
   flex:1;
   padding:10px;
-  border:2px solid #333;
+  border:2px solid #000;
   background:#fff;
   font-weight:bold;
-  border-radius:6px;
+  border-radius:8px;
   cursor:pointer;
 }
 
-button:hover{
-  background:#eee;
+/* PRODUCT LIST */
+.list{
+  margin-top:20px;
+}
+
+.product{
+  background:#fff;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
 }
