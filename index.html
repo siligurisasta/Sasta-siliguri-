@@ -3,51 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sasta Siliguri – Admin</title>
+  <title>Admin Test</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="top">
-  DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY
-</div>
+<h1 id="logo">SASTA SILIGURI (TAP 3 TIMES)</h1>
 
-<div class="card header">
-  <img src="logo.png" alt="logo">
-  <div>
-    <h2>SASTA SILIGURI</h2>
-    <p>Same Day Free Delivery • COD</p>
-  </div>
-</div>
-
-<!-- 🔐 LOGIN -->
-<div class="card" id="loginBox">
-  <h3>Admin Login</h3>
-  <input type="password" id="adminPass" placeholder="Enter admin password">
-  <button onclick="login()">Unlock Admin Panel</button>
-</div>
-
-<!-- 🔐 ADMIN PANEL -->
-<div class="card admin" id="adminPanel">
-  <h2>Admin Panel (Owner Only)</h2>
-
-  <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Price ₹">
-  <input id="pmrp" placeholder="MRP ₹">
-  <input id="pmin" placeholder="Minimum order quantity">
-  <input id="punit" placeholder="Unit (kg, pcs, box, gram etc)">
-  <input id="pimg" placeholder="Image URL (optional)">
-
-  <label class="stock">
-    <input type="checkbox" id="pstock" checked>
-    In stock
-  </label>
-
-  <div class="btns">
-    <button onclick="saveProduct()">Save / Update</button>
-    <button onclick="addProduct()">Add new product</button>
-    <button onclick="deleteProduct()">Delete product</button>
-  </div>
+<div id="admin" class="admin">
+  <h2>Admin Panel</h2>
+  <input placeholder="Product name">
+  <input placeholder="Price">
+  <button>Add Product</button>
 </div>
 
 <script src="script.js"></script>
