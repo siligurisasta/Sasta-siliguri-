@@ -13,51 +13,58 @@ let cart = {};
 
 logo.onclick = () => {
   tap++;
-  setTimeout(()=>tap=0,600);
+  setTimeout(() => tap = 0, 600);
+
   if(tap === 3){
     const p = prompt("Admin password");
     if(p === ADMIN_PASS){
       admin.style.display = "block";
+      admin.scrollIntoView({ behavior: "smooth" });
+      alert("Admin panel unlocked");
+    } else {
+      alert("Wrong password");
     }
   }
 };
 
 function render(){
-  list.innerHTML += `
-<div class="product-card">
+  list.innerHTML = "";
 
-  <img class="p-img" src="${p.img}">
+  products.forEach((p, i) => {
+    list.innerHTML += `
+      <div class="product-card" onclick="selectProduct(${i})">
 
-  <h3 class="p-title">${p.name}</h3>
+        <img class="p-img" src="${p.img || 'https://via.placeholder.com/300'}">
 
-  <div class="price-line">
-    <span class="market">₹${p.mrp}</span>
-    <span class="offer">₹${p.price}</span>
-  </div>
+        <h3 class="p-title">${p.name}</h3>
 
-  <div class="min-order">
-    Minimum order: ${p.min || 1} ${p.unit || ""}
-  </div>
+        <div class="price-line">
+          ${p.mrp ? `<span class="market">₹${p.mrp}</span>` : ""}
+          <span class="offer">₹${p.price}</span>
+        </div>
 
-  <div class="stock">
-    In stock ✅
-  </div>
+        <div class="min-order">
+          Minimum order: ${p.min || 1} ${p.unit || ""}
+        </div>
 
-  <div class="qty-box">
-    <button onclick="event.stopPropagation(); qty(${i},-1)">−</button>
-    <span id="q${i}">1</span>
-    <button onclick="event.stopPropagation(); qty(${i},1)">+</button>
-  </div>
+        <div class="stock">In stock ✅</div>
 
-  <button class="add-cart-btn"
-    onclick="event.stopPropagation(); addCart(${i})">
-    Add to Cart
-  </button>
+        <div class="qty-box" onclick="event.stopPropagation()">
+          <button onclick="qty(${i},-1)">−</button>
+          <span id="q${i}">1</span>
+          <button onclick="qty(${i},1)">+</button>
+        </div>
 
-</div>
-`;
+        <button class="add-cart-btn"
+          onclick="event.stopPropagation(); addCart(${i})">
+          Add to Cart
+        </button>
+
+      </div>
+    `;
   });
 }
+
 
 function qty(i,d){
   let q = document.getElementById("q"+i);
@@ -181,3 +188,6 @@ function deleteCurrent(){
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  render();
+});
