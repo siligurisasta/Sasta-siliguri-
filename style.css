@@ -12,10 +12,13 @@ body{
 /* TOP BAR */
 .top{
   background:#ffd54f;
+  margin:10px 12px;        /* 👈 left-right gap */
+  padding:12px 10px;
+  border-radius:14px;     /* 👈 curve */
   text-align:center;
-  padding:10px;
   font-weight:bold;
   font-size:14px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.12);
 }
 
 /* HEADER / LOGO CARD */
