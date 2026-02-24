@@ -1,33 +1,34 @@
-alert("JS Loaded");
 const ADMIN_PASS = "1513";
 
-const logo = document.getElementById("logo");
-const admin = document.getElementById("admin");
-const list = document.getElementById("productList");
-const cartBar = document.getElementById("cartBar");
-const cartCount = document.getElementById("cartCount");
+document.addEventListener("DOMContentLoaded", () => {
 
-let tap = 0;
-let products = [];
-let cart = {};
+  const logo = document.getElementById("logo");
+  const admin = document.getElementById("admin");
+  const list = document.getElementById("productList");
+  const cartBar = document.getElementById("cartBar");
+  const cartCount = document.getElementById("cartCount");
 
-logo.addEventListener("click", () => {
-  tap++;
-  clearTimeout(window.tapTimer);
-  window.tapTimer = setTimeout(() => tap = 0, 800);
+  let tap = 0;
+  let products = [];
+  let cart = {};
 
-  if(tap === 3){
-    tap = 0;
-    const p = prompt("Admin password");
-    if(p === ADMIN_PASS){
-      admin.style.display = "block";
-      admin.scrollIntoView({ behavior: "smooth" });
-      alert("Admin panel unlocked");
-    } else {
-      alert("Wrong password");
+  logo.addEventListener("click", () => {
+    tap++;
+    clearTimeout(window.tapTimer);
+    window.tapTimer = setTimeout(() => tap = 0, 800);
+
+    if (tap === 3) {
+      tap = 0;
+      const p = prompt("Admin password");
+      if (p === ADMIN_PASS) {
+        admin.style.display = "block";
+        admin.scrollIntoView({ behavior: "smooth" });
+        alert("Admin panel unlocked");
+      } else {
+        alert("Wrong password");
+      }
     }
-  }
-});
+  });
 
 
 function render(){
