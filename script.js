@@ -11,11 +11,13 @@ let tap = 0;
 let products = [];
 let cart = {};
 
-logo.onclick = () => {
+logo.addEventListener("click", () => {
   tap++;
-  setTimeout(() => tap = 0, 600);
+  clearTimeout(window.tapTimer);
+  window.tapTimer = setTimeout(() => tap = 0, 800);
 
   if(tap === 3){
+    tap = 0;
     const p = prompt("Admin password");
     if(p === ADMIN_PASS){
       admin.style.display = "block";
@@ -25,7 +27,8 @@ logo.onclick = () => {
       alert("Wrong password");
     }
   }
-};
+});
+
 
 function render(){
   list.innerHTML = "";
