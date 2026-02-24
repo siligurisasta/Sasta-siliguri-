@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel – Sasta Siliguri</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Admin Test</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<h2>Public Page</h2>
+<p>Ye sab log dekh sakte hain</p>
 
-  <h1>Admin Panel (Owner Only)</h1>
+<hr>
 
-  <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Price ₹" type="number">
-  <input id="pmrp" placeholder="MRP ₹" type="number">
-  <input id="pmin" placeholder="Minimum order quantity" type="number">
-  <input id="punit" placeholder="Unit (kg, pcs, box, gram etc)">
-  <input id="pimg" placeholder="Image URL (optional)">
+<div id="adminPanel" style="display:none">
+  <h1>ADMIN PANEL</h1>
 
-  <label class="check">
-    <input type="checkbox" id="pstock" checked>
-    In stock
-  </label>
+  <input placeholder="Product name"><br><br>
+  <input placeholder="Price"><br><br>
 
-  <div class="btns">
-    <button onclick="saveProduct()">Save / Update</button>
-    <button onclick="addProduct()">Add new product</button>
-    <button onclick="deleteProduct()">Delete product</button>
-  </div>
-
-  <hr>
-
-  <h2>Products</h2>
-  <div id="list"></div>
-
+  <button>Add</button>
+  <button>Update</button>
+  <button>Delete</button>
 </div>
 
 <script src="script.js"></script>
