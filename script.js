@@ -1,5 +1,23 @@
+const ADMIN_PASS = "1513";
+
+const adminPanel = document.getElementById("adminPanel");
+
 let products = [];
 let current = null;
+
+/* 🔐 PASSWORD CHECK ON LOAD */
+setTimeout(() => {
+  const p = prompt("Enter Admin Password");
+  if (p === ADMIN_PASS) {
+    adminPanel.style.display = "block";
+    alert("Admin Panel Unlocked ✅");
+  } else {
+    alert("Wrong password ❌");
+    document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Access Denied</h2>";
+  }
+}, 300);
+
+/* ===== PRODUCT LOGIC ===== */
 
 const pname = document.getElementById("pname");
 const pprice = document.getElementById("pprice");
