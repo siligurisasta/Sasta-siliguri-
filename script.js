@@ -1,3 +1,4 @@
+alert("JS Loaded");
 const ADMIN_PASS = "1513";
 
 const logo = document.getElementById("logo");
