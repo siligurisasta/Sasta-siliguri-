@@ -3,97 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sasta Siliguri</title>
+<title>Admin Panel – Sasta Siliguri</title>
 <link rel="stylesheet" href="style.css">
-
-<style>
-/* 👇 logo ko force clickable */
-#logo{
-  cursor:pointer;
-  user-select:none;
-}
-#logo img{
-  pointer-events:none;
-}
-</style>
 </head>
 <body>
 
-<div class="top">
-  DELIVERY 10am–8pm • SAME DAY • FREE DELIVERY
-</div>
+<div class="container">
 
-<div class="card header" id="logo">
-  <img src="logo.png" alt="logo">
-  <div>
-    <h2>SASTA SILIGURI</h2>
-    <p>Same Day Free Delivery • COD</p>
-  </div>
-</div>
-
-<div class="card">
-  <h3>Your details</h3>
-  <input placeholder="Full name">
-  <input placeholder="Phone number">
-  <textarea placeholder="Full address"></textarea>
-</div>
-
-<div class="card admin" id="admin" style="display:none">
-  <h2>Admin Panel (Owner Only)</h2>
+  <h1>Admin Panel (Owner Only)</h1>
 
   <input id="pname" placeholder="Product name">
-  <input id="pprice" placeholder="Price ₹">
-  <input id="pmrp" placeholder="MRP ₹">
-  <input id="pmin" placeholder="Minimum order quantity">
-  <input id="punit" placeholder="Unit">
-  <input id="pimgurl" placeholder="Image URL">
+  <input id="pprice" placeholder="Price ₹" type="number">
+  <input id="pmrp" placeholder="MRP ₹" type="number">
+  <input id="pmin" placeholder="Minimum order quantity" type="number">
+  <input id="punit" placeholder="Unit (kg, pcs, box, gram etc)">
+  <input id="pimg" placeholder="Image URL (optional)">
 
-  <button>Add Product</button>
+  <label class="check">
+    <input type="checkbox" id="pstock" checked>
+    In stock
+  </label>
+
+  <div class="btns">
+    <button onclick="saveProduct()">Save / Update</button>
+    <button onclick="addProduct()">Add new product</button>
+    <button onclick="deleteProduct()">Delete product</button>
+  </div>
+
+  <hr>
+
+  <h2>Products</h2>
+  <div id="list"></div>
+
 </div>
 
-<h3 class="section">Fruits</h3>
-<div class="grid"></div>
-
-<div class="cart-bar" style="display:none">
-  🛒 Items: <b>0</b>
-  <button>Order</button>
-</div>
-
-<script>
-const ADMIN_PASS = "1513";
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const logo = document.getElementById("logo");
-  const admin = document.getElementById("admin");
-
-  let tap = 0;
-  let timer = null;
-
-  function handleTap(){
-    tap++;
-    clearTimeout(timer);
-    timer = setTimeout(()=>tap=0,800);
-
-    if(tap === 3){
-      tap = 0;
-      const p = prompt("Admin password");
-      if(p === ADMIN_PASS){
-        admin.style.display = "block";
-        admin.scrollIntoView({behavior:"smooth"});
-        alert("Admin panel unlocked");
-      }else{
-        alert("Wrong password");
-      }
-    }
-  }
-
-  // 👇 mobile + desktop dono
-  logo.addEventListener("click", handleTap);
-  logo.addEventListener("touchstart", handleTap);
-
-});
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
