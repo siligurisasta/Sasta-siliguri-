@@ -1,150 +1,92 @@
-/* ====== BASIC ====== */
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:system-ui, sans-serif;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background:#f6f1e7;
-  color:#222;
 }
 
 .top{
   background:#ffd84d;
   padding:12px;
-  text-align:center;
   font-weight:700;
-  margin-bottom:8px;   /* 👈 yahi space dega */
+  text-align:center;
+  font-size:14px;
 }
 
-/* ====== HEADER ====== */
+.card{
+  background:#fff;
+  margin:12px;
+  padding:15px;
+  border-radius:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+
 .header{
   display:flex;
   gap:12px;
   align-items:center;
-  background:#fff;
-  margin:12px 12px;     /* 👈 top bar se gap
-  padding:16px;        /* 👈 thoda spacious */
-  border-radius:18px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.06);
 }
-.header img{
-  width:56px;
-  height:56px;
-  border-radius:12px;
-  object-fit:cover;
-}
-.header h2{margin:0;font-size:18px}
-.header p{margin:2px 0 0;color:#666;font-size:13px}
 
-/* ====== CARD ====== */
-.card{
-  background:#fff;
-  margin:12px;
-  padding:14px;
-  border-radius:16px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+.header img{
+  width:60px;
+  height:60px;
+  border-radius:12px;
 }
+
 input, textarea{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-top:8px;
   border-radius:10px;
   border:1px solid #ddd;
+  font-size:15px;
 }
 
-/* ====== CART BAR ====== */
-.cart-bar{
-  position:fixed;
-  left:0; right:0; bottom:0;
-  background:#111;
-  color:#fff;
-  display:none;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px;
+.section{
+  padding-left:12px;
+  margin-top:20px;
 }
-
-/* ====== ADMIN ====== */
-#admin{display:none}
-
 
 .grid{
   display:grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:16px;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
   padding:12px;
 }
 
-.product-card{
-  background:#f6f4ec;
-  border-radius:20px;
-  padding:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,.12);
+/* ADMIN PANEL */
+.admin{
+  border:2px dashed #ffb703;
 }
 
-.p-img{
-  width:100%;
-  height:150px;
-  object-fit:cover;
-  border-radius:16px;
-}
-
-.p-title{
-  margin:8px 0 4px;
-  font-size:22px;
-  font-weight:700;
-}
-
-.price-line{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.market{
-  color:#999;
-  text-decoration:line-through;
-}
-
-.offer{
-  color:#1fa64a;
-  font-size:22px;
-  font-weight:700;
-}
-
-.min-order{
-  font-size:14px;
-  margin-top:4px;
-}
-
-.stock{
-  margin-top:4px;
-  font-weight:600;
-}
-
-.qty-box{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
-  margin:10px 0;
-}
-
-.qty-box button{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  border:2px solid orange;
-  background:#fff;
-  font-size:20px;
-}
-
-.add-cart-btn{
+.admin button{
+  margin-top:12px;
   width:100%;
   padding:12px;
-  background:#158f2e;
-  color:#fff;
   border:none;
-  border-radius:30px;
+  border-radius:20px;
+  background:#0ca03a;
+  color:#fff;
   font-size:16px;
-  font-weight:600;
+}
+
+/* CART BAR */
+.cart-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#111;
+  color:#fff;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.cart-bar button{
+  background:#0ca03a;
+  border:none;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:20px;
 }
