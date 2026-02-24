@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sasta Siliguri – Admin</title>
+<title>Sasta Siliguri</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,23 +22,25 @@
   <input id="price" placeholder="Price ₹" type="number">
   <input id="mrp" placeholder="MRP ₹" type="number">
   <input id="min" placeholder="Minimum order quantity" type="number">
-  <input id="unit" placeholder="Unit (kg, pcs, box, gram etc)">
+  <input id="unit" placeholder="Unit (kg, pcs, box etc)">
   <input id="img" placeholder="Image URL (optional)">
 
   <div class="row">
-    <input type="file" id="file">
-    <label class="stock">
+    <label>
       <input type="checkbox" id="stock" checked>
       In stock
     </label>
   </div>
 
-  <div class="row buttons">
-    <button onclick="saveProduct()">Save / Update</button>
+  <div class="row">
     <button onclick="addProduct()">Add new product</button>
+    <button onclick="updateProduct()">Save / Update</button>
     <button onclick="deleteProduct()">Delete product</button>
   </div>
 </div>
+
+<!-- PRODUCT LIST -->
+<div id="list" class="list"></div>
 
 <script src="script.js"></script>
 </body>
