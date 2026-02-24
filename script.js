@@ -1,44 +1,83 @@
-const ADMIN_PASS = "1513";
+let products = [];
+let current = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+const pname = document.getElementById("pname");
+const pprice = document.getElementById("pprice");
+const pmrp = document.getElementById("pmrp");
+const pmin = document.getElementById("pmin");
+const punit = document.getElementById("punit");
+const pimg = document.getElementById("pimg");
+const pstock = document.getElementById("pstock");
+const list = document.getElementById("list");
 
-  const logo = document.getElementById("logo");
-  const admin = document.getElementById("admin");
+function render(){
+  list.innerHTML = "";
+  products.forEach((p,i)=>{
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerText = `${p.name} – ₹${p.price}`;
+    div.onclick = ()=>select(i);
+    list.appendChild(div);
+  });
+}
 
-  if (!logo || !admin) {
-    alert("ID missing: logo / admin");
-    return;
-  }
+function select(i){
+  const p = products[i];
+  current = i;
 
-  let tap = 0;
-  let resetTimer = null;
+  pname.value = p.name;
+  pprice.value = p.price;
+  pmrp.value = p.mrp;
+  pmin.value = p.min;
+  punit.value = p.unit;
+  pimg.value = p.img;
+  pstock.checked = p.stock;
+}
 
-  function handleTap(e) {
-    e.preventDefault();
+function addProduct(){
+  products.push({
+    name:pname.value,
+    price:pprice.value,
+    mrp:pmrp.value,
+    min:pmin.value,
+    unit:punit.value,
+    img:pimg.value,
+    stock:pstock.checked
+  });
+  clearForm();
+  render();
+}
 
-    tap++;
+function saveProduct(){
+  if(current === null) return alert("Select product first");
 
-    clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => {
-      tap = 0;
-    }, 800);
+  products[current] = {
+    name:pname.value,
+    price:pprice.value,
+    mrp:pmrp.value,
+    min:pmin.value,
+    unit:punit.value,
+    img:pimg.value,
+    stock:pstock.checked
+  };
+  render();
+  alert("Product updated");
+}
 
-    if (tap === 3) {
-      tap = 0;
+function deleteProduct(){
+  if(current === null) return alert("Select product first");
+  products.splice(current,1);
+  clearForm();
+  render();
+}
 
-      const pass = prompt("Enter admin password");
-      if (pass === ADMIN_PASS) {
-        admin.style.display = "block";
-        admin.scrollIntoView({ behavior: "smooth" });
-        alert("Admin panel unlocked");
-      } else {
-        alert("Wrong password");
-      }
-    }
-  }
-
-  // Desktop + Mobile
-  logo.addEventListener("click", handleTap);
-  logo.addEventListener("touchstart", handleTap);
-
-});
+function clearForm(){
+  pname.value="";
+  pprice.value="";
+  pmrp.value="";
+  pmin.value="";
+  punit.value="";
+  pimg.value="";
+  pstock.checked=true;
+  current=null;
+}
