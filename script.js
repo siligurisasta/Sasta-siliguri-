@@ -1,16 +1,16 @@
 const ADMIN_PASS = "1513";
-
-/* ===== ADMIN 3 TAP LOGIC ===== */
 let taps = 0;
-let timer = null;
+let tapTimer = null;
 
 const logo = document.getElementById("logo");
-const admin = document.getElementById("admin");
 
 logo.addEventListener("click", () => {
   taps++;
-  clearTimeout(timer);
-  timer = setTimeout(() => taps = 0, 700);
+
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(() => {
+    taps = 0;
+  }, 800);
 
   if (taps === 3) {
     taps = 0;
@@ -23,6 +23,7 @@ logo.addEventListener("click", () => {
     }
   }
 });
+
 
 /* ===== PRODUCT + CART ===== */
 const productsDiv = document.getElementById("products");
