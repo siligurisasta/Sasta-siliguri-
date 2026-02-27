@@ -25,26 +25,16 @@ logo.addEventListener("click", () => {
   }
 });
 
-/**************** FORM ELEMENTS ****************/
-const pnameEl = document.getElementById("pname");
-const priceEl = document.getElementById("price");
-const mrpEl   = document.getElementById("mrp");
-const minEl   = document.getElementById("min");
-const unitEl  = document.getElementById("unit");
-const imgEl   = document.getElementById("img");
-const stockEl = document.getElementById("stock");
-
-/**************** PRODUCTS ****************/
+/**************** ELEMENTS ****************/
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
+/**************** DATA ****************/
 let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
+let cart = JSON.parse(localStorage.getItem("sasta_cart")) || [];
 let editIndex = -1;
 
-/**************** CART ****************/
-let cart = JSON.parse(localStorage.getItem("sasta_cart")) || [];
-
-/**************** SAVE STORAGE ****************/
+/**************** STORAGE ****************/
 function saveProducts() {
   localStorage.setItem("sasta_products", JSON.stringify(products));
 }
@@ -52,7 +42,7 @@ function saveCart() {
   localStorage.setItem("sasta_cart", JSON.stringify(cart));
 }
 
-/**************** ADD / UPDATE PRODUCT ****************/
+/**************** ADMIN: ADD / UPDATE ****************/
 function saveProduct() {
   const pname = pnameEl.value.trim();
   const price = Number(priceEl.value);
@@ -62,7 +52,7 @@ function saveProduct() {
   const stock = stockEl.checked;
 
   if (!pname || !price) {
-    alert("Product name & price required");
+    alert("Name & price required");
     return;
   }
 
@@ -71,7 +61,7 @@ function saveProduct() {
     reader.onload = e => saveFinal(e.target.result);
     reader.readAsDataURL(imgEl.files[0]);
   } else {
-    saveFinal("https://via.placeholder.com/300");
+    saveFinal(editIndex > -1 ? products[editIndex].img : "https://via.placeholder.com/300");
   }
 
   function saveFinal(img) {
@@ -83,22 +73,12 @@ function saveProduct() {
     editIndex = -1;
     saveProducts();
     renderProducts();
-    clearForm();
   }
 }
 
-/**************** DELETE PRODUCT ****************/
-function deleteProduct() {
-  if (editIndex === -1) return alert("Select product first");
-  products.splice(editIndex, 1);
+/**************** ADMIN: ADD NEW ****************/
+function addNewProduct() {
   editIndex = -1;
-  saveProducts();
-  renderProducts();
-  clearForm();
-}
-
-/**************** CLEAR FORM ****************/
-function clearForm() {
   pnameEl.value = "";
   priceEl.value = "";
   mrpEl.value = "";
@@ -106,7 +86,18 @@ function clearForm() {
   unitEl.value = "";
   imgEl.value = "";
   stockEl.checked = true;
+}
+
+/**************** ADMIN: DELETE ****************/
+function deleteProduct() {
+  if (editIndex === -1) {
+    alert("Select product first");
+    return;
+  }
+  products.splice(editIndex, 1);
   editIndex = -1;
+  saveProducts();
+  renderProducts();
 }
 
 /**************** RENDER PRODUCTS ****************/
@@ -129,7 +120,7 @@ function renderProducts() {
   });
 }
 
-/**************** EDIT PRODUCT ****************/
+/**************** ADMIN: EDIT ****************/
 function editProduct(i) {
   const p = products[i];
   editIndex = i;
@@ -145,7 +136,7 @@ function editProduct(i) {
   admin.scrollIntoView({ behavior: "smooth" });
 }
 
-/**************** ADD TO CART ****************/
+/**************** CART: ADD (NO POPUP) ****************/
 function addToCart(i) {
   const p = products[i];
   const found = cart.find(c => c.pname === p.pname);
@@ -155,29 +146,32 @@ function addToCart(i) {
 
   saveCart();
   updateCartCount();
-  openCartPopup();
 }
 
+/**************** CART COUNT ****************/
 function updateCartCount() {
   cartCount.innerText = cart.reduce((t, i) => t + i.qty, 0);
 }
 
-/**************** CART POPUP ****************/
+/**************** CART POPUP (ONLY FROM CART BAR) ****************/
 function openCartPopup() {
-  closePopup();
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
 
-  let itemsHTML = "";
   let total = 0;
+  let itemsHTML = "";
 
   cart.forEach((c, i) => {
     total += c.price * c.qty;
     itemsHTML += `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0">
+      <div style="display:flex;justify-content:space-between;margin:6px 0">
         <b>${c.pname}</b>
         <div>
-          <button onclick="qty(${i},-1)">−</button>
+          <button onclick="changeQty(${i},-1)">−</button>
           <b>${c.qty}</b>
-          <button onclick="qty(${i},1)">+</button>
+          <button onclick="changeQty(${i},1)">+</button>
         </div>
       </div>
     `;
@@ -199,33 +193,29 @@ function openCartPopup() {
   document.body.appendChild(div);
 }
 
-function qty(i, v) {
-  cart[i].qty += v;
-  if (cart[i].qty < 1) cart[i].qty = 1;
-  saveCart();
-  openCartPopup();
-}
-
 function closePopup() {
   const p = document.getElementById("cartPopup");
   if (p) p.remove();
 }
 
+function changeQty(i, v) {
+  cart[i].qty += v;
+  if (cart[i].qty < 1) cart[i].qty = 1;
+  saveCart();
+  closePopup();
+  openCartPopup();
+}
+
 /**************** WHATSAPP ****************/
 function sendWA(total) {
-  const name = document.querySelector('input[placeholder="Full name"]').value;
-  const phone = document.querySelector('input[placeholder="Phone number"]').value;
-  const address = document.querySelector('textarea').value;
-
   let items = "";
   cart.forEach(c => {
-    items += `• *${c.pname}*  x${c.qty}  ₹${c.price * c.qty}\n`;
+    items += `• *${c.pname}* x${c.qty} ₹${c.price * c.qty}\n`;
   });
 
-  const msg = `*Your details*
-*Name:* ${name}
-*Phone:* ${phone}
-*Address:* ${address}
+  const msg = `
+*Your details*
+(Filled on website)
 
 ------------------
 *Items*
@@ -234,7 +224,8 @@ ${items}
 ------------------
 *Total Amount:* ₹${total}
 
-Thank you for choosing *Sasta Siliguri* 🙏`;
+Thank you for choosing *Sasta Siliguri* 🙏
+`;
 
   window.open(
     `https://wa.me/917602884208?text=${encodeURIComponent(msg)}`,
@@ -242,6 +233,6 @@ Thank you for choosing *Sasta Siliguri* 🙏`;
   );
 }
 
-/**************** LOAD ****************/
+/**************** INIT ****************/
 renderProducts();
 updateCartCount();
