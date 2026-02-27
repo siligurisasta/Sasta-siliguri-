@@ -11,7 +11,7 @@ let tapTimer = null;
 logo.addEventListener("click", () => {
   taps++;
   clearTimeout(tapTimer);
-  tapTimer = setTimeout(() => taps = 0, 800);
+  tapTimer = setTimeout(() => (taps = 0), 800);
 
   if (taps === 3) {
     taps = 0;
@@ -25,20 +25,14 @@ logo.addEventListener("click", () => {
   }
 });
 
-/**************** PRODUCTS (LOCAL STORAGE) ****************/
+/**************** PRODUCTS ****************/
 const productsDiv = document.getElementById("products");
-const cartCount = document.getElementById("cartCount");
 
 let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
-let cart = JSON.parse(localStorage.getItem("sasta_cart")) || [];
 let editIndex = -1;
 
-/* SAVE */
 function saveProducts() {
   localStorage.setItem("sasta_products", JSON.stringify(products));
-}
-function saveCart() {
-  localStorage.setItem("sasta_cart", JSON.stringify(cart));
 }
 
 /**************** ADD / UPDATE PRODUCT ****************/
@@ -46,8 +40,8 @@ function saveProduct() {
   const pname = document.getElementById("pname").value.trim();
   const price = document.getElementById("price").value;
   const mrp = document.getElementById("mrp").value;
-  const min = document.getElementById("min").value || 1;
-  const unit = document.getElementById("unit").value || "";
+  const min = document.getElementById("min").value;
+  const unit = document.getElementById("unit").value;
   const stock = document.getElementById("stock").checked;
   const imgInput = document.getElementById("img");
 
@@ -61,11 +55,11 @@ function saveProduct() {
     reader.onload = e => saveFinal(e.target.result);
     reader.readAsDataURL(imgInput.files[0]);
   } else {
-    saveFinal(editIndex >= 0 ? products[editIndex].img : "https://via.placeholder.com/300");
+    saveFinal("https://via.placeholder.com/300");
   }
 
   function saveFinal(img) {
-    const product = { name:pname, price:+price, mrp:+mrp, min:+min, unit, stock, img };
+    const product = { name: pname, price, mrp, min, unit, stock, img };
 
     if (editIndex === -1) products.push(product);
     else products[editIndex] = product;
@@ -79,8 +73,11 @@ function saveProduct() {
 
 /**************** DELETE PRODUCT ****************/
 function deleteProduct() {
-  if (editIndex === -1) return alert("Select product first");
-  products.splice(editIndex,1);
+  if (editIndex === -1) {
+    alert("Select product first");
+    return;
+  }
+  products.splice(editIndex, 1);
   editIndex = -1;
   saveProducts();
   renderProducts();
@@ -89,7 +86,11 @@ function deleteProduct() {
 
 /**************** CLEAR FORM ****************/
 function clearForm() {
-  pname.value = price.value = mrp.value = min.value = unit.value = "";
+  pname.value = "";
+  price.value = "";
+  mrp.value = "";
+  min.value = "";
+  unit.value = "";
   img.value = "";
   stock.checked = true;
   editIndex = -1;
@@ -99,7 +100,7 @@ function clearForm() {
 function renderProducts() {
   productsDiv.innerHTML = "";
 
-  products.forEach((p,i)=>{
+  products.forEach((p, i) => {
     productsDiv.innerHTML += `
       <div class="product" onclick="editProduct(${i})">
         <img src="${p.img}">
@@ -108,14 +109,14 @@ function renderProducts() {
           ${p.mrp ? `<del>₹${p.mrp}</del>` : ""}
           <b>₹${p.price}</b>
         </div>
-        <p>Minimum: ${p.min} ${p.unit}</p>
+        <p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
         <p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
-        <button onclick="event.stopPropagation(); addToCart(${i})">Add to Cart</button>
+        <button onclick="event.stopPropagation(); addToCart(${i})">
+          Add to Cart
+        </button>
       </div>
     `;
   });
-
-  cartCount.innerText = cart.reduce((a,b)=>a+b.qty,0);
 }
 
 /**************** EDIT PRODUCT ****************/
@@ -135,36 +136,57 @@ function editProduct(i) {
 }
 
 /**************** CART ****************/
-function addToCart(i) {
-  const item = cart.find(c => c.index === i);
-  if (item) item.qty++;
-  else cart.push({ index:i, qty:1 });
+let cart = JSON.parse(localStorage.getItem("sasta_cart")) || {};
+const cartCount = document.getElementById("cartCount");
 
-  saveCart();
-  cartCount.innerText = cart.reduce((a,b)=>a+b.qty,0);
+function updateCartCount() {
+  let total = 0;
+  Object.values(cart).forEach(i => (total += i.qty));
+  cartCount.innerText = total;
+  localStorage.setItem("sasta_cart", JSON.stringify(cart));
+}
+
+function addToCart(i) {
+  const p = products[i];
+  if (!cart[p.name]) {
+    cart[p.name] = { name: p.name, price: p.price, qty: 1 };
+  } else {
+    cart[p.name].qty++;
+  }
+  updateCartCount();
 }
 
 /**************** CART POPUP ****************/
 function openCartPopup() {
-  if (cart.length === 0) return alert("Cart is empty");
+  if (Object.keys(cart).length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+
+  const name = document.querySelector('input[placeholder="Full name"]').value.trim();
+  const phone = document.querySelector('input[placeholder="Phone number"]').value.trim();
+  const address = document.querySelector('textarea').value.trim();
+
+  if (!name || !phone || !address) {
+    alert("First fill Name, Phone & Address");
+    return;
+  }
 
   closePopup();
 
-  let total = 0;
   let itemsHTML = "";
+  let total = 0;
 
-  cart.forEach(c => {
-    const p = products[c.index];
-    total += p.price * c.qty;
-
+  Object.values(cart).forEach(item => {
+    total += item.qty * item.price;
     itemsHTML += `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0">
-        <b>${p.name}</b>
-        <div>
-          <button onclick="changeQty(${c.index},-1)">−</button>
-          <b>${c.qty}</b>
-          <button onclick="changeQty(${c.index},1)">+</button>
-        </div>
+      <div style="display:flex;justify-content:space-between;margin:6px 0">
+        <b>${item.name}</b>
+        <span>
+          <button onclick="changeQty('${item.name}',-1)">−</button>
+          ${item.qty}
+          <button onclick="changeQty('${item.name}',1)">+</button>
+        </span>
       </div>
     `;
   });
@@ -172,59 +194,59 @@ function openCartPopup() {
   const div = document.createElement("div");
   div.id = "cartPopup";
   div.innerHTML = `
-    <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:9999">
-      <div style="background:#fff;border-radius:16px;padding:14px;width:90%;max-width:360px">
-        <h3>Your Cart</h3>
-        ${itemsHTML}
-        <hr>
-        <p><b>FREE DELIVERY</b></p>
-        <p><b>Total: ₹${total}</b></p>
-        <button onclick="sendWA()" style="width:100%">Order on WhatsApp</button>
-        <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd;color:#000">Close</button>
-      </div>
+  <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:9999">
+    <div style="background:#fff;border-radius:18px;padding:16px;width:90%;max-width:360px">
+      <h3>Your Cart</h3>
+
+      ${itemsHTML}
+
+      <p><b>FREE DELIVERY</b></p>
+      <p><b>Total: ₹${total}</b></p>
+
+      <button style="width:100%" onclick="sendWA()">Order on WhatsApp</button>
+      <button style="width:100%;margin-top:6px;background:#ddd;color:#000" onclick="closePopup()">Close</button>
     </div>
-  `;
+  </div>`;
   document.body.appendChild(div);
 }
 
-function closePopup(){
-  const p=document.getElementById("cartPopup");
-  if(p) p.remove();
-}
-
-function changeQty(i,v){
-  const item = cart.find(c=>c.index===i);
-  if(!item) return;
-  item.qty += v;
-  if(item.qty<=0) cart = cart.filter(c=>c.index!==i);
-  saveCart();
+function changeQty(name, v) {
+  cart[name].qty += v;
+  if (cart[name].qty <= 0) delete cart[name];
+  updateCartCount();
   openCartPopup();
 }
 
-/**************** WHATSAPP ****************/
-function sendWA(){
-  const name = document.querySelector('input[placeholder="Full name"]').value.trim();
-  const phone = document.querySelector('input[placeholder="Phone number"]').value.trim();
-  const address = document.querySelector('textarea').value.trim();
-
-  if(!name || !phone || !address){
-    alert("First fill Name, Phone Number and Address");
-    return;
-  }
-
-  let total = 0;
-  let msg = `*SASTA SILIGURI ORDER*\n\n*Your details*\nName: *${name}*\nPhone: *${phone}*\nAddress: *${address}*\n\n------------------\n`;
-
-  cart.forEach(c=>{
-    const p=products[c.index];
-    total+=p.price*c.qty;
-    msg+=`*${p.name}*\nQty: ${c.qty}\nRate: ₹${p.price}\n\n`;
-  });
-
-  msg+=`*Total Amount: ₹${total}*\nFREE DELIVERY\n\nThank you for choosing *Sasta Siliguri* 🙏`;
-
-  window.open(`https://wa.me/917602884208?text=${encodeURIComponent(msg)}`,"_blank");
+function closePopup() {
+  const p = document.getElementById("cartPopup");
+  if (p) p.remove();
 }
 
-/**************** INIT ****************/
+/**************** WHATSAPP ****************/
+function sendWA() {
+  const name = document.querySelector('input[placeholder="Full name"]').value;
+  const phone = document.querySelector('input[placeholder="Phone number"]').value;
+  const address = document.querySelector('textarea').value;
+
+  let msg = `*Your details*\n`;
+  msg += `Name: *${name}*\nPhone: *${phone}*\nAddress: *${address}*\n\n`;
+  msg += `------------------\n*Items*\n`;
+
+  let total = 0;
+  Object.values(cart).forEach(i => {
+    total += i.qty * i.price;
+    msg += `*${i.name}*  x${i.qty}  ₹${i.price}\n`;
+  });
+
+  msg += `------------------\n*Total Amount: ₹${total}*\n\n`;
+  msg += `Thank you for choosing *Sasta Siliguri* 🙏`;
+
+  window.open(
+    `https://wa.me/917602884208?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
+}
+
+/**************** LOAD ****************/
 renderProducts();
+updateCartCount();
