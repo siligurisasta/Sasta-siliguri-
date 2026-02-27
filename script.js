@@ -1,19 +1,17 @@
-const admin = document.getElementById("admin");
-admin.style.display = "none"; // customer ke liye always hidden
-
+/**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
+const admin = document.getElementById("admin");
+const logo = document.getElementById("logo");
+
+admin.style.display = "none";
+
 let taps = 0;
 let tapTimer = null;
 
-const logo = document.getElementById("logo");
-
 logo.addEventListener("click", () => {
   taps++;
-
   clearTimeout(tapTimer);
-  tapTimer = setTimeout(() => {
-    taps = 0;
-  }, 800);
+  tapTimer = setTimeout(() => taps = 0, 800);
 
   if (taps === 3) {
     taps = 0;
@@ -27,16 +25,20 @@ logo.addEventListener("click", () => {
   }
 });
 
-
-/* ===== PRODUCT + CART ===== */
+/**************** PRODUCTS + STORAGE ****************/
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
-let products = [];
+let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
 let editIndex = -1;
 let cart = 0;
 
-/* ===== ADD / UPDATE PRODUCT ===== */
+/* SAVE TO LOCAL STORAGE */
+function saveProducts() {
+  localStorage.setItem("sasta_products", JSON.stringify(products));
+}
+
+/**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
   const pname = document.getElementById("pname").value.trim();
   const price = document.getElementById("price").value;
@@ -44,25 +46,25 @@ function saveProduct() {
   const min = document.getElementById("min").value;
   const unit = document.getElementById("unit").value;
   const stock = document.getElementById("stock").checked;
-  const fileInput = document.getElementById("img");
+  const imgInput = document.getElementById("img");
 
   if (!pname || !price) {
     alert("Product name & price required");
     return;
   }
 
-  /* IMAGE HANDLING */
-  if (fileInput.files.length > 0) {
+  /* IMAGE */
+  if (imgInput.files.length > 0) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      saveFinalProduct(e.target.result);
+      saveFinal(e.target.result);
     };
-    reader.readAsDataURL(fileInput.files[0]);
+    reader.readAsDataURL(imgInput.files[0]);
   } else {
-    saveFinalProduct("https://via.placeholder.com/300");
+    saveFinal("https://via.placeholder.com/300");
   }
 
-  function saveFinalProduct(imgSrc) {
+  function saveFinal(imgSrc) {
     const product = {
       name: pname,
       price,
@@ -80,24 +82,26 @@ function saveProduct() {
       editIndex = -1;
     }
 
+    saveProducts();
     renderProducts();
     clearForm();
   }
 }
 
-/* ===== DELETE PRODUCT ===== */
+/**************** DELETE PRODUCT ****************/
 function deleteProduct() {
   if (editIndex === -1) {
-    alert("Select product to delete");
+    alert("Select product first");
     return;
   }
   products.splice(editIndex, 1);
   editIndex = -1;
+  saveProducts();
   renderProducts();
   clearForm();
 }
 
-/* ===== CLEAR FORM ===== */
+/**************** CLEAR FORM ****************/
 function clearForm() {
   pname.value = "";
   price.value = "";
@@ -109,7 +113,7 @@ function clearForm() {
   editIndex = -1;
 }
 
-/* ===== RENDER PRODUCTS ===== */
+/**************** RENDER PRODUCTS ****************/
 function renderProducts() {
   productsDiv.innerHTML = "";
 
@@ -119,7 +123,8 @@ function renderProducts() {
         <img src="${p.img}">
         <h3>${p.name}</h3>
         <div class="price">
-          <del>₹${p.mrp || ""}</del> <b>₹${p.price}</b>
+          ${p.mrp ? `<del>₹${p.mrp}</del>` : ""}
+          <b>₹${p.price}</b>
         </div>
         <p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
         <p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
@@ -129,7 +134,7 @@ function renderProducts() {
   });
 }
 
-/* ===== EDIT PRODUCT ===== */
+/**************** EDIT PRODUCT ****************/
 function editProduct(i) {
   const p = products[i];
   editIndex = i;
@@ -141,16 +146,20 @@ function editProduct(i) {
   unit.value = p.unit;
   stock.checked = p.stock;
 
+  admin.style.display = "block";
   admin.scrollIntoView({ behavior: "smooth" });
 }
 
-/* ===== CART ===== */
+/**************** CART ****************/
 function addCart() {
   cart++;
   cartCount.innerText = cart;
 }
 
-/* ===== WHATSAPP ORDER ===== */
+/**************** WHATSAPP ****************/
 function orderWhatsApp() {
   alert("WhatsApp order integration next step 🔥");
 }
+
+/**************** ON PAGE LOAD ****************/
+renderProducts();
