@@ -4,8 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sasta Siliguri</title>
+
 <link rel="stylesheet" href="style.css">
+
+<!-- logo force clickable -->
+<style>
+#logo{
+  cursor:pointer;
+  user-select:none;
+}
+#logo img{
+  pointer-events:none;
+}
+</style>
 </head>
+
 <body>
 
 <!-- TOP BAR -->
@@ -13,24 +26,26 @@
   DELIVERY TIMING 10am–8pm • SAME DAY • FREE DELIVERY
 </div>
 
-<!-- HEADER / LOGO (3 tap unlock) -->
+<!-- HEADER / LOGO (3 TAP ADMIN UNLOCK) -->
 <div id="logo" class="header-card">
-  <img src="logo.png" class="logo-img">
+  <div class="logo-box">
+    <img src="logo.png" alt="logo" style="width:100%;border-radius:12px;">
+  </div>
   <div>
     <h1>SASTA SILIGURI</h1>
     <p>
-      <span class="orange">SAME DAY FREE DELIVERY</span><br>
+      <span style="color:orange;font-weight:bold;">SAME DAY FREE DELIVERY</span><br>
       CASH ON DELIVERY AVAILABLE
     </p>
   </div>
 </div>
 
-<!-- USER DETAILS -->
+<!-- CUSTOMER DETAILS -->
 <div class="card">
   <h2>Your details</h2>
-  <input placeholder="Full name">
-  <input placeholder="Phone number">
-  <textarea placeholder="Full address"></textarea>
+  <input id="custName" placeholder="Full name">
+  <input id="custPhone" placeholder="Phone number">
+  <textarea id="custAddress" placeholder="Full address"></textarea>
 </div>
 
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
@@ -41,11 +56,14 @@
   <input id="price" type="number" placeholder="Offer price ₹">
   <input id="mrp" type="number" placeholder="Market price ₹">
   <input id="min" type="number" placeholder="Minimum order quantity">
-  <input id="unit" placeholder="Unit (kg / pcs)">
-  <input id="img" placeholder="Image URL">
+  <input id="unit" placeholder="Unit (kg / pcs / gram)">
+
+  <!-- GALLERY IMAGE UPLOAD -->
+  <input type="file" id="img" accept="image/*">
 
   <label class="stock">
-    <input type="checkbox" id="stock" checked> In stock
+    <input type="checkbox" id="stock" checked>
+    In stock
   </label>
 
   <div class="btn-row">
@@ -54,16 +72,16 @@
   </div>
 </div>
 
-<!-- PRODUCTS -->
-<h2 class="section">Fruits</h2>
+<!-- PRODUCT SECTION -->
+<h2 class="section">Products</h2>
 <div id="products" class="grid"></div>
 
-<!-- ABOUT -->
+<!-- ABOUT SECTION -->
 <div class="card">
   <h2>About Sasta Siliguri</h2>
   <p>
     We deliver fresh local products in Siliguri with same-day delivery.
-    Cash on Delivery available.
+    Cash on Delivery available. Quality checked items at best price.
   </p>
 </div>
 
@@ -73,6 +91,8 @@
   <button onclick="orderWhatsApp()">Order on WhatsApp</button>
 </div>
 
+<!-- MAIN SCRIPT -->
 <script src="script.js"></script>
+
 </body>
 </html>
