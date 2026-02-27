@@ -25,99 +25,79 @@ logo.addEventListener("click", () => {
   }
 });
 
-/**************** ELEMENTS ****************/
+/**************** PRODUCTS (LOCAL STORAGE) ****************/
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
-const pname = document.getElementById("pname");
-const price = document.getElementById("price");
-const mrp = document.getElementById("mrp");
-const min = document.getElementById("min");
-const unit = document.getElementById("unit");
-const img = document.getElementById("img");
-const stock = document.getElementById("stock");
-
-/**************** DATA ****************/
 let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
-let cart = JSON.parse(localStorage.getItem("sasta_cart")) || {};
 let editIndex = -1;
 
-/**************** SAVE STORAGE ****************/
+/* SAVE */
 function saveProducts() {
   localStorage.setItem("sasta_products", JSON.stringify(products));
-}
-function saveCart() {
-  localStorage.setItem("sasta_cart", JSON.stringify(cart));
-  updateCartCount();
 }
 
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
-  if (!pname.value || !price.value) {
+  const pname = document.getElementById("pname").value.trim();
+  const price = document.getElementById("price").value;
+  const mrp = document.getElementById("mrp").value;
+  const min = document.getElementById("min").value;
+  const unit = document.getElementById("unit").value;
+  const stock = document.getElementById("stock").checked;
+  const imgInput = document.getElementById("img");
+
+  if (!pname || !price) {
     alert("Product name & price required");
     return;
   }
 
-  if (img.files.length > 0) {
+  if (imgInput.files.length > 0) {
     const reader = new FileReader();
-    reader.onload = e => finalSave(e.target.result);
-    reader.readAsDataURL(img.files[0]);
+    reader.onload = e => saveFinal(e.target.result);
+    reader.readAsDataURL(imgInput.files[0]);
   } else {
-    finalSave("https://via.placeholder.com/300");
+    saveFinal("https://via.placeholder.com/300");
   }
-}
 
-function finalSave(imgSrc) {
-  const product = {
-    name: pname.value,
-    price: Number(price.value),
-    mrp: Number(mrp.value),
-    min: min.value,
-    unit: unit.value,
-    stock: stock.checked,
-    img: imgSrc
-  };
+  function saveFinal(img) {
+    const product = { name:pname, price, mrp, min, unit, stock, img };
 
-  if (editIndex === -1) products.push(product);
-  else products[editIndex] = product;
+    if (editIndex === -1) products.push(product);
+    else products[editIndex] = product;
 
-  editIndex = -1;
-  saveProducts();
-  renderProducts();
-  clearForm();
+    editIndex = -1;
+    saveProducts();
+    renderProducts();
+    clearForm();
+  }
 }
 
 /**************** DELETE ****************/
 function deleteProduct() {
-  if (editIndex === -1) {
-    alert("Select product first");
-    return;
-  }
-  products.splice(editIndex, 1);
+  if (editIndex === -1) return alert("Select product first");
+  products.splice(editIndex,1);
   editIndex = -1;
   saveProducts();
   renderProducts();
   clearForm();
 }
 
-/**************** CLEAR ****************/
+/**************** CLEAR FORM ****************/
 function clearForm() {
-  pname.value = "";
-  price.value = "";
-  mrp.value = "";
-  min.value = "";
-  unit.value = "";
+  pname.value = price.value = mrp.value = min.value = unit.value = "";
   img.value = "";
   stock.checked = true;
+  editIndex = -1;
 }
 
 /**************** RENDER PRODUCTS ****************/
 function renderProducts() {
   productsDiv.innerHTML = "";
 
-  products.forEach((p, i) => {
+  products.forEach((p,i)=>{
     productsDiv.innerHTML += `
-      <div class="product">
+      <div class="product" onclick="editProduct(${i})">
         <img src="${p.img}">
         <h3>${p.name}</h3>
         <div class="price">
@@ -126,31 +106,105 @@ function renderProducts() {
         </div>
         <p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
         <p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
-        <button onclick="addToCart(${i})">Add to Cart</button>
+        <button onclick="event.stopPropagation(); openCart(${i})">Add to Cart</button>
       </div>
     `;
   });
 }
 
-/**************** CART ****************/
-function addToCart(i) {
-  if (!cart[i]) cart[i] = { ...products[i], qty: 1 };
-  else cart[i].qty++;
+/**************** EDIT ****************/
+function editProduct(i) {
+  const p = products[i];
+  editIndex = i;
 
-  saveCart();
+  pname.value = p.name;
+  price.value = p.price;
+  mrp.value = p.mrp;
+  min.value = p.min;
+  unit.value = p.unit;
+  stock.checked = p.stock;
+
+  admin.style.display = "block";
+  admin.scrollIntoView({behavior:"smooth"});
 }
 
-function updateCartCount() {
-  let total = 0;
-  Object.values(cart).forEach(p => total += p.qty);
-  cartCount.innerText = total;
+/**************** CART POPUP ****************/
+let cartItem = null;
+
+function openCart(i){
+  cartItem = { ...products[i], qty:1 };
+  showPopup();
+  cartCount.innerText = 1;
+}
+
+function showPopup(){
+  closePopup();
+  const div = document.createElement("div");
+  div.id = "cartPopup";
+  div.innerHTML = `
+  <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:9999">
+    <div style="background:#fff;border-radius:18px;padding:16px;width:90%;max-width:360px">
+      <h3>Your Cart</h3>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <img src="${cartItem.img}" style="width:70px;height:70px;border-radius:12px;object-fit:cover">
+        <div>
+          <b>${cartItem.name}</b><br>₹${cartItem.price}
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;margin:12px 0">
+        <button onclick="qty(-1)">−</button>
+        <b>${cartItem.qty}</b>
+        <button onclick="qty(1)">+</button>
+      </div>
+
+      <p><b>FREE DELIVERY</b></p>
+      <p><b>Total: ₹${cartItem.qty * cartItem.price}</b></p>
+
+      <button onclick="sendWA()" style="width:100%">Order on WhatsApp</button>
+      <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd;color:#000">Close</button>
+    </div>
+  </div>`;
+  document.body.appendChild(div);
+}
+
+function qty(v){
+  cartItem.qty += v;
+  if(cartItem.qty<1) cartItem.qty=1;
+  showPopup();
+}
+
+function closePopup(){
+  const p=document.getElementById("cartPopup");
+  if(p) p.remove();
 }
 
 /**************** WHATSAPP ****************/
-function orderWhatsApp() {
-  alert("Popup already working – next step fine 🔥");
+function sendWA(){
+  const name=document.querySelector('input[placeholder="Full name"]').value;
+  const phone=document.querySelector('input[placeholder="Phone number"]').value;
+  const address=document.querySelector('textarea').value;
+  const total=cartItem.qty*cartItem.price;
+
+  const msg=`*Your details*
+Name: *${name}*
+Phone: *${phone}*
+Address: *${address}*
+
+------------------
+*Item*
+*${cartItem.name}*
+Qty: ${cartItem.qty}
+Rate: ₹${cartItem.price}
+
+------------------
+*Total Amount: ₹${total}*
+
+Thank you for choosing *Sasta Siliguri* 🙏`;
+
+  window.open(`https://wa.me/917602884208?text=${encodeURIComponent(msg)}`,"_blank");
 }
 
-/**************** INIT ****************/
+/**************** LOAD ****************/
 renderProducts();
-updateCartCount();
