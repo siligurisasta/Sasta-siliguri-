@@ -1,3 +1,6 @@
+const admin = document.getElementById("admin");
+admin.style.display = "none"; // customer ke liye always hidden
+
 const ADMIN_PASS = "1513";
 let taps = 0;
 let tapTimer = null;
