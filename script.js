@@ -182,23 +182,25 @@ function updateCartCount() {
 
   cart.forEach((item, i) => {
     total += item.qty * item.price;
+
     itemsHTML += `
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <div>
-      <b>${item.name}</b><br>
-      <span style="font-size:13px;color:#555">
-        ₹${item.price} × ${item.qty} = ₹${item.price * item.qty}
-      </span>
-    </div>
-    <div>
-      <button onclick="changeQty(${i}, -1)">-</button>
-      <b>${item.qty}</b>
-      <button onclick="changeQty(${i}, 1)">+</button>
-    </div>
-  </div>
-`;
-    
-  closePopup(); // pehle existing popup remove
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <b>${item.name}</b><br>
+          <span style="font-size:13px;color:#555">
+            ₹${item.price} × ${item.qty} = ₹${item.price * item.qty}
+          </span>
+        </div>
+        <div>
+          <button onclick="changeQty(${i}, -1)">-</button>
+          <b>${item.qty}</b>
+          <button onclick="changeQty(${i}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }); // ✅ forEach properly closed
+
+  closePopup(); // ✅ loop ke bahar
 
   const div = document.createElement("div");
   div.id = "cartPopup";
@@ -206,28 +208,22 @@ function updateCartCount() {
 <div style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999">
   <div style="background:#fff;border-radius:18px;padding:18px;width:90%;max-width:360px;font-family:Arial">
 
-    <!-- HEADER -->
     <div style="display:flex;align-items:center;justify-content:space-between">
-      <h3 style="margin:0;font-size:18px">
-        🛒 Your Cart
-      </h3>
+      <h3 style="margin:0;font-size:18px">🛒 Your Cart</h3>
       <span style="font-size:13px;font-weight:bold;letter-spacing:1px">
         SASTA SILIGURI
       </span>
     </div>
 
-    <!-- DIVIDER -->
     <div style="height:2px;width:100%;background:#2e7d32;margin:10px 0;border-radius:2px"></div>
 
-    <!-- ITEMS -->
     ${itemsHTML}
 
-    <p style="margin:8px 0 2px;font-size:12px;font-weight:600;letter-spacing:.5px">
-  FREE DELIVERY</p>
+    <p style="margin:8px 0 2px;font-size:12px;font-weight:600">FREE DELIVERY</p>
 
-// <!-- PREMIUM LINE ABOVE TOTAL -->
-<div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
-<p style="font-size:16px"><b>Total: ₹${total}</b></p>
+    <div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
+
+    <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
     <button onclick="sendWA()" style="width:100%;margin-top:10px">
       Order on WhatsApp
