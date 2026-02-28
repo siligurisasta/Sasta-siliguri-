@@ -199,20 +199,38 @@ function updateCartCount() {
   const div = document.createElement("div");
   div.id = "cartPopup";
   div.innerHTML = `
-    <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;justify-content:center;align-items:center;z-index:9999">
-      <div style="background:#fff;border-radius:18px;padding:16px;width:90%;max-width:360px">
-        <h3>Your Cart</h3>
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999">
+  <div style="background:#fff;border-radius:18px;padding:18px;width:90%;max-width:360px;font-family:Arial">
 
-        ${itemsHTML}
-
-        <p><b>FREE DELIVERY</b></p>
-        <p><b>Total: ₹${total}</b></p>
-
-        <button onclick="sendWA()" style="width:100%">Order on WhatsApp</button>
-        <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd;color:#000">Close</button>
-      </div>
+    <!-- HEADER -->
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h3 style="margin:0;font-size:18px">
+        🛒 Your Cart
+      </h3>
+      <span style="font-size:13px;font-weight:bold;letter-spacing:1px">
+        SASTA SILIGURI
+      </span>
     </div>
-  `;
+
+    <!-- DIVIDER -->
+    <div style="height:2px;width:100%;background:#2e7d32;margin:10px 0;border-radius:2px"></div>
+
+    <!-- ITEMS -->
+    ${itemsHTML}
+
+    <p style="margin:10px 0 4px;font-weight:bold">FREE DELIVERY</p>
+    <p style="font-size:16px"><b>Total: ₹${total}</b></p>
+
+    <button onclick="sendWA()" style="width:100%;margin-top:10px">
+      Order on WhatsApp
+    </button>
+
+    <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#e0e0e0;color:#000">
+      Close
+    </button>
+  </div>
+</div>
+`;
 
   document.body.appendChild(div);
   }
