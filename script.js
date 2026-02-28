@@ -171,7 +171,7 @@ function updateCartCount() {
 }
 
 /**************** CART POPUP ****************/
-function openCartPopup() {
+  function openCartPopup() {
   if (cart.length === 0) {
     alert("Please add item to cart first");
     return;
@@ -183,18 +183,18 @@ function openCartPopup() {
   cart.forEach((item, i) => {
     total += item.qty * item.price;
     itemsHTML += `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <b>${item.name}</b>
         <div>
-          <button onclick="changeQty(${i},-1)">−</button>
+          <button onclick="changeQty(${i}, -1)">-</button>
           <b>${item.qty}</b>
-          <button onclick="changeQty(${i},1)">+</button>
+          <button onclick="changeQty(${i}, 1)">+</button>
         </div>
       </div>
     `;
   });
 
-  closePopup();
+  closePopup(); // pehle existing popup remove
 
   const div = document.createElement("div");
   div.id = "cartPopup";
@@ -209,19 +209,29 @@ function openCartPopup() {
         <p><b>Total: ₹${total}</b></p>
 
         <button onclick="sendWA()" style="width:100%">Order on WhatsApp</button>
-        <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd">Close</button>
+        <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd;color:#000">Close</button>
       </div>
     </div>
   `;
-  document.body.appendChild(div);
-}
 
+  document.body.appendChild(div);
+  }
 /**************** QTY CHANGE ****************/
 function changeQty(i, v) {
   cart[i].qty += v;
-  if (cart[i].qty <= 0) cart.splice(i, 1);
+
+  if (cart[i].qty <= 0) {
+    cart.splice(i, 1);
+  }
+
   updateCartCount();
-  openCartPopup();
+
+  // 👇 NEW FIX
+  if (cart.length === 0) {
+    closePopup();   // cart empty → popup band
+  } else {
+    openCartPopup(); // warna refresh popup
+  }
 }
 
 /**************** CLOSE POPUP ****************/
