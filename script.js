@@ -11,7 +11,7 @@ let tapTimer = null;
 logo.addEventListener("click", () => {
   taps++;
   clearTimeout(tapTimer);
-  tapTimer = setTimeout(() => (taps = 0), 800);
+  tapTimer = setTimeout(() => taps = 0, 800);
 
   if (taps === 3) {
     taps = 0;
@@ -27,10 +27,15 @@ logo.addEventListener("click", () => {
 
 /**************** PRODUCTS ****************/
 const productsDiv = document.getElementById("products");
+const cartCount = document.getElementById("cartCount");
 
 let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
 let editIndex = -1;
 
+/**************** CART (FIXED) ****************/
+let cart = [];
+
+/**************** SAVE PRODUCTS ****************/
 function saveProducts() {
   localStorage.setItem("sasta_products", JSON.stringify(products));
 }
@@ -59,7 +64,15 @@ function saveProduct() {
   }
 
   function saveFinal(img) {
-    const product = { name: pname, price, mrp, min, unit, stock, img };
+    const product = {
+      name: pname,
+      price: Number(price),
+      mrp,
+      min,
+      unit,
+      stock,
+      img
+    };
 
     if (editIndex === -1) products.push(product);
     else products[editIndex] = product;
@@ -86,11 +99,7 @@ function deleteProduct() {
 
 /**************** CLEAR FORM ****************/
 function clearForm() {
-  pname.value = "";
-  price.value = "";
-  mrp.value = "";
-  min.value = "";
-  unit.value = "";
+  pname.value = price.value = mrp.value = min.value = unit.value = "";
   img.value = "";
   stock.checked = true;
   editIndex = -1;
@@ -135,88 +144,87 @@ function editProduct(i) {
   admin.scrollIntoView({ behavior: "smooth" });
 }
 
-/**************** CART ****************/
-let cart = JSON.parse(localStorage.getItem("sasta_cart")) || {};
-const cartCount = document.getElementById("cartCount");
+/**************** ADD TO CART (NO POPUP) ****************/
+function addToCart(i) {
+  const product = products[i];
 
-function updateCartCount() {
-  let total = 0;
-  Object.values(cart).forEach(i => (total += i.qty));
-  cartCount.innerText = total;
-  localStorage.setItem("sasta_cart", JSON.stringify(cart));
+  const found = cart.find(item => item.name === product.name);
+
+  if (found) {
+    found.qty += 1;
+  } else {
+    cart.push({
+      name: product.name,
+      price: Number(product.price),
+      qty: 1
+    });
+  }
+
+  updateCartCount();
 }
 
-function addToCart(i) {
-  const p = products[i];
-  if (!cart[p.name]) {
-    cart[p.name] = { name: p.name, price: p.price, qty: 1 };
-  } else {
-    cart[p.name].qty++;
-  }
-  updateCartCount();
+/**************** CART COUNT ****************/
+function updateCartCount() {
+  let total = 0;
+  cart.forEach(i => total += i.qty);
+  cartCount.innerText = total;
 }
 
 /**************** CART POPUP ****************/
 function openCartPopup() {
-  if (Object.keys(cart).length === 0) {
-    alert("Cart is empty");
+  if (cart.length === 0) {
+    alert("Please add item to cart first");
     return;
   }
-
-  const name = document.querySelector('input[placeholder="Full name"]').value.trim();
-  const phone = document.querySelector('input[placeholder="Phone number"]').value.trim();
-  const address = document.querySelector('textarea').value.trim();
-
-  if (!name || !phone || !address) {
-    alert("First fill Name, Phone & Address");
-    return;
-  }
-
-  closePopup();
 
   let itemsHTML = "";
   let total = 0;
 
-  Object.values(cart).forEach(item => {
+  cart.forEach((item, i) => {
     total += item.qty * item.price;
     itemsHTML += `
-      <div style="display:flex;justify-content:space-between;margin:6px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">
         <b>${item.name}</b>
-        <span>
-          <button onclick="changeQty('${item.name}',-1)">−</button>
-          ${item.qty}
-          <button onclick="changeQty('${item.name}',1)">+</button>
-        </span>
+        <div>
+          <button onclick="changeQty(${i},-1)">−</button>
+          <b>${item.qty}</b>
+          <button onclick="changeQty(${i},1)">+</button>
+        </div>
       </div>
     `;
   });
 
+  closePopup();
+
   const div = document.createElement("div");
   div.id = "cartPopup";
   div.innerHTML = `
-  <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:9999">
-    <div style="background:#fff;border-radius:18px;padding:16px;width:90%;max-width:360px">
-      <h3>Your Cart</h3>
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;justify-content:center;align-items:center;z-index:9999">
+      <div style="background:#fff;border-radius:18px;padding:16px;width:90%;max-width:360px">
+        <h3>Your Cart</h3>
 
-      ${itemsHTML}
+        ${itemsHTML}
 
-      <p><b>FREE DELIVERY</b></p>
-      <p><b>Total: ₹${total}</b></p>
+        <p><b>FREE DELIVERY</b></p>
+        <p><b>Total: ₹${total}</b></p>
 
-      <button style="width:100%" onclick="sendWA()">Order on WhatsApp</button>
-      <button style="width:100%;margin-top:6px;background:#ddd;color:#000" onclick="closePopup()">Close</button>
+        <button onclick="sendWA()" style="width:100%">Order on WhatsApp</button>
+        <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#ddd">Close</button>
+      </div>
     </div>
-  </div>`;
+  `;
   document.body.appendChild(div);
 }
 
-function changeQty(name, v) {
-  cart[name].qty += v;
-  if (cart[name].qty <= 0) delete cart[name];
+/**************** QTY CHANGE ****************/
+function changeQty(i, v) {
+  cart[i].qty += v;
+  if (cart[i].qty <= 0) cart.splice(i, 1);
   updateCartCount();
   openCartPopup();
 }
 
+/**************** CLOSE POPUP ****************/
 function closePopup() {
   const p = document.getElementById("cartPopup");
   if (p) p.remove();
@@ -224,22 +232,24 @@ function closePopup() {
 
 /**************** WHATSAPP ****************/
 function sendWA() {
-  const name = document.querySelector('input[placeholder="Full name"]').value;
-  const phone = document.querySelector('input[placeholder="Phone number"]').value;
-  const address = document.querySelector('textarea').value;
+  const name = document.querySelector('input[placeholder="Full name"]').value.trim();
+  const phone = document.querySelector('input[placeholder="Phone number"]').value.trim();
+  const address = document.querySelector('textarea').value.trim();
 
-  let msg = `*Your details*\n`;
-  msg += `Name: *${name}*\nPhone: *${phone}*\nAddress: *${address}*\n\n`;
-  msg += `------------------\n*Items*\n`;
+  if (!name || !phone || !address) {
+    alert("Please fill name, phone & address first");
+    return;
+  }
 
+  let msg = `*Your details*\n*${name}*\n${phone}\n${address}\n\n`;
   let total = 0;
-  Object.values(cart).forEach(i => {
-    total += i.qty * i.price;
-    msg += `*${i.name}*  x${i.qty}  ₹${i.price}\n`;
+
+  cart.forEach(item => {
+    msg += `*${item.name}*  x${item.qty}  ₹${item.price}\n`;
+    total += item.qty * item.price;
   });
 
-  msg += `------------------\n*Total Amount: ₹${total}*\n\n`;
-  msg += `Thank you for choosing *Sasta Siliguri* 🙏`;
+  msg += `\n------------------\n*Total: ₹${total}*\n\nThank you for choosing *Sasta Siliguri* 🙏`;
 
   window.open(
     `https://wa.me/917602884208?text=${encodeURIComponent(msg)}`,
@@ -249,4 +259,3 @@ function sendWA() {
 
 /**************** LOAD ****************/
 renderProducts();
-updateCartCount();
