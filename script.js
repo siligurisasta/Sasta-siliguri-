@@ -220,8 +220,8 @@ function updateCartCount() {
 
     <p style="margin:10px 0 4px;font-weight:bold">FREE DELIVERY</p>
 
-<!-- PREMIUM LINE ABOVE TOTAL -->
-<div style="height:2px;width:100%;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
+// <!-- PREMIUM LINE ABOVE TOTAL -->
+<div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
 <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
     <button onclick="sendWA()" style="width:100%;margin-top:10px">
