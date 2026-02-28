@@ -183,17 +183,21 @@ function updateCartCount() {
   cart.forEach((item, i) => {
     total += item.qty * item.price;
     itemsHTML += `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <b>${item.name}</b>
-        <div>
-          <button onclick="changeQty(${i}, -1)">-</button>
-          <b>${item.qty}</b>
-          <button onclick="changeQty(${i}, 1)">+</button>
-        </div>
-      </div>
-    `;
-  });
-
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div>
+      <b>${item.name}</b><br>
+      <span style="font-size:13px;color:#555">
+        ₹${item.price} × ${item.qty} = ₹${item.price * item.qty}
+      </span>
+    </div>
+    <div>
+      <button onclick="changeQty(${i}, -1)">-</button>
+      <b>${item.qty}</b>
+      <button onclick="changeQty(${i}, 1)">+</button>
+    </div>
+  </div>
+`;
+    
   closePopup(); // pehle existing popup remove
 
   const div = document.createElement("div");
@@ -218,7 +222,8 @@ function updateCartCount() {
     <!-- ITEMS -->
     ${itemsHTML}
 
-    <p style="margin:10px 0 2px;font-weight:bold">FREE DELIVERY</p>
+    <p style="margin:8px 0 2px;font-size:12px;font-weight:600;letter-spacing:.5px">
+  FREE DELIVERY</p>
 
 // <!-- PREMIUM LINE ABOVE TOTAL -->
 <div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
