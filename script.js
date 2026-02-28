@@ -218,7 +218,7 @@ function updateCartCount() {
     <!-- ITEMS -->
     ${itemsHTML}
 
-    <p style="margin:10px 0 4px;font-weight:bold">FREE DELIVERY</p>
+    <p style="margin:10px 0 2px;font-weight:bold">FREE DELIVERY</p>
 
 // <!-- PREMIUM LINE ABOVE TOTAL -->
 <div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
