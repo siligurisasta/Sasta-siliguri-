@@ -220,3 +220,13 @@ button{
 .cart-bar button{
   background:#4caf50;
 }
+
+body{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.footer{
+  margin-top:auto;
+}
