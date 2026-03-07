@@ -130,6 +130,10 @@ function renderProducts() {
 
 /**************** EDIT PRODUCT ****************/
 function editProduct(i) {
+
+  // ❌ agar admin panel open nahi hai → kuch mat karo
+  if (admin.style.display !== "block") return;
+
   const p = products[i];
   editIndex = i;
 
@@ -140,9 +144,9 @@ function editProduct(i) {
   unit.value = p.unit;
   stock.checked = p.stock;
 
-  admin.style.display = "block";
   admin.scrollIntoView({ behavior: "smooth" });
 }
+
 
 /**************** ADD TO CART (NO POPUP) ****************/
 function addToCart(i) {
