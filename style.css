@@ -13,18 +13,19 @@ body{
 .top{
   background:#ffd54f;
   margin:10px 12px;        /* 👈 left-right gap */
-  padding:12px 10px;
+  padding:16px 14px;
   border-radius:14px;     /* 👈 curve */
   text-align:center;
   font-weight:bold;
-  font-size:14px;
+  font-size:16px;
+  letter-spacing:.4px
   box-shadow:0 4px 10px rgba(0,0,0,0.12);
 }
 
 /* HEADER / LOGO CARD */
 .header-card{
   background:#fff;
-  margin:16px;
+  margin:6px 12px 18px 12px;
   padding:14px;
   border-radius:18px;
   display:flex;
@@ -35,27 +36,29 @@ body{
 }
 
 .logo-box{
-  width:64px;
-  height:64px;
+  width:74px;
+  height:74px;
   border:3px solid orange;
   border-radius:16px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:bold;
-  font-size:12px;
+  font-size:14px;
   background:#fff7e0;
 }
 
 /* HEADER TEXT */
 .header-card h1{
   margin:0;
-  font-size:20px;
+  font-size:22px;
+letter-spacing:.6px;
+font-weight:800;
 }
 
 .header-card p{
-  margin:4px 0 0;
-  font-size:13px;
+  margin:6px 0 0;
+  font-size:14px;
   line-height:1.3;
 }
 
