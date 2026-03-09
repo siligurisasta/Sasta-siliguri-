@@ -13,12 +13,11 @@ body{
 .top{
   background:#ffd54f;
   margin:10px 12px;        /* 👈 left-right gap */
-  padding:16px 14px;
+  padding:12px 10px;
   border-radius:14px;     /* 👈 curve */
   text-align:center;
   font-weight:bold;
-  font-size:16px;
-  letter-spacing:.4px
+  font-size:14px;
   box-shadow:0 4px 10px rgba(0,0,0,0.12);
 }
 
@@ -51,14 +50,11 @@ body{
 /* HEADER TEXT */
 .header-card h1{
   margin:0;
-  font-size:22px;
-letter-spacing:.6px;
-font-weight:800;
+  font-size:20px;
 }
 
 .header-card p{
-  margin:6px 0 0;
-  font-size:14px;
+  margin:4px 0 0;
   line-height:1.3;
 }
 
