@@ -62,13 +62,14 @@ font-size:14px;
 
 .header-card p:first-of-type{
 color:#ff9800;
-font-weight:600;
+font-weight:700;
 font-size:15px;
 }
 
 .header-card p:last-of-type{
 font-size:13px;
 color:#333;
+font-weight:600;
 }
 
 .orange{
