@@ -24,7 +24,7 @@ body{
 /* HEADER / LOGO CARD */
 .header-card{
   background:#fff;
-  margin:6px 12px 18px 12px;
+  margin:6px 12px 8px 12px;
   padding:14px;
   border-radius:18px;
   display:flex;
@@ -80,7 +80,7 @@ font-weight:600;
 /* COMMON CARD */
 .card{
 background:#fff;
-margin:6px 12px;
+margin:4px 12px;
 padding:10px;
 border-radius:16px;
 }
