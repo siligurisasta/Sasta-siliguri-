@@ -295,3 +295,72 @@ function sendWA() {
 
 /**************** LOAD ****************/
 renderProducts();
+
+const searchInput = document.getElementById("searchInput");
+const suggestions = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", () => {
+
+const value = searchInput.value.toLowerCase();
+suggestions.innerHTML = "";
+
+if(!value){
+suggestions.style.display="none";
+renderProducts();
+return;
+}
+
+let filtered = products.filter(p =>
+p.name.toLowerCase().includes(value)
+);
+
+filtered.forEach(p=>{
+const div=document.createElement("div");
+div.innerText=p.name;
+div.onclick=()=>{
+searchInput.value=p.name;
+suggestions.style.display="none";
+renderFiltered(p.name);
+};
+suggestions.appendChild(div);
+});
+
+suggestions.style.display="block";
+
+renderFiltered(value);
+
+});
+
+function renderFiltered(value){
+
+productsDiv.innerHTML="";
+
+products
+.filter(p=>p.name.toLowerCase().includes(value))
+.forEach((p,i)=>{
+
+productsDiv.innerHTML+=`
+<div class="product" onclick="editProduct(${i})">
+<img src="${p.img}">
+<h3>${p.name}</h3>
+
+<div class="price">
+${p.mrp ? `<del>₹${p.mrp}</del>` : ""}
+<b>₹${p.price}</b>
+</div>
+
+<p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
+
+<p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
+
+<button onclick="event.stopPropagation(); addToCart(${i})">
+Add to Cart
+</button>
+
+</div>
+`;
+
+});
+
+}
+
