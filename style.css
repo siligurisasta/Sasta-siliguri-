@@ -79,18 +79,18 @@ font-weight:600;
 
 /* COMMON CARD */
 .card{
-  background:#fff;
-  margin:12px;
-  padding:12px;
-  border-radius:16px;
+background:#fff;
+margin:6px 12px;
+padding:10px;
+border-radius:16px;
 }
 
 /* INPUTS */
 .card input,
 .card textarea{
-  width:100%;
-  padding:10px 12px;
-  margin:6px 0;
+width:100%;
+padding:8px 10px;
+margin:4px 0;
 
   background: rgba(255,255,255,0.65);   /* 👈 transparent white */
   border:1px solid rgba(0,0,0,0.08);
@@ -106,7 +106,7 @@ font-weight:600;
 }
 
 .card textarea{
-  min-height:70px;
+  min-height:55px;
 }
 
 }
