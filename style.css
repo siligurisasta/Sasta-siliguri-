@@ -1,3 +1,7 @@
+body{
+background:linear-gradient(180deg,#eef7f1,#fff5ec);
+}
+
 *{
   box-sizing:border-box;
   font-family:Arial, sans-serif;
@@ -5,7 +9,7 @@
 
 body{
   margin:0;
-  background:#f6f0e4;
+  background:linear-gradient(180deg,#eef7f1,#fff5ec);
   padding-bottom:90px;
 }
 
@@ -23,7 +27,7 @@ body{
 
 /* HEADER / LOGO CARD */
 .header-card{
-  background:#fff;
+  background:linear-gradient(135deg,#f7fff9,#fff7ed);
   margin:6px 12px 8px 12px;
   padding:14px;
   border-radius:18px;
@@ -84,7 +88,8 @@ font-weight:600;
 
 /* COMMON CARD */
 .card{
-background:#fff;
+border:1px solid #e7f2ea;
+background:#ffffff;
 margin:4px 12px;
 padding:10px;
 border-radius:16px;
@@ -156,7 +161,7 @@ button{
   padding:10px;
   border:none;
   border-radius:12px;
-  background:#ff9800;
+  background:#2e7d32;
   color:#fff;
   font-weight:bold;
   cursor:pointer;
@@ -180,7 +185,8 @@ button{
 
 /* PRODUCT CARD */
 .product{
-  background:#fff;
+  background:linear-gradient(180deg,#ffffff,#f7fff9);
+border:1px solid #e6efe9;
   border-radius:18px;
   padding:10px;
   box-shadow:0 6px 18px rgba(0,0,0,0.08);
@@ -258,10 +264,10 @@ position:relative;
 width:100%;
 padding:11px 14px 11px 38px;
 border-radius:12px;
-border:1px solid #ddd;
+border:1px solid #e3efe7;
 font-size:14px;
 outline:none;
-background:#fff;
+background:linear-gradient(180deg,#ffffff,#f2fbf5);
 }
 
 .search-icon{
