@@ -9,7 +9,7 @@ background:linear-gradient(180deg,#eef7f1,#fff5ec);
 
 body{
   margin:0;
-  background:linear-gradient(180deg,#eef7f1,#fff5ec);
+  background:#f4f1ea;
   padding-bottom:90px;
 }
 
@@ -185,11 +185,11 @@ button{
 
 /* PRODUCT CARD */
 .product{
-  background:linear-gradient(180deg,#ffffff,#f7fff9);
+  background:#f7f5ef;
 border:1px solid #e6efe9;
   border-radius:18px;
   padding:10px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  box-shadow:0 6px 14px rgba(0,0,0,0.12);
 }
 
 .product img{
