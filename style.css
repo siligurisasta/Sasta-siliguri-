@@ -39,12 +39,12 @@ body{
 }
 
 .logo-box{
-width:64px;
-height:64px;
-padding:6px;
-background:#ffffff;
-border-radius:20px;
-box-shadow:0 0 0 3px #ff9800;
+width:72px;
+height:72px;
+padding:3px;
+background:#fff;
+border:3px solid #ff9800;
+border-radius:18px;
 display:flex;
 align-items:center;
 justify-content:center;
