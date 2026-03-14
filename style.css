@@ -266,11 +266,13 @@ position:relative;
 width:100%;
 padding:11px 14px 11px 38px;
 border-radius:12px;
-border:1px solid #e3efe7;
+border:1px solid #dfe6df;
 font-size:14px;
 outline:none;
-background:#f5f1ea;
+background:#f7fff9;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
+
 
 .search-icon{
 position:absolute;
