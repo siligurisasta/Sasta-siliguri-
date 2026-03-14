@@ -364,3 +364,15 @@ Add to Cart
 
 }
 
+function increase(btn){
+let input = btn.parentElement.querySelector("input");
+input.value = parseInt(input.value) + 1;
+}
+
+function decrease(btn){
+let input = btn.parentElement.querySelector("input");
+if(input.value > 1){
+input.value = parseInt(input.value) - 1;
+}
+}
+
