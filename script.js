@@ -117,12 +117,12 @@ function renderProducts() {
 
 <h3>${p.name}</h3>
 
-<p>Market price 
-<span class="old">${p.mrp ? `₹${p.mrp}` : ""}</span>
+<p>Offer price
+<span class="new">₹${p.price}</span>
 </p>
 
-<p>Offer price 
-<span class="new">₹${p.price}</span>
+<p>Market price
+<span class="old">${p.mrp ? `₹${p.mrp}` : ""}</span>
 </p>
 
 <p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
