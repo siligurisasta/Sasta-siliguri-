@@ -41,13 +41,14 @@ body{
 .logo-box{
 width:64px;
 height:64px;
-border:3px solid #d4a017;
+padding:4px;
+background:#ffffff;
 border-radius:16px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:#fff7e0;
 overflow:hidden;
+box-shadow:0 0 0 3px #ff9800
 }
 
 .logo-box img{
