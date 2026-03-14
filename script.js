@@ -111,20 +111,37 @@ function renderProducts() {
 
   products.forEach((p, i) => {
     productsDiv.innerHTML += `
-      <div class="product" onclick="editProduct(${i})">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <div class="price">
-          ${p.mrp ? `<del>₹${p.mrp}</del>` : ""}
-          <b>₹${p.price}</b>
-        </div>
-        <p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
-        <p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
-        <button onclick="event.stopPropagation(); addToCart(${i})">
-          Add to Cart
-        </button>
-      </div>
-    `;
+<div class="product" onclick="editProduct(${i})">
+
+<img src="${p.img}">
+
+<h3>${p.name}</h3>
+
+<p>Market price 
+<span class="old">${p.mrp ? `₹${p.mrp}` : ""}</span>
+</p>
+
+<p>Offer price 
+<span class="new">₹${p.price}</span>
+</p>
+
+<p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
+
+<p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
+
+<div class="qty-box" onclick="event.stopPropagation()">
+<button onclick="decrease(this)">-</button>
+<input type="text" value="1">
+<button onclick="increase(this)">+</button>
+</div>
+
+<button onclick="event.stopPropagation(); addToCart(${i})">
+Add to Cart
+</button>
+
+</div>
+`;
+    
   });
 }
 
