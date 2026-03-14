@@ -39,8 +39,8 @@ body{
 }
 
 .logo-box{
-width:78px;
-height:78px;
+width:64px;
+height:64px;
 border:3px solid #d4a017;
 border-radius:16px;
 display:flex;
@@ -62,7 +62,6 @@ margin:0;
 font-size:23px;
 font-weight:700;
 letter-spacing:0.5px;
-line-height:1.2;
 }
 
 .header-card p{
