@@ -322,8 +322,12 @@ height:36px;
 border-radius:50%;
 border:2px solid #ff9800;
 background:white;
-font-size:18px;
+font-size:22px;
 font-weight:bold;
+color:#ff9800;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .qty-box input{
@@ -337,9 +341,12 @@ font-size:16px;
 .old{
 text-decoration:line-through;
 color:#888;
+font-size:14px;
+margin-left:6px;
 }
 
 .new{
 color:#2e7d32;
-font-weight:bold;
+font-weight:700;
+font-size:18px;
 }
