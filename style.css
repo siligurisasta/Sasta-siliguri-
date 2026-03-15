@@ -1,4 +1,7 @@
 body{
+font-family: 'Inter', sans-serif;
+}
+body{
 background:#f4efe6;
 }
 
@@ -204,7 +207,9 @@ border:1px solid #ece5db;
 
 .product h3{
 margin:4px 0 2px;
-font-size:16px;
+font-size:15px;
+font-weight:600;
+letter-spacing:0.3px;
 }
 
 .product p{
@@ -354,4 +359,5 @@ margin-left:6px;
 .new{
 color:#2e7d32;
 font-size:18px;
+font-weight:700;
 }
