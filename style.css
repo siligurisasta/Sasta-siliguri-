@@ -362,3 +362,11 @@ color:#2e7d32;
 font-size:19px;
 font-weight:700;
 }
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:4px 0;
+font-size:15px;
+}
