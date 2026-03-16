@@ -135,7 +135,27 @@ Follow us on Instagram
   🛒 Items: <span id="cartCount">0</span>
   <button onclick="openCartPopup()">Order on WhatsApp</button>
 </div>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAsizdDClYbklJxVfDnLNdYc2OQS7yKDfw",
+    authDomain: "sastasiliguri-in.firebaseapp.com",
+    projectId: "sastasiliguri-in",
+    storageBucket: "sastasiliguri-in.firebasestorage.app",
+    messagingSenderId: "460473584400",
+    appId: "1:460473584400:web:988cf518f499126131b395"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+</script>
 <script src="script.js"></script>
 </body>
 </html>
