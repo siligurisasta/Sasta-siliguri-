@@ -1,3 +1,5 @@
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -29,16 +31,14 @@ logo.addEventListener("click", () => {
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
-let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
+let products = [];
 let editIndex = -1;
 
 /**************** CART (FIXED) ****************/
 let cart = [];
 
 /**************** SAVE PRODUCTS ****************/
-function saveProducts() {
-  localStorage.setItem("sasta_products", JSON.stringify(products));
-}
+
 
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
@@ -75,10 +75,10 @@ function saveProduct() {
     };
 
     if (editIndex === -1) products.push(product);
+    addDoc(collection(db, "products"), product);
     else products[editIndex] = product;
 
     editIndex = -1;
-    saveProducts();
     renderProducts();
     clearForm();
   }
@@ -92,7 +92,6 @@ function deleteProduct() {
   }
   products.splice(editIndex, 1);
   editIndex = -1;
-  saveProducts();
   renderProducts();
   clearForm();
 }
@@ -398,3 +397,15 @@ input.value = parseInt(input.value) - 1;
 }
 }
 
+async function loadProducts(){
+const querySnapshot = await getDocs(collection(db, "products"));
+products = [];
+
+querySnapshot.forEach((doc)=>{
+products.push(doc.data());
+});
+
+renderProducts();
+}
+
+loadProducts();
