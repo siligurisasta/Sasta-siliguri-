@@ -193,9 +193,9 @@ button{
 .product{
 background:#fbf7f1;
 border:1px solid #ece5db;
-  border-radius:18px;
-  padding:14px;
-  box-shadow:0 6px 14px rgba(0,0,0,0.12);
+border-radius:20px;
+padding:14px;
+box-shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
 .product img{
@@ -206,10 +206,11 @@ border:1px solid #ece5db;
 }
 
 .product h3{
-margin:6px 0 4px;
-font-size:17px;
-font-weight:600;
+margin:8px 0 6px;
+font-size:18px;
+font-weight:700;
 text-align:center;
+letter-spacing:0.3px;
 }
 
 .product p{
@@ -358,8 +359,8 @@ margin-left:6px;
 }
 
 .new{
-color:#2e7d32;
-font-size:19px;
+color:#1b8e3e;
+font-size:20px;
 font-weight:700;
 }
 
