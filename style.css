@@ -194,7 +194,7 @@ button{
 background:#fbf7f1;
 border:1px solid #ece5db;
   border-radius:18px;
-  padding:10px;
+  padding:14px;
   box-shadow:0 6px 14px rgba(0,0,0,0.12);
 }
 
@@ -206,15 +206,15 @@ border:1px solid #ece5db;
 }
 
 .product h3{
-margin:4px 0 2px;
-font-size:15px;
+margin:6px 0 4px;
+font-size:17px;
 font-weight:600;
-letter-spacing:0.3px;
+text-align:center;
 }
 
 .product p{
-margin:1px 0;
-line-height:1;
+margin:2px 0;
+line-height:1.25;
 font-size:14px;
 }
 
@@ -233,10 +233,11 @@ font-size:14px;
   font-weight:bold;
 }
 
-/* MIN ORDER */
 .min{
-  font-size:13px;
-  margin:4px 0;
+font-size:12px;
+margin:2px 0;
+font-weight:400;
+color:#666;
 }
 
 /* CART BAR */
@@ -358,6 +359,6 @@ margin-left:6px;
 
 .new{
 color:#2e7d32;
-font-size:18px;
+font-size:19px;
 font-weight:700;
 }
