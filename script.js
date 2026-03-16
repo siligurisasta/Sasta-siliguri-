@@ -117,15 +117,20 @@ function renderProducts() {
 
 <h3>${p.name}</h3>
 
-<p>Offer price
+<div class="row">
+<span>Offer price</span>
 <span class="new">₹${p.price}</span>
-</p>
+</div>
 
-<p>Market price
+<div class="row">
+<span>Market price</span>
 <span class="old">${p.mrp ? `₹${p.mrp}` : ""}</span>
-</p>
+</div>
 
-<p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
+<div class="row">
+<span>Minimum order</span>
+<span>${p.min || 1} ${p.unit || ""}</span>
+</div>
 
 <p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
 
