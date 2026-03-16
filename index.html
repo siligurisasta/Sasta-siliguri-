@@ -35,16 +35,16 @@
 <!-- USER DETAILS -->
 <div class="card">
   <h2>Your details</h2>
-  <input type="text" placeholder="Full name *">
-  <input type="tel" placeholder="Phone number *">
-  <textarea placeholder="Full address *"></textarea>
+  <input type="text" id="name" placeholder="Full name *">
+  <input type="tel" id="phone" placeholder="Phone number *">
+  <textarea id="address" placeholder="Full address *"></textarea>
   <p style="font-size:12px;color:#777;margin-top:6px">
 These details will be sent to WhatsApp when you tap Order.
   </p>
 </div>
 
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
-<div id="admin" class="admin-card">
+<div id="admin" class="admin-card" style="display:none;">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
@@ -135,27 +135,7 @@ Follow us on Instagram
   🛒 Items: <span id="cartCount">0</span>
   <button onclick="openCartPopup()">Order on WhatsApp</button>
 </div>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAsizdDClYbklJxVfDnLNdYc2OQS7yKDfw",
-    authDomain: "sastasiliguri-in.firebaseapp.com",
-    projectId: "sastasiliguri-in",
-    storageBucket: "sastasiliguri-in.firebasestorage.app",
-    messagingSenderId: "460473584400",
-    appId: "1:460473584400:web:988cf518f499126131b395"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-</script>
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
