@@ -74,7 +74,7 @@ function saveProduct() {
   async function saveFinal(img) {
     const product = {
       name: pname,
-      price: Number(price),
+price: Number(price) || 0,
       mrp,
       min,
       unit,
