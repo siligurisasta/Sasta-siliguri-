@@ -1,5 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
@@ -10,8 +9,7 @@ const firebaseConfig = {
   appId: "1:460473584400:web:xxxx"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = firebase.firestore();
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -88,7 +86,7 @@ function saveProduct() {
 
 if (editIndex === -1) {
     products.push(product);
-    await addDoc(collection(db, "products"), product);
+    db.collection("products").add(product);
 } else {
     products[editIndex] = product;
 }
@@ -413,14 +411,14 @@ input.value = parseInt(input.value) - 1;
 }
 
 async function loadProducts(){
-const querySnapshot = await getDocs(collection(db, "products"));
-products = [];
+  const snap = await db.collection("products").get();
+  products = [];
 
-querySnapshot.forEach((doc)=>{
-products.push(doc.data());
-});
+  snap.forEach(doc=>{
+    products.push(doc.data());
+  });
 
-renderProducts();
+  renderProducts();
 }
 
 loadProducts();
