@@ -1,5 +1,17 @@
-import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-document.addEventListener("DOMContentLoaded", () => {
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "sastasiliguri-in.firebaseapp.com",
+  projectId: "sastasiliguri-in",
+  storageBucket: "sastasiliguri-in.appspot.com",
+  messagingSenderId: "460473584400",
+  appId: "1:460473584400:web:xxxx"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -63,7 +75,7 @@ function saveProduct() {
     saveFinal("https://via.placeholder.com/300");
   }
 
-  function saveFinal(img) {
+  async function saveFinal(img) {
     const product = {
       name: pname,
       price: Number(price),
@@ -74,12 +86,12 @@ function saveProduct() {
       img
     };
 
-    if (editIndex === -1) {
+if (editIndex === -1) {
     products.push(product);
-    addDoc(collection(db, "products"), product);
+    await addDoc(collection(db, "products"), product);
 } else {
     products[editIndex] = product;
-    }
+}
 
     editIndex = -1;
     renderProducts();
