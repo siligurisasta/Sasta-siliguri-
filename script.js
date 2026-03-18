@@ -93,16 +93,22 @@ clearForm();
 }
 
 /**************** DELETE PRODUCT ****************/
-function deleteProduct() {
+async function deleteProduct() {
   if (editIndex === -1) {
     alert("Select product first");
     return;
   }
-  products.splice(editIndex, 1);
-  editIndex = -1;
-  saveProducts();
-  renderProducts();
-  clearForm();
+  
+  await db.collection("products").get().then((snap) => {
+  const doc = snap.docs[editIndex];
+  if (doc) {
+    db.collection("products").doc(doc.id).delete();
+  }
+});
+
+editIndex = -1;
+await loadProducts();
+clearForm();
 }
 
 /**************** CLEAR FORM ****************/
