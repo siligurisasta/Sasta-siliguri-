@@ -1,3 +1,15 @@
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "sastasiliguri-in.firebaseapp.com",
+  projectId: "sastasiliguri-in",
+  storageBucket: "sastasiliguri-in.appspot.com",
+  messagingSenderId: "460473584400",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -29,21 +41,17 @@ logo.addEventListener("click", () => {
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
-let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
+let products = [];
 let editIndex = -1;
 
 /**************** CART (FIXED) ****************/
 let cart = [];
 
-/**************** SAVE PRODUCTS ****************/
-function saveProducts() {
-  localStorage.setItem("sasta_products", JSON.stringify(products));
-}
 
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
   const pname = document.getElementById("pname").value.trim();
-  const price = document.getElementById("price").value;
+  const pricep = document.getElementById("price").value;
   const mrp = document.getElementById("mrp").value;
   const min = document.getElementById("min").value;
   const unit = document.getElementById("unit").value;
@@ -63,7 +71,7 @@ function saveProduct() {
     saveFinal("https://via.placeholder.com/300");
   }
 
-  function saveFinal(img) {
+  async function saveFinal(img) {
     const product = {
       name: pname,
       price: Number(price),
@@ -74,13 +82,13 @@ function saveProduct() {
       img
     };
 
-    if (editIndex === -1) products.push(product);
-    else products[editIndex] = product;
+if (editIndex === -1) {
+  await db.collection("products").add(product);
+}
 
-    editIndex = -1;
-    saveProducts();
-    renderProducts();
-    clearForm();
+editIndex = -1;
+await loadProducts();
+clearForm();
   }
 }
 
@@ -397,3 +405,16 @@ if(input.value > 1){
 input.value = parseInt(input.value) - 1;
 }
 }
+
+  async function loadProducts(){
+  const snap = await db.collection("products").get();
+  products = [];
+
+  snap.forEach(doc => {
+    products.push(doc.data());
+  });
+
+  renderProducts();
+}
+
+loadProducts();
