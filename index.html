@@ -136,6 +136,24 @@ Follow us on Instagram
   <button onclick="openCartPopup()">Order on WhatsApp</button>
 </div>
 
-<script type="module" src="script.js"></script>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAsizdDClYbklJxVfDnLNdYc2OQS7yKDfw",
+  authDomain: "sastasiliguri-in.firebaseapp.com",
+  projectId: "sastasiliguri-in",
+  storageBucket: "sastasiliguri-in.appspot.com",
+  messagingSenderId: "460473584400",
+  appId: "1:460473584400:web:988cf518f499126131b395"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+  
+  <script src="script.js"></script>
 </body>
 </html>
