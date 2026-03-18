@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyAsizdDClYbklJxVfDnLNdYc2OQS7yKDfw",
   authDomain: "sastasiliguri-in.firebaseapp.com",
   projectId: "sastasiliguri-in",
   storageBucket: "sastasiliguri-in.appspot.com",
   messagingSenderId: "460473584400",
-  appId: "YOUR_APP_ID"
+  appId: "1:460473584400:web:c8106acbd7045af831b395"
 };
 
 firebase.initializeApp(firebaseConfig);
