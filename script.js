@@ -1,15 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "sastasiliguri-in.firebaseapp.com",
-  projectId: "sastasiliguri-in",
-  storageBucket: "sastasiliguri-in.appspot.com",
-  messagingSenderId: "460473584400",
-  appId: "1:460473584400:web:xxxx"
-};
-
-const db = firebase.firestore();
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -20,7 +8,7 @@ admin.style.display = "none";
 let taps = 0;
 let tapTimer = null;
 
-logo.addEventListener("click", function () {
+logo.addEventListener("click", () => {
   taps++;
   clearTimeout(tapTimer);
   tapTimer = setTimeout(() => taps = 0, 800);
@@ -41,14 +29,16 @@ logo.addEventListener("click", function () {
 const productsDiv = document.getElementById("products");
 const cartCount = document.getElementById("cartCount");
 
-let products = [];
+let products = JSON.parse(localStorage.getItem("sasta_products")) || [];
 let editIndex = -1;
 
 /**************** CART (FIXED) ****************/
 let cart = [];
 
 /**************** SAVE PRODUCTS ****************/
-
+function saveProducts() {
+  localStorage.setItem("sasta_products", JSON.stringify(products));
+}
 
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
@@ -73,7 +63,7 @@ function saveProduct() {
     saveFinal("https://via.placeholder.com/300");
   }
 
-  async function saveFinal(img) {
+  function saveFinal(img) {
     const product = {
       name: pname,
       price: Number(price),
@@ -84,14 +74,11 @@ function saveProduct() {
       img
     };
 
-if (editIndex === -1) {
-    products.push(product);
-    db.collection("products").add(product);
-} else {
-    products[editIndex] = product;
-}
+    if (editIndex === -1) products.push(product);
+    else products[editIndex] = product;
 
     editIndex = -1;
+    saveProducts();
     renderProducts();
     clearForm();
   }
@@ -105,6 +92,7 @@ function deleteProduct() {
   }
   products.splice(editIndex, 1);
   editIndex = -1;
+  saveProducts();
   renderProducts();
   clearForm();
 }
@@ -409,17 +397,3 @@ if(input.value > 1){
 input.value = parseInt(input.value) - 1;
 }
 }
-
-async function loadProducts(){
-  const snap = await db.collection("products").get();
-  products = [];
-
-  snap.forEach(doc=>{
-    products.push(doc.data());
-  });
-
-  renderProducts();
-}
-
-loadProducts();
-  });
