@@ -51,7 +51,7 @@ let cart = [];
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
   const pname = document.getElementById("pname").value.trim();
-  const pricep = document.getElementById("price").value;
+  const price = parseFloat(document.getElementById("price").value);
   const mrp = document.getElementById("mrp").value;
   const min = document.getElementById("min").value;
   const unit = document.getElementById("unit").value;
@@ -74,7 +74,7 @@ function saveProduct() {
   async function saveFinal(img) {
     const product = {
       name: pname,
-price: Number(price) || 0,
+price: price || 0,
       mrp,
       min,
       unit,
