@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
+document.addEventListener("DOMContentLoaded", () => {
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -409,3 +409,4 @@ renderProducts();
 }
 
 loadProducts();
+  });
