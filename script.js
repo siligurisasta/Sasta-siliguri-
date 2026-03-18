@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 document.addEventListener("DOMContentLoaded", () => {
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
@@ -10,7 +10,7 @@ admin.style.display = "none";
 let taps = 0;
 let tapTimer = null;
 
-logo.addEventListener("click", () => {
+logo.onclick = function () {
   taps++;
   clearTimeout(tapTimer);
   tapTimer = setTimeout(() => taps = 0, 800);
@@ -74,9 +74,12 @@ function saveProduct() {
       img
     };
 
-    if (editIndex === -1) products.push(product);
+    if (editIndex === -1) {
+    products.push(product);
     addDoc(collection(db, "products"), product);
-    else products[editIndex] = product;
+} else {
+    products[editIndex] = product;
+    }
 
     editIndex = -1;
     renderProducts();
