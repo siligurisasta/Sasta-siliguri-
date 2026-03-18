@@ -1,4 +1,4 @@
-
+document.addEventListener("DOMContentLoaded", () => {
 
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
@@ -20,7 +20,7 @@ admin.style.display = "none";
 let taps = 0;
 let tapTimer = null;
 
-logo.onclick = function () {
+logo.addEventListener("click", function () {
   taps++;
   clearTimeout(tapTimer);
   tapTimer = setTimeout(() => taps = 0, 800);
