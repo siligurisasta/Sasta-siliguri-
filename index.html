@@ -35,16 +35,16 @@
 <!-- USER DETAILS -->
 <div class="card">
   <h2>Your details</h2>
-  <input type="text" id="name" placeholder="Full name *">
-  <input type="tel" id="phone" placeholder="Phone number *">
-  <textarea id="address" placeholder="Full address *"></textarea>
+  <input type="text" placeholder="Full name *">
+  <input type="tel" placeholder="Phone number *">
+  <textarea placeholder="Full address *"></textarea>
   <p style="font-size:12px;color:#777;margin-top:6px">
 These details will be sent to WhatsApp when you tap Order.
   </p>
 </div>
 
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
-<div id="admin" class="admin-card" style="display:none;">
+<div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
 
   <input id="pname" placeholder="Product name">
@@ -136,24 +136,6 @@ Follow us on Instagram
   <button onclick="openCartPopup()">Order on WhatsApp</button>
 </div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAsizdDClYbklJxVfDnLNdYc2OQS7yKDfw",
-  authDomain: "sastasiliguri-in.firebaseapp.com",
-  projectId: "sastasiliguri-in",
-  storageBucket: "sastasiliguri-in.appspot.com",
-  messagingSenderId: "460473584400",
-  appId: "1:460473584400:web:988cf518f499126131b395"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-</script>
-  
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
