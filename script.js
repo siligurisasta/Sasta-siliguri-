@@ -82,8 +82,17 @@ function saveProduct() {
       img
     };
 
+const snap = await db.collection("products").get();
+let doc = null;
+
+if (editIndex !== -1) {
+  doc = snap.docs[editIndex];
+}
+
 if (editIndex === -1) {
   await db.collection("products").add(product);
+} else {
+  await db.collection("products").doc(doc.id).update(product);
 }
 
 editIndex = -1;
