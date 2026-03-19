@@ -435,3 +435,9 @@ window.openCartPopup = openCartPopup;
 window.changeQty = changeQty;
 window.closePopup = closePopup;
 window.sendWA = sendWA;
+
+document.addEventListener("click", function(e){
+  if(e.target.innerText.includes("Order on WhatsApp")){
+    sendWA();
+  }
+});
