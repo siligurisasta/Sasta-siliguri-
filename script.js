@@ -314,9 +314,9 @@ function closePopup() {
 
 /**************** WHATSAPP ****************/
 function sendWA() {
-  const name = document.querySelector('input[placeholder="Full name"]').value.trim();
-  const phone = document.querySelector('input[placeholder="Phone number"]').value.trim();
-  const address = document.querySelector('textarea').value.trim();
+  const name = document.querySelector('input[placeholder="Full name *"]').value.trim();
+const phone = document.querySelector('input[placeholder="Phone number *"]').value.trim();
+const address = document.querySelector('textarea').value.trim();
 
   if (!name || !phone || !address) {
     alert("Please fill name, phone & address first");
