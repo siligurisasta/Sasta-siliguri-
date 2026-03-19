@@ -332,8 +332,7 @@ function sendWA() {
   });
 
   msg += `\n------------------\n*Total: ₹${total}*\n\nThank you for choosing *Sasta Siliguri* 🙏`;
-
-window.location.href = `https://wa.me/917602884208?text=${encodeURIComponent(msg)`;
+window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(msg);
 }
 
 /**************** LOAD ****************/
