@@ -329,9 +329,9 @@ const address = document.querySelector('textarea').value.trim();
     return;
   }
 
- let msg = `🧾 *Order Confirmation - Sasta Siliguri*\n\n`;
-  msg += `👤 *Customer Details*\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\n`;
-  msg += `🛒 *Order Items*\n`;
+ let msg = `🧾 *ORDER CONFIRMATION - SASTA SILIGURI*\n\n`;
+  msg += `👤 *CUSTOMER DETAILS*\n*NAME*: ${name}\n*PHONE*: ${phone}\nADDRESS*: ${address}\n\n`;
+  msg += `🛒 *ORDER ITEMS*\n`;
   let total = 0;
 
   cart.forEach(item => {
@@ -339,12 +339,12 @@ const address = document.querySelector('textarea').value.trim();
     total += item.qty * item.price;
   });
   
-msg += `🚚 Delivery: SAME DAY\n\n`;
+msg += `🚚 *DELIVERY*: SAME DAY\n\n`;
 msg += `\n----------------------------------\n`;
-msg += `💰 *Total Amount: ₹${total}*\n`;
-msg += `📍 Payment Mode: Cash on Delivery\n\n`;
-msg += `🙏 Thank you for choosing *Sasta Siliguri*\n`;
-msg += `We will contact you shortly for confirmation.`;
+msg += `💰 *TOTAL AMOUNT: ₹${total}*\n`;
+msg += `📍 *PAYMENT MODE*: CASH ON DELIVERY\n\n`;
+msg += `🙏 THANK YOU FOR CHOOSING *SASTA SILIGURI*\n`;
+msg += `WE WILL CONTACT YOU SHORTLY FOR CONFIRMATION.`;
 window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(msg);
 }
 
