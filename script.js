@@ -347,7 +347,7 @@ cart.forEach(item => {
 
 msg += `_____________________________\n`;
 msg += `Total : ₹${total}\n`;
-msg += `-------------------------------------------------\n`;
+msg += `_________________________________________________\n`;
 msg += `Delivery : Same Day\n`;
 msg += `Payment  : Cash on Delivery\n\n`;
 
