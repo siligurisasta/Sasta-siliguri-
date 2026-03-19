@@ -274,6 +274,12 @@ function updateCartCount() {
 
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
+<div style="margin-top:10px">
+  <input placeholder="Full name" style="width:100%;margin-bottom:6px;padding:6px">
+  <input placeholder="Phone number" style="width:100%;margin-bottom:6px;padding:6px">
+  <textarea placeholder="Address" style="width:100%;padding:6px"></textarea>
+</div>
+
     <button onclick="sendWA()" style="width:100%;margin-top:10px">
       Order on WhatsApp
     </button>
