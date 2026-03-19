@@ -338,10 +338,10 @@ const address = document.querySelector('textarea').value.trim();
     msg += `• ${item.name} ×${item.qty} — ₹${item.price}\n`;
     total += item.qty * item.price;
   });
-
+  
+msg += `🚚 Delivery: SAME DAY\n\n`;
 msg += `\n----------------------------------\n`;
 msg += `💰 *Total Amount: ₹${total}*\n`;
-msg += `🚚 Delivery: FREE (Same Day)\n\n`;
 msg += `📍 Payment Mode: Cash on Delivery\n\n`;
 msg += `🙏 Thank you for choosing *Sasta Siliguri*\n`;
 msg += `We will contact you shortly for confirmation.`;
