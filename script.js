@@ -275,7 +275,7 @@ function updateCartCount() {
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
 
-    <button onclick="sendWA()" style="width:100%;margin-top:10px">
+<button id="popupWA" style="width:100%;margin-top:10px">
       Order on WhatsApp
     </button>
 
@@ -287,6 +287,12 @@ function updateCartCount() {
 `;
 
   document.body.appendChild(div);
+    setTimeout(() => {
+      const btn = document.getElementById("popupWA");
+      if(btn){
+       btn.onclick = sendWA;
+      }
+      }, 100);
   }
 /**************** QTY CHANGE ****************/
 function changeQty(i, v) {
@@ -436,8 +442,4 @@ window.changeQty = changeQty;
 window.closePopup = closePopup;
 window.sendWA = sendWA;
 
-document.addEventListener("click", function(e){
-  if(e.target.innerText.includes("Order on WhatsApp")){
-    sendWA();
-  }
-});
+
