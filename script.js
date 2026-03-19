@@ -431,7 +431,7 @@ input.value = parseInt(input.value) - 1;
 
 loadProducts();
 
-window.sendWA = sendWA;
 window.openCartPopup = openCartPopup;
 window.changeQty = changeQty;
 window.closePopup = closePopup;
+window.sendWA = sendWA;
