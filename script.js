@@ -45,8 +45,10 @@ let products = [];
 let editIndex = -1;
 
 /**************** CART (FIXED) ****************/
-let cart = [];
-
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function saveCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 /**************** ADD / UPDATE PRODUCT ****************/
 function saveProduct() {
@@ -210,6 +212,7 @@ function addToCart(i) {
   }
 
   updateCartCount();
+  saveCart();
 }
 
 /**************** CART COUNT ****************/
@@ -353,12 +356,15 @@ msg += `Payment  : Cash on Delivery\n\n`;
 
 msg += `*Thank you for choosing Sasta Siliguri*.\n\n`;
 msg += `We will contact you shortly.`;
+  localStorage.removeItem("cart");
+cart = [];
+updateCartCount();
 window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(msg);
 }
 
 /**************** LOAD ****************/
 renderProducts();
-
+updateCartCount();
 const searchInput = document.getElementById("searchInput");
 const suggestions = document.getElementById("suggestions");
 
