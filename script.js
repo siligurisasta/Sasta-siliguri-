@@ -332,8 +332,8 @@ const address = document.querySelector('textarea').value.trim();
  let msg = `*Order Confirmation - Sasta Siliguri*\n\n`;
 
 msg += `*Customer Details*\n\n`;
-msg += `*Name*     :  ${name}\n`;
-msg += `*Phone*    :  ${phone}\n`;
+msg += `*Name*      :  ${name}\n`;
+msg += `*Phone*     :  ${phone}\n`;
 msg += `*Address*  :  ${address}\n\n`;
 
 msg += `*Order Items*\n\n`;
@@ -347,7 +347,7 @@ cart.forEach(item => {
 
 msg += `_____________________________\n`;
 msg += `*Total : ₹${total}*\n`;
-msg += `_________________________________________________\n`;
+msg += `_____________________________\n`;
 msg += `Delivery : Same Day\n`;
 msg += `Payment  : Cash on Delivery\n\n`;
 
