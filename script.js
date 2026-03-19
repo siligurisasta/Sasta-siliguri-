@@ -329,22 +329,30 @@ const address = document.querySelector('textarea').value.trim();
     return;
   }
 
- let msg = `🧾 *ORDER CONFIRMATION - SASTA SILIGURI*\n\n`;
-  msg += `👤 *CUSTOMER DETAILS*\n*NAME*: ${name}\n*PHONE*: ${phone}\nADDRESS*: ${address}\n\n`;
-  msg += `🛒 *ORDER ITEMS*\n`;
-  let total = 0;
+ let msg = `Order Confirmation - Sasta Siliguri\n\n`;
 
-  cart.forEach(item => {
-    msg += `• ${item.name} ×${item.qty} — ₹${item.price}\n`;
-    total += item.qty * item.price;
-  });
-  
-msg += `🚚 *DELIVERY*: SAME DAY\n\n`;
-msg += `\n----------------------------------\n`;
-msg += `💰 *TOTAL AMOUNT: ₹${total}*\n`;
-msg += `📍 *PAYMENT MODE*: CASH ON DELIVERY\n\n`;
-msg += `🙏 THANK YOU FOR CHOOSING *SASTA SILIGURI*\n`;
-msg += `WE WILL CONTACT YOU SHORTLY FOR CONFIRMATION.`;
+msg += `Customer Details\n\n`;
+msg += `Name     :  ${name}\n`;
+msg += `Phone    :  ${phone}\n`;
+msg += `Address  :  ${address}\n\n`;
+
+msg += `Order Items\n\n`;
+
+let total = 0;
+
+cart.forEach(item => {
+  msg += `${item.name} ×${item.qty} — ₹${item.price}\n\n`;
+  total += item.qty * item.price;
+});
+
+msg += `_____________________________\n`;
+msg += `Total : ₹${total}\n`;
+msg += `-------------------------------------------------\n`;
+msg += `Delivery : Same Day\n`;
+msg += `Payment  : Cash on Delivery\n\n`;
+
+msg += `Thank you for choosing Sasta Siliguri.\n\n`;
+msg += `We will contact you shortly.`;
 window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(msg);
 }
 
