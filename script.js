@@ -464,3 +464,58 @@ window.closePopup = closePopup;
 window.sendWA = sendWA;
 
 
+function generateOrderId(){
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
+async function placeOrder(){
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if(!name || !phone || !address){
+    alert("Please fill name, phone & address");
+    return;
+  }
+
+  if(cart.length === 0){
+    alert("Cart is empty");
+    return;
+  }
+
+  const orderId = generateOrderId();
+
+  let total = 0;
+
+  const items = cart.map(i=>{
+    total += i.price * i.qty;
+    return {
+      name: i.name,
+      qty: i.qty,
+      price: i.price
+    };
+  });
+
+  const order = {
+    orderId,
+    name,
+    phone,
+    address,
+    items,
+    total,
+    status: "Pending",
+    assignedTo: "",
+    assignedName: "",
+    time: new Date()
+  };
+
+  await db.collection("orders").add(order);
+
+  alert("Order Placed! Your ID: " + orderId);
+
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartCount();
+  closePopup();
+}
