@@ -462,6 +462,7 @@ window.openCartPopup = openCartPopup;
 window.changeQty = changeQty;
 window.closePopup = closePopup;
 window.sendWA = sendWA;
+window.placeOrder = placeOrder;
 
 
 function generateOrderId(){
