@@ -278,7 +278,7 @@ function updateCartCount() {
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
 
-<<button id="popupWA" style="width:100%;margin-top:10px">
+<button id="popupWA" style="width:100%;margin-top:10px">
   Place Order
 </button>
 
