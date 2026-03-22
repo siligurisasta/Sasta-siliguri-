@@ -293,7 +293,7 @@ function updateCartCount() {
     setTimeout(() => {
       const btn = document.getElementById("popupWA");
       if(btn){
-       btn.onclick = sendWA;
+       btn.onclick = placeOrder;
       }
       }, 100);
   }
