@@ -278,9 +278,9 @@ function updateCartCount() {
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
 
 
-<button id="popupWA" style="width:100%;margin-top:10px">
-      Order on WhatsApp
-    </button>
+<<button id="popupWA" style="width:100%;margin-top:10px">
+  Place Order
+</button>
 
     <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#e0e0e0;color:#000">
       Close
