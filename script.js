@@ -276,7 +276,12 @@ function updateCartCount() {
     <div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
 
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
-
+    
+<div style="margin-top:10px">
+  <input id="name" placeholder="Full name" style="width:100%;margin-bottom:6px;padding:6px">
+  <input id="phone" placeholder="Phone number" style="width:100%;margin-bottom:6px;padding:6px">
+  <textarea id="address" placeholder="Address" style="width:100%;padding:6px"></textarea>
+</div>
 
 <button id="popupWA" style="width:100%;margin-top:10px">
   Place Order
