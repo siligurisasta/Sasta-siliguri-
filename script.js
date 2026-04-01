@@ -289,7 +289,12 @@ function updateCartCount() {
 `;
 
   document.body.appendChild(div);
-    
+    setTimeout(() => {
+  const btn = document.getElementById("popupWA");
+  if(btn){
+    btn.onclick = placeOrder;
+  }
+}, 100);
 }
 
 /**************** QTY CHANGE ****************/
