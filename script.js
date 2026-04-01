@@ -84,7 +84,14 @@ price: price || 0,
       img
     };
 
-const snap = await db.collection("products").get();
+db.collection("products").onSnapshot(snapshot => {
+  products = [];
+  snapshot.forEach(doc => {
+    products.push(doc.data());
+  });
+  renderProducts();
+});
+    
 let doc = null;
 
 if (editIndex !== -1) {
