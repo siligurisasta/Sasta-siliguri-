@@ -277,8 +277,7 @@ function updateCartCount() {
 
     <p style="font-size:16px"><b>Total: ₹${total}</b></p>
     
-
-<button id="popupWA" style="width:100%;margin-top:10px">
+<button id="popupWA" onclick="placeOrder()" style="width:100%;margin-top:10px">
   Place Order
 </button>
 
@@ -290,13 +289,9 @@ function updateCartCount() {
 `;
 
   document.body.appendChild(div);
-    setTimeout(() => {
-      const btn = document.getElementById("popupWA");
-      if(btn){
-       btn.onclick = placeOrder;
-      }
-      }, 100);
-  }
+    
+}
+
 /**************** QTY CHANGE ****************/
 function changeQty(i, v) {
   cart[i].qty += v;
