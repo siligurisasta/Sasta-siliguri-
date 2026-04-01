@@ -459,6 +459,7 @@ input.value = parseInt(input.value) - 1;
   snap.forEach(doc => {
     products.push(doc.data());
   });
+    document.getElementById("loadingText")?.remove();
 
   renderProducts();
 }
