@@ -528,3 +528,32 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   updateCartCount();
   closePopup();
 }
+// placeOrder END
+
+}
+
+function loadOrders(){
+  db.collection("orders")
+    .orderBy("time","desc")
+    .onSnapshot(snapshot=>{
+      
+      let html = "";
+      
+      snapshot.forEach(doc=>{
+        const o = doc.data();
+
+        html += `
+          <div>
+            <b>ID:</b> ${o.orderId}<br>
+            <b>Name:</b> ${o.name}<br>
+            <b>Total:</b> ₹${o.total}<br>
+            <b>Status:</b> ${o.status}
+          </div>
+        `;
+      });
+
+      document.getElementById("ordersList").innerHTML = html;
+    });
+}
+
+loadOrders();
