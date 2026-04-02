@@ -528,3 +528,64 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   updateCartCount();
   closePopup();
 }
+
+function loadOrders(){
+
+  db.collection("orders")
+  .orderBy("time","desc")
+  .onSnapshot(snapshot=>{
+
+    const orderList = document.getElementById("orderList");
+    if(!orderList) return;
+
+    orderList.innerHTML = "";
+
+    snapshot.forEach(doc=>{
+
+      const o = doc.data();
+      const id = doc.id;
+
+      orderList.innerHTML += `
+      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
+
+        <b>Order ID: ${o.orderId}</b><br>
+        ${o.name} (${o.phone})<br>
+        ₹${o.total}<br>
+
+        <b>Status:</b> ${o.status}<br>
+        <b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
+
+        <select onchange="assignBoy('${id}', this.value)">
+          <option>Select Boy</option>
+          <option>Amit</option>
+          <option>Rahul</option>
+          <option>Sonu</option>
+        </select>
+
+        <br><br>
+
+        <button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
+        <button onclick="updateStatus('${id}','Delivered')">Done</button>
+        <button onclick="updateStatus('${id}','Cancelled')">Cancel</button>
+
+      </div>
+      `;
+    });
+
+  });
+}
+
+loadOrders();
+
+
+async function assignBoy(id, boy){
+  await db.collection("orders").doc(id).update({
+    assignedName: boy,
+    status: "Assigned"
+  });
+}
+async function updateStatus(id, status){
+  await db.collection("orders").doc(id).update({
+    status: status
+  });
+}
