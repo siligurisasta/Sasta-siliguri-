@@ -33,14 +33,25 @@ async function loadOrders(){
         <b>Name:</b> ${o.name} <br>
         <b>Phone:</b> ${o.phone} <br>
         <b>Total:</b> ₹${o.total} <br>
-        <b>Status:</b> ${o.status}
+    <b>Status:</b> 
+<select onchange="updateStatus('${doc.id}', this.value)">
+  <option value="Pending" ${o.status==="Pending"?"selected":""}>Pending</option>
+  <option value="Out for Delivery" ${o.status==="Out for Delivery"?"selected":""}>Out for Delivery</option>
+  <option value="Delivered" ${o.status==="Delivered"?"selected":""}>Delivered</option>
+  <option value="Cancelled" ${o.status==="Cancelled"?"selected":""}>Cancelled</option>
+</select>
       </div>
     `;
   });
 
   document.getElementById("orders").innerHTML = html;
 }
-
+async function updateStatus(id, status){
+  await db.collection("orders").doc(id).update({
+    status: status
+  });
+  loadOrders();
+}
 loadOrders();
 </script>
 
