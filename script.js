@@ -528,38 +528,3 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   updateCartCount();
   closePopup();
 }
-// placeOrder END
-
-}
-
-function loadOrders(){
-  db.collection("orders")
-    .orderBy("time","desc")
-    .onSnapshot(snapshot=>{
-      
-      let html = "";
-      
-      snapshot.forEach(doc=>{
-        const o = doc.data();
-
-        let itemsText = "";
-o.items.forEach(i=>{
-  itemsText += `${i.name} × ${i.qty}<br>`;
-});
-
-html += `
-  <div style="border:1px solid #ddd;padding:10px;margin:5px;border-radius:10px">
-    <b>ID:</b> ${o.orderId}<br>
-    <b>Name:</b> ${o.name}<br>
-    <b>Items:</b><br>${itemsText}
-    <b>Total:</b> ₹${o.total}<br>
-    <b>Status:</b> ${o.status}
-  </div>
-`;
-      });
-
-      document.getElementById("ordersList").innerHTML = html;
-    });
-}
-
-loadOrders();
