@@ -301,7 +301,7 @@ setTimeout(() => {
   if(btn){
     btn.onclick = placeOrder;
   }
-}, 100);
+}, 300);
 }
 
 /**************** QTY CHANGE ****************/
