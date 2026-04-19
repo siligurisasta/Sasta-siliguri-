@@ -30,6 +30,7 @@ logo.addEventListener("click", () => {
     const pass = prompt("Enter admin password");
     if (pass === ADMIN_PASS) {
       admin.style.display = "block";
+      document.getElementById("orderSection").style.display = "block";
       admin.scrollIntoView({ behavior: "smooth" });
     } else {
       alert("Wrong password");
