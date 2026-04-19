@@ -46,8 +46,7 @@ These details will be sent to WhatsApp when you tap Order.
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
 <div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
-  <h3>All Orders</h3>
-<div id="orderList"></div>
+  
 
   <input id="pname" placeholder="Product name">
   <input id="price" type="number" placeholder="Offer price ₹">
@@ -68,6 +67,18 @@ These details will be sent to WhatsApp when you tap Order.
     <button onclick="deleteProduct()">Delete product</button>
     <button onclick="clearForm()">Clear</button>
   </div>
+</div>
+ <!-- 🔥 ORDER SECTION -->
+<div style="
+margin:12px;
+padding:12px;
+background:#f1f1f1;
+border-radius:12px">
+
+<h3 style="margin:0 0 10px 0">📦 All Orders</h3>
+
+<div id="orderList"></div>
+
 </div>
   
 <!-- PRODUCTS -->
