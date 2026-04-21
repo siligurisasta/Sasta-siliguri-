@@ -454,16 +454,18 @@ input.value = parseInt(input.value) - 1;
 }
 }
 
-  async function loadProducts(){
-  const snap = await db.collection("products").get();
-  products = [];
+async function loadProducts(){
+  db.collection("products").onSnapshot(snap => {
+    products = [];
 
-  snap.forEach(doc => {
-    products.push(doc.data());
-  });
+    snap.forEach(doc => {
+      products.push(doc.data());
+    });
+
     document.getElementById("loadingText")?.remove();
 
-  renderProducts();
+    renderProducts();
+  });
 }
 
 loadProducts();
