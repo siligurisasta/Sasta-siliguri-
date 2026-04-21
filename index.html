@@ -68,17 +68,30 @@ These details will be sent to WhatsApp when you tap Order.
     <button onclick="clearForm()">Clear</button>
   </div>
 </div>
-<!-- 🔥 ORDER SECTION (ADMIN ONLY) -->
-<div id="orderSection" style="
-display:none;
-margin:12px;
-padding:12px;
-background:#f1f1f1;
-border-radius:12px">
+<!-- 🔥 ORDER SECTION -->
+<div id="orderSection" style="display:none;margin:12px">
 
-<h3 style="margin:0 0 10px 0">📦 All Orders</h3>
+<h3>📦 Orders Panel</h3>
 
-<div id="orderList"></div>
+<!-- FILTER BUTTONS -->
+<div style="display:flex;gap:6px;margin-bottom:10px">
+<button onclick="showTab('request')">Request</button>
+<button onclick="showTab('delivery')">Delivery</button>
+<button onclick="showTab('complete')">Completed</button>
+</div>
+
+<!-- SEARCH -->
+<input id="searchOrder" placeholder="Search Order ID"
+style="width:100%;padding:8px;margin-bottom:10px">
+
+<!-- REQUEST -->
+<div id="requestBox"></div>
+
+<!-- DELIVERY -->
+<div id="deliveryBox" style="display:none"></div>
+
+<!-- COMPLETE -->
+<div id="completeBox" style="display:none"></div>
 
 </div>
   
