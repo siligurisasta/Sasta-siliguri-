@@ -86,13 +86,7 @@ price: price || 0,
       img
     };
 
-db.collection("products").onSnapshot(snapshot => {
-  products = [];
-  snapshot.forEach(doc => {
-    products.push(doc.data());
-  });
-  renderProducts();
-});
+
     
 let doc = null;
 
@@ -138,7 +132,13 @@ function clearForm() {
   stock.checked = true;
   editIndex = -1;
 }
-
+db.collection("products").onSnapshot(snapshot => {
+  products = [];
+  snapshot.forEach(doc => {
+    products.push(doc.data());
+  });
+  renderProducts();
+});
 /**************** RENDER PRODUCTS ****************/
 function renderProducts() {
   productsDiv.innerHTML = "";
