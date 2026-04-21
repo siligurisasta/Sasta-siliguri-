@@ -536,17 +536,52 @@ function loadOrders(){
   .orderBy("time","desc")
   .onSnapshot(snapshot=>{
 
-    const orderList = document.getElementById("orderList");
-    if(!orderList) return;
+    
+const requestDiv = document.getElementById("requestSection");
+const deliveryDiv = document.getElementById("deliverySection");
+const completeDiv = document.getElementById("completedSection");
 
-    orderList.innerHTML = "";
+if(!requestDiv) return;
+
+requestDiv.innerHTML = "";
+deliveryDiv.innerHTML = "";
+completeDiv.innerHTML = "";
+    
 
     snapshot.forEach(doc=>{
 
       const o = doc.data();
       const id = doc.id;
 
-      orderList.innerHTML += `
+      let html = `
+<div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
+
+<b>Order ID: ${o.orderId}</b><br>
+${o.name} (${o.phone})<br>
+₹${o.total}<br>
+
+<b>Status:</b> ${o.status}<br>
+<b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
+
+<select onchange="assignBoy('${id}', this.value)">
+<option>Select Boy</option>
+<option>Amit</option>
+<option>Rahul</option>
+<option>Sonu</option>
+</select>
+
+<br><br>
+
+<button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
+<button onclick="updateStatus('${id}','Delivered')">Done</button>
+
+</div>
+`;
+
+if(o.status === "Pending") requestDiv.innerHTML += html;
+else if(o.status === "Out for Delivery" || o.status === "Assigned") deliveryDiv.innerHTML += html;
+else if(o.status === "Delivered") completeDiv.innerHTML += html;
+  
       <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
 
         <b>Order ID: ${o.orderId}</b><br>
