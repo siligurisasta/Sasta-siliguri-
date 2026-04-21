@@ -16,6 +16,7 @@ const admin = document.getElementById("admin");
 const logo = document.getElementById("logo");
 
 admin.style.display = "none";
+document.getElementById("orderSection").style.display = "none";
 
 let taps = 0;
 let tapTimer = null;
@@ -371,7 +372,7 @@ window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(m
 }
 
 /**************** LOAD ****************/
-renderProducts();
+
 updateCartCount();
 const searchInput = document.getElementById("searchInput");
 const suggestions = document.getElementById("suggestions");
