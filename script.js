@@ -85,18 +85,13 @@ price: price || 0,
       img
     };
 
-db.collection("products").onSnapshot(snapshot => {
-  products = [];
-  snapshot.forEach(doc => {
-    products.push(doc.data());
-  });
-  renderProducts();
-});
+
     
 let doc = null;
 
 if (editIndex !== -1) {
-  doc = snap.docs[editIndex];
+const snap = await db.collection("products").get();
+doc = snap.docs[editIndex];
 }
 
 if (editIndex === -1) {
@@ -371,6 +366,18 @@ window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(m
 }
 
 /**************** LOAD ****************/
+db.collection("products").onSnapshot(snapshot => {
+  products = [];
+
+  snapshot.forEach(doc => {
+    products.push(doc.data());
+  });
+
+  document.getElementById("loadingText")?.remove();
+
+  renderProducts();
+});
+
 renderProducts();
 updateCartCount();
 const searchInput = document.getElementById("searchInput");
@@ -453,19 +460,9 @@ input.value = parseInt(input.value) - 1;
 }
 }
 
-  async function loadProducts(){
-  const snap = await db.collection("products").get();
-  products = [];
+  
 
-  snap.forEach(doc => {
-    products.push(doc.data());
-  });
-    document.getElementById("loadingText")?.remove();
 
-  renderProducts();
-}
-
-loadProducts();
 
 window.openCartPopup = openCartPopup;
 window.changeQty = changeQty;
@@ -536,17 +533,33 @@ function loadOrders(){
   .orderBy("time","desc")
   .onSnapshot(snapshot=>{
 
-    const orderList = document.getElementById("orderList");
-    if(!orderList) return;
+    const req = document.getElementById("requestSection");
+const del = document.getElementById("deliverySection");
+const com = document.getElementById("completedSection");
 
-    orderList.innerHTML = "";
+if(!req) return;
+
+req.innerHTML = "";
+del.innerHTML = "";
+com.innerHTML = "";
+    
 
     snapshot.forEach(doc=>{
 
       const o = doc.data();
       const id = doc.id;
 
-      orderList.innerHTML += `
+      const req = document.getElementById("requestSection");
+const del = document.getElementById("deliverySection");
+const com = document.getElementById("completedSection");
+
+if(!req) return;
+
+req.innerHTML = "";
+del.innerHTML = "";
+com.innerHTML = "";
+
+      
       <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
 
         <b>Order ID: ${o.orderId}</b><br>
