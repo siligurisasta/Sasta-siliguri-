@@ -16,7 +16,6 @@ const admin = document.getElementById("admin");
 const logo = document.getElementById("logo");
 
 admin.style.display = "none";
-document.getElementById("orderSection").style.display = "none";
 
 let taps = 0;
 let tapTimer = null;
@@ -86,7 +85,13 @@ price: price || 0,
       img
     };
 
-
+db.collection("products").onSnapshot(snapshot => {
+  products = [];
+  snapshot.forEach(doc => {
+    products.push(doc.data());
+  });
+  renderProducts();
+});
     
 let doc = null;
 
@@ -132,13 +137,7 @@ function clearForm() {
   stock.checked = true;
   editIndex = -1;
 }
-db.collection("products").onSnapshot(snapshot => {
-  products = [];
-  snapshot.forEach(doc => {
-    products.push(doc.data());
-  });
-  renderProducts();
-});
+
 /**************** RENDER PRODUCTS ****************/
 function renderProducts() {
   productsDiv.innerHTML = "";
@@ -372,7 +371,7 @@ window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(m
 }
 
 /**************** LOAD ****************/
-
+renderProducts();
 updateCartCount();
 const searchInput = document.getElementById("searchInput");
 const suggestions = document.getElementById("suggestions");
@@ -454,18 +453,16 @@ input.value = parseInt(input.value) - 1;
 }
 }
 
-async function loadProducts(){
-  db.collection("products").onSnapshot(snap => {
-    products = [];
+  async function loadProducts(){
+  const snap = await db.collection("products").get();
+  products = [];
 
-    snap.forEach(doc => {
-      products.push(doc.data());
-    });
-
+  snap.forEach(doc => {
+    products.push(doc.data());
+  });
     document.getElementById("loadingText")?.remove();
 
-    renderProducts();
-  });
+  renderProducts();
 }
 
 loadProducts();
@@ -539,52 +536,17 @@ function loadOrders(){
   .orderBy("time","desc")
   .onSnapshot(snapshot=>{
 
-    
-const requestDiv = document.getElementById("requestSection");
-const deliveryDiv = document.getElementById("deliverySection");
-const completeDiv = document.getElementById("completedSection");
+    const orderList = document.getElementById("orderList");
+    if(!orderList) return;
 
-if(!requestDiv) return;
-
-requestDiv.innerHTML = "";
-deliveryDiv.innerHTML = "";
-completeDiv.innerHTML = "";
-    
+    orderList.innerHTML = "";
 
     snapshot.forEach(doc=>{
 
       const o = doc.data();
       const id = doc.id;
 
-      let html = `
-<div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
-
-<b>Order ID: ${o.orderId}</b><br>
-${o.name} (${o.phone})<br>
-₹${o.total}<br>
-
-<b>Status:</b> ${o.status}<br>
-<b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
-
-<select onchange="assignBoy('${id}', this.value)">
-<option>Select Boy</option>
-<option>Amit</option>
-<option>Rahul</option>
-<option>Sonu</option>
-</select>
-
-<br><br>
-
-<button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
-<button onclick="updateStatus('${id}','Delivered')">Done</button>
-
-</div>
-`;
-
-if(o.status === "Pending") requestDiv.innerHTML += html;
-else if(o.status === "Out for Delivery" || o.status === "Assigned") deliveryDiv.innerHTML += html;
-else if(o.status === "Delivered") completeDiv.innerHTML += html;
-  
+      orderList.innerHTML += `
       <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
 
         <b>Order ID: ${o.orderId}</b><br>
