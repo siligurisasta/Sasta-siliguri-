@@ -10,20 +10,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/**************** 🔥 REALTIME PRODUCTS (ADD) ****************/
-db.collection("products").onSnapshot(snapshot => {
-  products = [];
-  snapshot.forEach(doc => {
-    products.push({
-      id: doc.id,
-      ...doc.data()
-    });
-  });
-
-  document.getElementById("loadingText")?.remove();
-  renderProducts();
-});
-
 /**************** ADMIN ACCESS ****************/
 const ADMIN_PASS = "1513";
 const admin = document.getElementById("admin");
@@ -91,7 +77,7 @@ function saveProduct() {
   async function saveFinal(img) {
     const product = {
       name: pname,
-      price: price || 0,
+price: price || 0,
       mrp,
       min,
       unit,
@@ -99,20 +85,29 @@ function saveProduct() {
       img
     };
 
-    let doc = null;
+db.collection("products").onSnapshot(snapshot => {
+  products = [];
+  snapshot.forEach(doc => {
+    products.push(doc.data());
+  });
+  renderProducts();
+});
+    
+let doc = null;
 
-    if (editIndex !== -1) {
-      doc = products[editIndex]; // ✅ FIX
-    }
+if (editIndex !== -1) {
+  doc = snap.docs[editIndex];
+}
 
-    if (editIndex === -1) {
-      await db.collection("products").add(product);
-    } else {
-      await db.collection("products").doc(doc.id).update(product);
-    }
+if (editIndex === -1) {
+  await db.collection("products").add(product);
+} else {
+  await db.collection("products").doc(doc.id).update(product);
+}
 
-    editIndex = -1;
-    clearForm();
+editIndex = -1;
+await loadProducts();
+clearForm();
   }
 }
 
@@ -123,14 +118,16 @@ async function deleteProduct() {
     return;
   }
   
-  const doc = products[editIndex]; // ✅ FIX
-
+  await db.collection("products").get().then((snap) => {
+  const doc = snap.docs[editIndex];
   if (doc) {
-    await db.collection("products").doc(doc.id).delete();
+    db.collection("products").doc(doc.id).delete();
   }
+});
 
-  editIndex = -1;
-  clearForm();
+editIndex = -1;
+await loadProducts();
+clearForm();
 }
 
 /**************** CLEAR FORM ****************/
@@ -182,11 +179,14 @@ Add to Cart
 
 </div>
 `;
+    
   });
 }
 
 /**************** EDIT PRODUCT ****************/
 function editProduct(i) {
+
+  // ❌ agar admin panel open nahi hai → kuch mat karo
   if (admin.style.display !== "block") return;
 
   const p = products[i];
@@ -202,14 +202,22 @@ function editProduct(i) {
   admin.scrollIntoView({ behavior: "smooth" });
 }
 
-/**************** ADD TO CART ****************/
+
+/**************** ADD TO CART (NO POPUP) ****************/
 function addToCart(i) {
   const product = products[i];
 
   const found = cart.find(item => item.name === product.name);
 
-  if (found) found.qty += 1;
-  else cart.push({ name: product.name, price: Number(product.price), qty: 1 });
+  if (found) {
+    found.qty += 1;
+  } else {
+    cart.push({
+      name: product.name,
+      price: Number(product.price),
+      qty: 1
+    });
+  }
 
   updateCartCount();
   saveCart();
@@ -222,6 +230,363 @@ function updateCartCount() {
   cartCount.innerText = total;
 }
 
-/**************** INIT ****************/
+/**************** CART POPUP ****************/
+  function openCartPopup() {
+  if (cart.length === 0) {
+    alert("Please add item to cart first");
+    return;
+  }
+
+  let itemsHTML = "";
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    total += item.qty * item.price;
+
+    itemsHTML += `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <b>${item.name}</b><br>
+          <span style="font-size:13px;color:#555">
+            ₹${item.price} × ${item.qty} = ₹${item.price * item.qty}
+          </span>
+        </div>
+        <div>
+          <button onclick="changeQty(${i}, -1)">-</button>
+          <b>${item.qty}</b>
+          <button onclick="changeQty(${i}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }); // ✅ forEach properly closed
+
+  closePopup(); // ✅ loop ke bahar
+
+  const div = document.createElement("div");
+  div.id = "cartPopup";
+  div.innerHTML = `
+<div style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999">
+  <div style="background:#fff;border-radius:18px;padding:18px;width:90%;max-width:360px;font-family:Arial">
+
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h3 style="margin:0;font-size:18px">🛒 Your Cart</h3>
+      <span style="font-size:13px;font-weight:bold;letter-spacing:1px">
+        SASTA SILIGURI
+      </span>
+    </div>
+
+    <div style="height:2px;width:100%;background:#2e7d32;margin:10px 0;border-radius:2px"></div>
+
+    ${itemsHTML}
+
+    <p style="margin:8px 0 2px;font-size:12px;font-weight:600">FREE DELIVERY</p>
+
+    <div style="height:2px;width:120px;background:#2e7d32;margin:8px 0;border-radius:2px"></div>
+
+    <p style="font-size:16px"><b>Total: ₹${total}</b></p>
+    
+<button id="popupWA" onclick="placeOrder()" style="width:100%;margin-top:10px">
+  Place Order
+</button>
+
+    <button onclick="closePopup()" style="width:100%;margin-top:6px;background:#e0e0e0;color:#000">
+      Close
+    </button>
+  </div>
+</div>
+`;
+
+  document.body.appendChild(div);
+setTimeout(() => {
+  const btn = document.getElementById("popupWA");
+  if(btn){
+    btn.onclick = placeOrder;
+  }
+}, 300);
+}
+
+/**************** QTY CHANGE ****************/
+function changeQty(i, v) {
+  cart[i].qty += v;
+
+  if (cart[i].qty <= 0) {
+    cart.splice(i, 1);
+  }
+
+  updateCartCount();
+
+  // 👇 NEW FIX
+  if (cart.length === 0) {
+    closePopup();   // cart empty → popup band
+  } else {
+    openCartPopup(); // warna refresh popup
+  }
+}
+
+/**************** CLOSE POPUP ****************/
+function closePopup() {
+  const p = document.getElementById("cartPopup");
+  if (p) p.remove();
+}
+
+/**************** WHATSAPP ****************/
+function sendWA() {
+  const name = document.querySelector('input[placeholder="Full name *"]').value.trim();
+const phone = document.querySelector('input[placeholder="Phone number *"]').value.trim();
+const address = document.querySelector('textarea').value.trim();
+
+  if (!name || !phone || !address) {
+    alert("Please fill name, phone & address first");
+    return;
+  }
+
+ let msg = `*Order Confirmation - Sasta Siliguri*\n\n`;
+
+msg += `*Customer Details*\n\n`;
+msg += `*Name*      :  ${name}\n`;
+msg += `*Phone*     :  ${phone}\n`;
+msg += `*Address*  :  ${address}\n\n`;
+
+msg += `*Order Items*\n\n`;
+
+let total = 0;
+
+cart.forEach(item => {
+  msg += `${item.name} ×${item.qty} — ₹${item.price}\n\n`;
+  total += item.qty * item.price;
+});
+
+msg += `_____________________________\n`;
+msg += `*Total : ₹${total}*\n`;
+msg += `_____________________________\n`;
+msg += `Delivery : Same Day\n`;
+msg += `Payment  : Cash on Delivery\n\n`;
+
+msg += `*Thank you for choosing Sasta Siliguri*.\n\n`;
+msg += `We will contact you shortly.`;
+  localStorage.removeItem("cart");
+cart = [];
+updateCartCount();
+window.location.href = "https://wa.me/917602884208?text=" + encodeURIComponent(msg);
+}
+
+/**************** LOAD ****************/
 renderProducts();
 updateCartCount();
+const searchInput = document.getElementById("searchInput");
+const suggestions = document.getElementById("suggestions");
+
+searchInput.addEventListener("input", () => {
+
+const value = searchInput.value.toLowerCase();
+suggestions.innerHTML = "";
+
+if(!value){
+suggestions.style.display="none";
+renderProducts();
+return;
+}
+
+let filtered = products.filter(p =>
+p.name.toLowerCase().includes(value)
+);
+
+filtered.forEach(p=>{
+const div=document.createElement("div");
+div.innerText=p.name;
+div.onclick=()=>{
+searchInput.value=p.name;
+suggestions.style.display="none";
+renderFiltered(p.name);
+};
+suggestions.appendChild(div);
+});
+
+suggestions.style.display="block";
+
+renderFiltered(value);
+
+});
+
+function renderFiltered(value){
+
+productsDiv.innerHTML="";
+
+products
+.filter(p=>p.name.toLowerCase().includes(value))
+.forEach((p,i)=>{
+
+productsDiv.innerHTML+=`
+<div class="product" onclick="editProduct(${i})">
+<img src="${p.img}">
+<h3>${p.name}</h3>
+
+<div class="price">
+${p.mrp ? `<del>₹${p.mrp}</del>` : ""}
+<b>₹${p.price}</b>
+</div>
+
+<p>Minimum: ${p.min || 1} ${p.unit || ""}</p>
+
+<p>${p.stock ? "In stock ✅" : "Out of stock ❌"}</p>
+
+<button onclick="event.stopPropagation(); addToCart(${i})">
+Add to Cart
+</button>
+
+</div>
+`;
+
+});
+
+}
+
+function increase(btn){
+let input = btn.parentElement.querySelector("input");
+input.value = parseInt(input.value) + 1;
+}
+
+function decrease(btn){
+let input = btn.parentElement.querySelector("input");
+if(input.value > 1){
+input.value = parseInt(input.value) - 1;
+}
+}
+
+  async function loadProducts(){
+  const snap = await db.collection("products").get();
+  products = [];
+
+  snap.forEach(doc => {
+    products.push(doc.data());
+  });
+    document.getElementById("loadingText")?.remove();
+
+  renderProducts();
+}
+
+loadProducts();
+
+window.openCartPopup = openCartPopup;
+window.changeQty = changeQty;
+window.closePopup = closePopup;
+window.sendWA = sendWA;
+window.placeOrder = placeOrder;
+
+
+function generateOrderId(){
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
+async function placeOrder(){
+
+  const name = document.querySelector('input[placeholder="Full name *"]')?.value.trim();
+const phone = document.querySelector('input[placeholder="Phone number *"]')?.value.trim();
+const address = document.querySelector('textarea[placeholder="Full address *"]')?.value.trim();
+
+  if(!name || !phone || !address){
+    alert("Please fill name, phone & address");
+    return;
+  }
+
+  if(cart.length === 0){
+    alert("Cart is empty");
+    return;
+  }
+
+  const orderId = generateOrderId();
+
+  let total = 0;
+
+  const items = cart.map(i=>{
+    total += i.price * i.qty;
+    return {
+      name: i.name,
+      qty: i.qty,
+      price: i.price
+    };
+  });
+
+  const order = {
+    orderId,
+    name,
+    phone,
+    address,
+    items,
+    total,
+    status: "Pending",
+    assignedTo: "",
+    assignedName: "",
+    time: new Date()
+  };
+
+  await db.collection("orders").add(order);
+
+  alert("Order Placed! Your ID: " + orderId);
+
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartCount();
+  closePopup();
+}
+
+function loadOrders(){
+
+  db.collection("orders")
+  .orderBy("time","desc")
+  .onSnapshot(snapshot=>{
+
+    const orderList = document.getElementById("orderList");
+    if(!orderList) return;
+
+    orderList.innerHTML = "";
+
+    snapshot.forEach(doc=>{
+
+      const o = doc.data();
+      const id = doc.id;
+
+      orderList.innerHTML += `
+      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
+
+        <b>Order ID: ${o.orderId}</b><br>
+        ${o.name} (${o.phone})<br>
+        ₹${o.total}<br>
+
+        <b>Status:</b> ${o.status}<br>
+        <b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
+
+        <select onchange="assignBoy('${id}', this.value)">
+          <option>Select Boy</option>
+          <option>Amit</option>
+          <option>Rahul</option>
+          <option>Sonu</option>
+        </select>
+
+        <br><br>
+
+        <button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
+        <button onclick="updateStatus('${id}','Delivered')">Done</button>
+        <button onclick="updateStatus('${id}','Cancelled')">Cancel</button>
+
+      </div>
+      `;
+    });
+
+  });
+}
+
+loadOrders();
+
+
+async function assignBoy(id, boy){
+  await db.collection("orders").doc(id).update({
+    assignedName: boy,
+    status: "Assigned"
+  });
+}
+async function updateStatus(id, status){
+  await db.collection("orders").doc(id).update({
+    status: status
+  });
+}
