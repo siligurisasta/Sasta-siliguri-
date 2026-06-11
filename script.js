@@ -529,51 +529,100 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   updateCartCount();
   closePopup();
 }
-
 function loadOrders(){
 
-  db.collection("orders")
-  .orderBy("time","desc")
-  .onSnapshot(snapshot=>{
+db.collection("orders")
+.orderBy("time","desc")
+.onSnapshot(snapshot=>{
 
-    const orderList = document.getElementById("orderList");
-    if(!orderList) return;
+let newHtml="";
+let assignedHtml="";
+let outHtml="";
+let doneHtml="";
 
-    orderList.innerHTML = "";
+let newCount=0;
+let assignedCount=0;
+let outCount=0;
+let doneCount=0;
 
-    snapshot.forEach(doc=>{
+snapshot.forEach(doc=>{
 
-      const o = doc.data();
-      const id = doc.id;
+const o=doc.data();
+const id=doc.id;
 
-      orderList.innerHTML += `
-      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
+const card=`
 
-        <b>Order ID: ${o.orderId}</b><br>
-        ${o.name} (${o.phone})<br>
-        ₹${o.total}<br>
+<div class="card">
 
-        <b>Status:</b> ${o.status}<br>
-        <b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
+<b>Order ID:</b> ${o.orderId}<br>
+<b>Name:</b> ${o.name}<br>
+<b>Phone:</b> ${o.phone}<br>
+<b>Total:</b> ₹${o.total}<br>
+<b>Status:</b> ${o.status}<br>
+<b>Boy:</b> ${o.assignedName || "Not Assigned"}<br><br>
 
-        <select onchange="assignBoy('${id}', this.value)">
-          <option>Select Boy</option>
-          <option>Amit</option>
-          <option>Rahul</option>
-          <option>Sonu</option>
-        </select>
+<select onchange="assignBoy('${id}',this.value)">
+<option>Select Boy</option>
+<option>Amit</option>
+<option>Rahul</option>
+<option>Sonu</option>
+</select>
 
-        <br><br>
+<br><br>
 
-        <button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
-        <button onclick="updateStatus('${id}','Delivered')">Done</button>
-        <button onclick="updateStatus('${id}','Cancelled')">Cancel</button>
+<button onclick="updateStatus('${id}','Out for Delivery')">
+Out
+</button>
 
-      </div>
-      `;
-    });
+<button onclick="updateStatus('${id}','Delivered')">
+Done
+</button>
 
-  });
+</div>
+
+`;
+
+if(o.status==="Pending"){
+newHtml+=card;
+newCount++;
+}
+
+else if(o.status==="Assigned"){
+assignedHtml+=card;
+assignedCount++;
+}
+
+else if(o.status==="Out for Delivery"){
+outHtml+=card;
+outCount++;
+}
+
+else if(o.status==="Delivered"){
+doneHtml+=card;
+doneCount++;
+}
+
+});
+
+document.getElementById("newOrders").innerHTML=newHtml;
+document.getElementById("assignedOrders").innerHTML=assignedHtml;
+document.getElementById("outOrders").innerHTML=outHtml;
+document.getElementById("deliveredOrders").innerHTML=doneHtml;
+
+document.getElementById("newCount").innerText=newCount;
+document.getElementById("assignedCount").innerText=assignedCount;
+document.getElementById("outCount").innerText=outCount;
+document.getElementById("doneCount").innerText=doneCount;
+
+if(newCount>0){
+document.getElementById("orderAlert").innerHTML=
+"🔴 "+newCount+" New Order";
+}else{
+document.getElementById("orderAlert").innerHTML="";
+}
+
+});
+
 }
 
 loadOrders();
@@ -589,4 +638,28 @@ async function updateStatus(id, status){
   await db.collection("orders").doc(id).update({
     status: status
   });
+}
+function showTab(tab){
+
+document.getElementById("newOrders").style.display="none";
+document.getElementById("assignedOrders").style.display="none";
+document.getElementById("outOrders").style.display="none";
+document.getElementById("deliveredOrders").style.display="none";
+
+if(tab==="new"){
+document.getElementById("newOrders").style.display="block";
+}
+
+if(tab==="assigned"){
+document.getElementById("assignedOrders").style.display="block";
+}
+
+if(tab==="out"){
+document.getElementById("outOrders").style.display="block";
+}
+
+if(tab==="done"){
+document.getElementById("deliveredOrders").style.display="block";
+}
+
 }
