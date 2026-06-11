@@ -16,6 +16,7 @@ const admin = document.getElementById("admin");
 const logo = document.getElementById("logo");
 
 admin.style.display = "none";
+document.getElementById("orderSection").style.display = "none";
 
 let taps = 0;
 let tapTimer = null;
@@ -29,9 +30,10 @@ logo.addEventListener("click", () => {
     taps = 0;
     const pass = prompt("Enter admin password");
     if (pass === ADMIN_PASS) {
-      admin.style.display = "block";
-      document.getElementById("orderSection").style.display = "block";
-      admin.scrollIntoView({ behavior: "smooth" });
+    admin.style.display = "block";
+    document.getElementById("orderSection").style.display = "block";
+    admin.scrollIntoView({ behavior: "smooth" });
+    }
     } else {
       alert("Wrong password");
     }
