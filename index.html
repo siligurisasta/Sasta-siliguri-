@@ -70,24 +70,40 @@ These details will be sent to WhatsApp when you tap Order.
 </div>
 <!-- 🔥 ORDER SECTION -->
 <div id="orderSection" style="display:none;margin:12px">
+<div id="dashboard" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+  <div id="orderAlert"></div>
 
+<div>New: <span id="newCount">0</span></div>
+
+<div>Assigned: <span id="assignedCount">0</span></div>
+
+<div>Out: <span id="outCount">0</span></div>
+
+<div>Delivered: <span id="doneCount">0</span></div>
+
+</div>
 <h3>📦 Orders Panel</h3>
 
 <!-- FILTER BUTTONS -->
 <div style="display:flex;gap:6px;margin-bottom:10px">
-<button onclick="showTab('request')">Request</button>
-<button onclick="showTab('delivery')">Delivery</button>
-<button onclick="showTab('complete')">Completed</button>
-</div>
-<div id="requestSection"></div>
-<div id="deliverySection" style="display:none;"></div>
-<div id="completedSection" style="display:none;"></div>
+<button onclick="showTab('new')">New</button>
+<button onclick="showTab('assigned')">Assigned</button>
+<button onclick="showTab('out')">Out</button>
+<button onclick="showTab('done')">Delivered</button>
+
+<div id="newOrders"></div>
+
+<div id="assignedOrders" style="display:none"></div>
+
+<div id="outOrders" style="display:none"></div>
+
+<div id="deliveredOrders" style="display:none"></div>
 </div>
   
 <!-- SEARCH -->
 <input id="searchOrder" placeholder="Search Order ID"
 style="width:100%;padding:8px;margin-bottom:10px">
-
+<div id="trackingResult"></div>
 
   
 <!-- PRODUCTS -->
