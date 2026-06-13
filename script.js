@@ -545,7 +545,7 @@ let completedOrders = "";
 let cancelledOrders = "";
 
 snapshot.forEach(doc=>{
-
+alert("Order Found");
 const o = doc.data();
 const id = doc.id;
 
