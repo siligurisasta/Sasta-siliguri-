@@ -535,6 +535,7 @@ alert("inside loadOrders");
 db.collection("orders")
 .orderBy("time","desc")
 .onSnapshot(snapshot=>{
+  alert("snapshot size = " + snapshot.size);
 
 const orderList = document.getElementById("orderList");
 if(!orderList) return;
