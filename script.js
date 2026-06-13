@@ -547,7 +547,6 @@ let completedOrders = "";
 let cancelledOrders = "";
 
 snapshot.forEach(doc=>{
-alert("Order Found");
 const o = doc.data();
 const id = doc.id;
 
@@ -591,7 +590,7 @@ window.allOrders = {
   cancel: cancelledOrders
 };
 console.log(window.allOrders);
-alert("newOrders = " + newOrders);
+alert("allOrders created");
 });
 
 }
