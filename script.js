@@ -584,17 +584,25 @@ cancelledOrders += card;
 
 orderList.innerHTML = `
 
+<div style="border:2px solid #ff9800;padding:10px;border-radius:12px;margin-bottom:15px">
 <h3>📥 New Orders</h3>
 ${newOrders || "No Orders"}
+</div>
 
-<h3 style="margin-top:20px">🚚 Active Orders</h3>
+<div style="border:2px solid #2196f3;padding:10px;border-radius:12px;margin-bottom:15px">
+<h3>🚚 Active Orders</h3>
 ${activeOrders || "No Orders"}
+</div>
 
-<h3 style="margin-top:20px">✅ Completed Orders</h3>
+<div style="border:2px solid #4caf50;padding:10px;border-radius:12px;margin-bottom:15px">
+<h3>✅ Completed Orders</h3>
 ${completedOrders || "No Orders"}
+</div>
 
-<h3 style="margin-top:20px">❌ Cancelled Orders</h3>
+<div style="border:2px solid #f44336;padding:10px;border-radius:12px">
+<h3>❌ Cancelled Orders</h3>
 ${cancelledOrders || "No Orders"}
+</div>
 
 `;
 
