@@ -643,3 +643,95 @@ async function trackOrder(){
 
 }
 window.trackOrder = trackOrder;
+
+async function findOrder(){
+
+  const orderId =
+  document.getElementById("adminOrderId").value.trim();
+
+  const result =
+  document.getElementById("adminOrderResult");
+
+  if(!orderId){
+    result.innerHTML =
+    "<p style='color:red'>Enter Order ID</p>";
+    return;
+  }
+
+  const snap = await db.collection("orders").get();
+
+  let found = false;
+
+  snap.forEach(doc => {
+
+    const o = doc.data();
+    const docId = doc.id;
+
+    if(String(o.orderId) === orderId){
+
+      found = true;
+
+      let itemsHtml = "";
+
+      if(o.items){
+        o.items.forEach(item=>{
+          itemsHtml += `
+            ${item.name} × ${item.qty}
+            (₹${item.price})<br>
+          `;
+        });
+      }
+
+      result.innerHTML = `
+      <div style="
+      background:#fff;
+      border:1px solid #ddd;
+      padding:12px;
+      border-radius:12px">
+
+      <b>Order ID:</b> ${o.orderId}<br>
+      <b>Name:</b> ${o.name}<br>
+      <b>Phone:</b> ${o.phone}<br>
+      <b>Address:</b> ${o.address}<br>
+      <b>Total:</b> ₹${o.total}<br>
+      <b>Status:</b> ${o.status}<br>
+      <b>Delivery Boy:</b>
+      ${o.assignedName || "Not Assigned"}
+
+      <hr>
+
+      <b>Items:</b><br>
+      ${itemsHtml}
+
+      <hr>
+
+      <select id="status_${docId}">
+        <option>Pending</option>
+        <option>Assigned</option>
+        <option>Out for Delivery</option>
+        <option>Delivered</option>
+        <option>Cancelled</option>
+      </select>
+
+      <button
+      onclick="updateStatus(
+      '${docId}',
+      document.getElementById('status_${docId}').value
+      )"
+      style="margin-top:8px">
+      Update Status
+      </button>
+
+      </div>
+      `;
+    }
+
+  });
+
+  if(!found){
+    result.innerHTML =
+    "<p style='color:red'>Order not found</p>";
+  }
+}
+
+window.findOrder = findOrder;
