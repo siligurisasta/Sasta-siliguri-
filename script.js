@@ -600,7 +600,6 @@ loadOrders();
 function showSection(type){
 
   const ordersView = document.getElementById("ordersView");
-const ordersView = document.getElementById("ordersView");
 
 if(!ordersView){
   alert("ordersView not found");
