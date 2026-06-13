@@ -582,42 +582,49 @@ cancelledOrders += card;
 
 });
 
-orderList.innerHTML = `
+window.allOrders = {
+  new: newOrders,
+  active: activeOrders,
+  done: completedOrders,
+  cancel: cancelledOrders
+};
 
-<div style="border:2px solid #ff9800;padding:15px;margin:15px 0;border-radius:12px;">
-<h3>📥 New Orders</h3>
-<div style="padding-left:15px;">
-${newOrders || "No Orders"}
-</div>
-</div>
-
-<div style="border:2px solid #2196f3;padding:15px;margin:15px 0;border-radius:12px;">
-<h3>🚚 Active Orders</h3>
-<div style="padding-left:15px;">
-${activeOrders || "No Orders"}
-</div>
-</div>
-
-<div style="border:2px solid #4caf50;padding:15px;margin:15px 0;border-radius:12px;">
-<h3>✅ Completed Orders</h3>
-<div style="padding-left:15px;">
-${completedOrders || "No Orders"}
-</div>
-</div>
-
-<div style="border:2px solid #f44336;padding:15px;margin:15px 0;border-radius:12px;">
-<h3>❌ Cancelled Orders</h3>
-<div style="padding-left:15px;">
-${cancelledOrders || "No Orders"}
-</div>
-</div>
-
-`;
+showSection('new');
 
 });
 
 }
 loadOrders();
+function showSection(type){
+
+  const ordersView = document.getElementById("ordersView");
+
+  if(type === "new"){
+    ordersView.innerHTML =
+      '<h3>📥 New Orders</h3>' +
+      (window.allOrders.new || "No Orders");
+  }
+
+  if(type === "active"){
+    ordersView.innerHTML =
+      '<h3>🚚 Active Orders</h3>' +
+      (window.allOrders.active || "No Orders");
+  }
+
+  if(type === "done"){
+    ordersView.innerHTML =
+      '<h3>✅ Completed Orders</h3>' +
+      (window.allOrders.done || "No Orders");
+  }
+
+  if(type === "cancel"){
+    ordersView.innerHTML =
+      '<h3>❌ Cancelled Orders</h3>' +
+      (window.allOrders.cancel || "No Orders");
+  }
+}
+
+window.showSection = showSection;
 
 async function assignBoy(id, boy){
   await db.collection("orders").doc(id).update({
