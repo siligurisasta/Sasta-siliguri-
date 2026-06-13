@@ -589,7 +589,7 @@ window.allOrders = {
   cancel: cancelledOrders
 };
 console.log(window.allOrders);
-
+alert("newOrders = " + newOrders);
 });
 
 }
