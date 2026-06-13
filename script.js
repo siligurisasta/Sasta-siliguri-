@@ -531,14 +531,13 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
 }
 
 function loadOrders(){
-alert("inside loadOrders");
 db.collection("orders")
 .orderBy("time","desc")
 .onSnapshot(snapshot=>{
-  alert("snapshot size = " + snapshot.size);
+  
 
 const orderList = document.getElementById("orderList");
-alert("orderList = " + orderList);
+
   if(!orderList) return;
 
 let newOrders = "";
@@ -582,7 +581,7 @@ cancelledOrders += card;
 }
 
 });
-alert("creating allOrders");
+
 window.allOrders = {
   new: newOrders,
   active: activeOrders,
@@ -590,18 +589,18 @@ window.allOrders = {
   cancel: cancelledOrders
 };
 console.log(window.allOrders);
-alert("allOrders created");
+
 });
 
 }
 loadOrders();
 function showSection(type){
-alert("showSection function called: " + type);
-  alert("allOrders = " + JSON.stringify(window.allOrders));
+
+  
   const ordersView = document.getElementById("ordersView");
-alert("ordersView = " + ordersView);
+
 if(!ordersView){
-  alert("ordersView not found");
+  
   return;
 }
   
