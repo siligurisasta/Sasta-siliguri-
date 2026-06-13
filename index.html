@@ -82,7 +82,23 @@ These details will be sent to WhatsApp when you tap Order.
     <button onclick="clearForm()">Clear</button>
   </div>
 </div>
+<div id="orderSection" class="card" style="display:none">
+  <h2>Order Management</h2>
 
+  <input
+    type="number"
+    id="adminOrderId"
+    placeholder="Enter Order ID">
+
+  <button onclick="findOrder()">
+    Find Order
+  </button>
+
+  <div id="adminOrderResult"></div>
+
+  <div id="orderList"></div>
+</div>
+  
 <!-- PRODUCTS -->
   <div class="search-box">
 
