@@ -642,3 +642,4 @@ async function trackOrder(){
   }
 
 }
+window.trackOrder = trackOrder;
