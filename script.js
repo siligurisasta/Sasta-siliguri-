@@ -532,52 +532,76 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
 
 function loadOrders(){
 
-  db.collection("orders")
-  .orderBy("time","desc")
-  .onSnapshot(snapshot=>{
+db.collection("orders")
+.orderBy("time","desc")
+.onSnapshot(snapshot=>{
 
-    const orderList = document.getElementById("orderList");
-    if(!orderList) return;
+const orderList = document.getElementById("orderList");
+if(!orderList) return;
 
-    orderList.innerHTML = "";
+let newOrders = "";
+let activeOrders = "";
+let completedOrders = "";
+let cancelledOrders = "";
 
-    snapshot.forEach(doc=>{
+snapshot.forEach(doc=>{
 
-      const o = doc.data();
-      const id = doc.id;
+const o = doc.data();
+const id = doc.id;
 
-      orderList.innerHTML += `
-      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
+const card = `
+<div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
 
-        <b>Order ID: ${o.orderId}</b><br>
-        ${o.name} (${o.phone})<br>
-        ₹${o.total}<br>
+<b>Order ID:</b> ${o.orderId}<br>
+<b>Name:</b> ${o.name}<br>
+<b>Total:</b> ₹${o.total}<br>
+<b>Status:</b> ${o.status}<br>
 
-        <b>Status:</b> ${o.status}<br>
-        <b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
+<button onclick="findOrderById('${o.orderId}')">
+Open
+</button>
 
-        <select onchange="assignBoy('${id}', this.value)">
-          <option>Select Boy</option>
-          <option>Amit</option>
-          <option>Rahul</option>
-          <option>Sonu</option>
-        </select>
+</div>
+`;
 
-        <br><br>
-
-        <button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
-        <button onclick="updateStatus('${id}','Delivered')">Done</button>
-        <button onclick="updateStatus('${id}','Cancelled')">Cancel</button>
-
-      </div>
-      `;
-    });
-
-  });
+if(o.status === "Pending"){
+newOrders += card;
+}
+else if(
+o.status === "Assigned" ||
+o.status === "Out for Delivery"
+){
+activeOrders += card;
+}
+else if(o.status === "Delivered"){
+completedOrders += card;
+}
+else if(o.status === "Cancelled"){
+cancelledOrders += card;
 }
 
-loadOrders();
+});
 
+orderList.innerHTML = `
+
+<h3>📥 New Orders</h3>
+${newOrders || "No Orders"}
+
+<h3 style="margin-top:20px">🚚 Active Orders</h3>
+${activeOrders || "No Orders"}
+
+<h3 style="margin-top:20px">✅ Completed Orders</h3>
+${completedOrders || "No Orders"}
+
+<h3 style="margin-top:20px">❌ Cancelled Orders</h3>
+${cancelledOrders || "No Orders"}
+
+`;
+
+});
+
+}
+loadOrders();
 
 async function assignBoy(id, boy){
   await db.collection("orders").doc(id).update({
@@ -735,3 +759,8 @@ async function findOrder(){
 }
 
 window.findOrder = findOrder;
+
+function findOrderById(id){
+document.getElementById("adminOrderId").value = id;
+findOrder();
+}
