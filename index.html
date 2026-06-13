@@ -44,9 +44,8 @@ These details will be sent to WhatsApp when you tap Order.
 </div>
 
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
-<div id="admin" class="admin-card" style="display:none;">
+<div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
-  
 
   <input id="pname" placeholder="Product name">
   <input id="price" type="number" placeholder="Offer price ₹">
@@ -68,44 +67,7 @@ These details will be sent to WhatsApp when you tap Order.
     <button onclick="clearForm()">Clear</button>
   </div>
 </div>
-<!-- 🔥 ORDER SECTION -->
-<div id="orderSection" style="display:none;margin:12px">
-<div id="dashboard" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-  <div id="orderAlert"></div>
 
-<div>New: <span id="newCount">0</span></div>
-
-<div>Assigned: <span id="assignedCount">0</span></div>
-
-<div>Out: <span id="outCount">0</span></div>
-
-<div>Delivered: <span id="doneCount">0</span></div>
-
-</div>
-<h3>📦 Orders Panel</h3>
-
-<!-- FILTER BUTTONS -->
-<div style="display:flex;gap:6px;margin-bottom:10px">
-<button onclick="showTab('new')">New</button>
-<button onclick="showTab('assigned')">Assigned</button>
-<button onclick="showTab('out')">Out</button>
-<button onclick="showTab('done')">Delivered</button>
-
-<div id="newOrders"></div>
-
-<div id="assignedOrders" style="display:none"></div>
-
-<div id="outOrders" style="display:none"></div>
-
-<div id="deliveredOrders" style="display:none"></div>
-</div>
-  
-<!-- SEARCH -->
-<input id="searchOrder" placeholder="Search Order ID"
-style="width:100%;padding:8px;margin-bottom:10px">
-<div id="trackingResult"></div>
-
-  
 <!-- PRODUCTS -->
   <div class="search-box">
 
@@ -117,11 +79,7 @@ style="width:100%;padding:8px;margin-bottom:10px">
 
   </div>
 <h2 class="section">Fruits</h2>
-<div id="products" class="grid">
-  <p id="loadingText" style="text-align:center;padding:20px;">
-    Loading products...
-  </p>
-</div>
+<div id="products" class="grid"></div>
 
 <!-- ABOUT -->
 <div class="footer" style="
@@ -175,7 +133,7 @@ Follow us on Instagram
 <!-- CART BAR -->
 <div class="cart-bar">
   🛒 Items: <span id="cartCount">0</span>
-  <button onclick="openCartPopup()">Open Cart</button>
+  <button onclick="openCartPopup()">Order on WhatsApp</button>
 </div>
 
 <!-- FIREBASE -->
