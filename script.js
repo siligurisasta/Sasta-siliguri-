@@ -643,6 +643,7 @@ async function updateStatus(id, status){
   });
 }
 async function myLastOrder(){
+  alert(localStorage.getItem("lastOrderId"));
 
 const lastId = localStorage.getItem("lastOrderId");
 
