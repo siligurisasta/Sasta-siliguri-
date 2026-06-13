@@ -538,7 +538,8 @@ db.collection("orders")
   alert("snapshot size = " + snapshot.size);
 
 const orderList = document.getElementById("orderList");
-if(!orderList) return;
+alert("orderList = " + orderList);
+  if(!orderList) return;
 
 let newOrders = "";
 let activeOrders = "";
@@ -599,7 +600,7 @@ function showSection(type){
 alert("showSection function called: " + type);
   alert(JSON.stringify(window.allOrders));
   const ordersView = document.getElementById("ordersView");
-
+alert("ordersView = " + ordersView);
 if(!ordersView){
   alert("ordersView not found");
   return;
