@@ -598,7 +598,7 @@ setTimeout(() => {
 }
 loadOrders();
 function showSection(type){
-
+alert("showSection function called: " + type);
   const ordersView = document.getElementById("ordersView");
 
 if(!ordersView){
