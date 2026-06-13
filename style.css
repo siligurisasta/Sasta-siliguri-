@@ -372,16 +372,19 @@ margin:4px 0;
 font-size:15px;
 }
 
-
-  .header-card{
+.header-card{
 position:relative;
+display:flex;
+align-items:center;
+gap:14px;
 }
+
 
 #menuBtn{
 position:absolute;
 right:15px;
-top:15px;
-  width:50px;
+top:20px;
+width:50px;
 height:50px;
 border:none;
 border-radius:12px;
