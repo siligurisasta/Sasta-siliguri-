@@ -96,7 +96,27 @@ These details will be sent to WhatsApp when you tap Order.
 
   <div id="adminOrderResult"></div>
 
-  <div id="orderList"></div>
+  <div style="display:flex;gap:8px;overflow:auto;margin-top:15px;">
+
+<button onclick="showSection('new')" id="btnNew">
+📥 New
+</button>
+
+<button onclick="showSection('active')" id="btnActive">
+🚚 Active
+</button>
+
+<button onclick="showSection('done')" id="btnDone">
+✅ Done
+</button>
+
+<button onclick="showSection('cancel')" id="btnCancel">
+❌ Cancel
+</button>
+
+</div>
+
+<div id="ordersView" style="margin-top:15px;"></div>
 </div>
   
 <!-- PRODUCTS -->
