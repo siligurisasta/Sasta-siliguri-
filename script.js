@@ -464,7 +464,7 @@ input.value = parseInt(input.value) - 1;
 
   renderProducts();
 }
-
+alert("loadOrders starting");
 loadProducts();
 
 window.openCartPopup = openCartPopup;
@@ -531,7 +531,7 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
 }
 
 function loadOrders(){
-
+alert("inside loadOrders");
 db.collection("orders")
 .orderBy("time","desc")
 .onSnapshot(snapshot=>{
