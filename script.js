@@ -589,9 +589,6 @@ window.allOrders = {
   cancel: cancelledOrders
 };
 console.log(window.allOrders);
-setTimeout(() => {
-  showSection('new');
-}, 1000);
 
 });
 
