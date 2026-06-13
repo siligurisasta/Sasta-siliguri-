@@ -464,7 +464,7 @@ input.value = parseInt(input.value) - 1;
 
   renderProducts();
 }
-alert("loadOrders starting");
+
 loadProducts();
 
 window.openCartPopup = openCartPopup;
