@@ -807,3 +807,13 @@ function findOrderById(id){
 document.getElementById("adminOrderId").value = id;
 findOrder();
 }
+
+function toggleMenu(){
+ const m=document.getElementById("menuBox");
+ m.style.display =
+ m.style.display==="block" ? "none" : "block";
+}
+
+function openTrack(){
+ document.getElementById("trackOrderId").focus();
+}
