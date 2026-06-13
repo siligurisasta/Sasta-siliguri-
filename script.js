@@ -16,7 +16,6 @@ const admin = document.getElementById("admin");
 const logo = document.getElementById("logo");
 
 admin.style.display = "none";
-document.getElementById("orderSection").style.display = "none";
 
 let taps = 0;
 let tapTimer = null;
@@ -30,10 +29,9 @@ logo.addEventListener("click", () => {
     taps = 0;
     const pass = prompt("Enter admin password");
     if (pass === ADMIN_PASS) {
-    admin.style.display = "block";
-    document.getElementById("orderSection").style.display = "block";
-    admin.scrollIntoView({ behavior: "smooth" });
-    }
+      admin.style.display = "block";
+      document.getElementById("orderSection").style.display = "block";
+      admin.scrollIntoView({ behavior: "smooth" });
     } else {
       alert("Wrong password");
     }
@@ -531,100 +529,51 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   updateCartCount();
   closePopup();
 }
+
 function loadOrders(){
 
-db.collection("orders")
-.orderBy("time","desc")
-.onSnapshot(snapshot=>{
+  db.collection("orders")
+  .orderBy("time","desc")
+  .onSnapshot(snapshot=>{
 
-let newHtml="";
-let assignedHtml="";
-let outHtml="";
-let doneHtml="";
+    const orderList = document.getElementById("orderList");
+    if(!orderList) return;
 
-let newCount=0;
-let assignedCount=0;
-let outCount=0;
-let doneCount=0;
+    orderList.innerHTML = "";
 
-snapshot.forEach(doc=>{
+    snapshot.forEach(doc=>{
 
-const o=doc.data();
-const id=doc.id;
+      const o = doc.data();
+      const id = doc.id;
 
-const card=`
+      orderList.innerHTML += `
+      <div style="border:1px solid #ddd;padding:10px;margin:10px 0;border-radius:10px">
 
-<div class="card">
+        <b>Order ID: ${o.orderId}</b><br>
+        ${o.name} (${o.phone})<br>
+        ₹${o.total}<br>
 
-<b>Order ID:</b> ${o.orderId}<br>
-<b>Name:</b> ${o.name}<br>
-<b>Phone:</b> ${o.phone}<br>
-<b>Total:</b> ₹${o.total}<br>
-<b>Status:</b> ${o.status}<br>
-<b>Boy:</b> ${o.assignedName || "Not Assigned"}<br><br>
+        <b>Status:</b> ${o.status}<br>
+        <b>Boy:</b> ${o.assignedName || "Not assigned"}<br><br>
 
-<select onchange="assignBoy('${id}',this.value)">
-<option>Select Boy</option>
-<option>Amit</option>
-<option>Rahul</option>
-<option>Sonu</option>
-</select>
+        <select onchange="assignBoy('${id}', this.value)">
+          <option>Select Boy</option>
+          <option>Amit</option>
+          <option>Rahul</option>
+          <option>Sonu</option>
+        </select>
 
-<br><br>
+        <br><br>
 
-<button onclick="updateStatus('${id}','Out for Delivery')">
-Out
-</button>
+        <button onclick="updateStatus('${id}','Out for Delivery')">Out</button>
+        <button onclick="updateStatus('${id}','Delivered')">Done</button>
+        <button onclick="updateStatus('${id}','Cancelled')">Cancel</button>
 
-<button onclick="updateStatus('${id}','Delivered')">
-Done
-</button>
+      </div>
+      `;
+    });
 
-</div>
-
-`;
-
-if(o.status==="Pending"){
-newHtml+=card;
-newCount++;
-}
-
-else if(o.status==="Assigned"){
-assignedHtml+=card;
-assignedCount++;
-}
-
-else if(o.status==="Out for Delivery"){
-outHtml+=card;
-outCount++;
-}
-
-else if(o.status==="Delivered"){
-doneHtml+=card;
-doneCount++;
-}
-
-});
-
-document.getElementById("newOrders").innerHTML=newHtml;
-document.getElementById("assignedOrders").innerHTML=assignedHtml;
-document.getElementById("outOrders").innerHTML=outHtml;
-document.getElementById("deliveredOrders").innerHTML=doneHtml;
-
-document.getElementById("newCount").innerText=newCount;
-document.getElementById("assignedCount").innerText=assignedCount;
-document.getElementById("outCount").innerText=outCount;
-document.getElementById("doneCount").innerText=doneCount;
-
-if(newCount>0){
-document.getElementById("orderAlert").innerHTML=
-"🔴 "+newCount+" New Order";
-}else{
-document.getElementById("orderAlert").innerHTML="";
-}
-
-});
-
+  });
 }
 
 loadOrders();
@@ -640,28 +589,4 @@ async function updateStatus(id, status){
   await db.collection("orders").doc(id).update({
     status: status
   });
-}
-function showTab(tab){
-
-document.getElementById("newOrders").style.display="none";
-document.getElementById("assignedOrders").style.display="none";
-document.getElementById("outOrders").style.display="none";
-document.getElementById("deliveredOrders").style.display="none";
-
-if(tab==="new"){
-document.getElementById("newOrders").style.display="block";
-}
-
-if(tab==="assigned"){
-document.getElementById("assignedOrders").style.display="block";
-}
-
-if(tab==="out"){
-document.getElementById("outOrders").style.display="block";
-}
-
-if(tab==="done"){
-document.getElementById("deliveredOrders").style.display="block";
-}
-
 }
