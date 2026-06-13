@@ -589,7 +589,9 @@ window.allOrders = {
   cancel: cancelledOrders
 };
 
-showSection('new');
+setTimeout(() => {
+  showSection('new');
+}, 1000);
 
 });
 
