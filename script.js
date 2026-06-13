@@ -581,7 +581,7 @@ cancelledOrders += card;
 }
 
 });
-
+alert("creating allOrders");
 window.allOrders = {
   new: newOrders,
   active: activeOrders,
