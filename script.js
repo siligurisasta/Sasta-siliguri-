@@ -596,6 +596,7 @@ console.log(window.allOrders);
 loadOrders();
 function showSection(type){
 alert("showSection function called: " + type);
+  alert(JSON.stringify(window.allOrders));
   const ordersView = document.getElementById("ordersView");
 
 if(!ordersView){
