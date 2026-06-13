@@ -521,7 +521,7 @@ const address = document.querySelector('textarea[placeholder="Full address *"]')
   };
 
   await db.collection("orders").add(order);
-
+localStorage.setItem("lastOrderId", orderId);
   alert("Order Placed! Your ID: " + orderId);
 
   cart = [];
