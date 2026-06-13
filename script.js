@@ -598,7 +598,13 @@ loadOrders();
 function showSection(type){
 
   const ordersView = document.getElementById("ordersView");
+const ordersView = document.getElementById("ordersView");
 
+if(!ordersView){
+  alert("ordersView not found");
+  return;
+}
+  
   if(type === "new"){
     ordersView.innerHTML =
       '<h3>📥 New Orders</h3>' +
