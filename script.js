@@ -590,3 +590,55 @@ async function updateStatus(id, status){
     status: status
   });
 }
+
+async function trackOrder(){
+
+  const orderId =
+  document.getElementById("trackOrderId").value.trim();
+
+  const result =
+  document.getElementById("orderResult");
+
+  if(!orderId){
+    result.innerHTML =
+    "<p style='color:red'>Enter Order ID</p>";
+    return;
+  }
+
+  const snap = await db.collection("orders").get();
+
+  let found = false;
+
+  snap.forEach(doc => {
+
+    const o = doc.data();
+
+    if(String(o.orderId) === orderId){
+
+      found = true;
+
+      result.innerHTML = `
+      <div style="
+      background:#f5fff6;
+      border:1px solid #4caf50;
+      padding:12px;
+      border-radius:12px">
+
+      <b>Order ID:</b> ${o.orderId}<br>
+      <b>Status:</b> ${o.status}<br>
+      <b>Total:</b> ₹${o.total}<br>
+      <b>Delivery Boy:</b>
+      ${o.assignedName || "Not Assigned"}
+
+      </div>
+      `;
+    }
+
+  });
+
+  if(!found){
+    result.innerHTML =
+    "<p style='color:red'>Order not found</p>";
+  }
+
+}
