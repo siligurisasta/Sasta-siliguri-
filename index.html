@@ -42,7 +42,22 @@
 These details will be sent to WhatsApp when you tap Order.
   </p>
 </div>
+  
+<div class="card" style="margin-top:10px">
+  <h3>Track Your Order</h3>
 
+  <input
+    type="number"
+    id="trackOrderId"
+    placeholder="Enter Order ID (Example: 2052)"
+  >
+
+  <button onclick="trackOrder()" style="margin-top:8px;width:100%">
+    Check Status
+  </button>
+
+  <div id="orderResult" style="margin-top:12px"></div>
+</div>
 <!-- ADMIN PANEL (HIDDEN BY DEFAULT) -->
 <div id="admin" class="admin-card">
   <h2>Admin Panel (Owner Only)</h2>
@@ -80,21 +95,7 @@ These details will be sent to WhatsApp when you tap Order.
   </div>
 <h2 class="section">Fruits</h2>
 <div id="products" class="grid"></div>
-<div class="card" style="margin-top:10px">
-  <h3>Track Your Order</h3>
 
-  <input
-    type="number"
-    id="trackOrderId"
-    placeholder="Enter Order ID (Example: 2052)"
-  >
-
-  <button onclick="trackOrder()" style="margin-top:8px;width:100%">
-    Check Status
-  </button>
-
-  <div id="orderResult" style="margin-top:12px"></div>
-</div>
 <!-- ABOUT -->
 <div class="footer" style="
 margin:60px 12px 20px 12px;
