@@ -642,7 +642,21 @@ async function updateStatus(id, status){
     status: status
   });
 }
+async function myLastOrder(){
 
+const lastId = localStorage.getItem("lastOrderId");
+
+if(!lastId){
+document.getElementById("myLastOrderResult").innerHTML =
+"<p>No previous order found</p>";
+return;
+}
+
+document.getElementById("trackOrderId").value = lastId;
+
+await trackOrder();
+
+}
 async function trackOrder(){
 
   const orderId =
